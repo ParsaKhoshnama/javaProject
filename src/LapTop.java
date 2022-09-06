@@ -6,15 +6,16 @@ public class LapTop extends DigitalCommodity
    {
        super(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,percentOfDiscount,count);
        this.gamingCPU=gamingCPU;
-       if(statusForAdmin.equals("accept"))
+       if (statusForAdmin.equals("accept") || statusForAdmin.equals("ignore"))
        {
+           if (statusForAdmin.equals("accept")) {
 
                this.setCount(super.findCountOfCertainDigitalCommodity(count));
                this.clearDigitalCommodityLapTopAl(name);
                DigitalCommodity.getDigiritlaCommodityAL().add(this);
+           } else
+               this.setCount(count);
        }
-       else
-           this.setCount(count);
    }
    boolean isGamingCPU()
    {
