@@ -41,8 +41,8 @@ public class MainClass {
                                 while (true)
                                 {
                                     System.out.printf("enter the command: (show factors) or (show all goods) or (increase fund) or (show comments) or (send comment) or (change information)or (buy) or (leave user area): ");
-                                    userAreaCommand=sc.nextLine();
                                     Buyer.showBuyerInformation(passWord);
+                                    userAreaCommand=sc.nextLine();
                                     if(userAreaCommand.equals("leave user area"))
                                     {
                                         break;
@@ -105,8 +105,8 @@ public class MainClass {
                         {
                             System.out.println("you are Clerk");
                             System.out.printf("Enter the command: (user area) or (log out): ");
-                            clerkCommand = sc.nextLine();
                             Clerk.showClerkInformation(passWord);
+                            clerkCommand = sc.nextLine();
                             if (clerkCommand.equals("user area"))
                             {
                                     String userAreaCommand;
@@ -297,7 +297,7 @@ public class MainClass {
 
                     }
                 }
-                if(passWord.equals("admin") && userName.equals("admin"))
+                else if(passWord.equals("admin") && userName.equals("admin"))
                 {
                     String adminCommand;
                     while (true)
@@ -328,6 +328,8 @@ public class MainClass {
                             System.out.println("Wrong command");
                     }
                 }
+                else
+                    System.out.println("wrong password or username");
 
            }
            else if(loginOrRegisterationcommand.equals("registeration"))
