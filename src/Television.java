@@ -9,14 +9,14 @@ public class Television extends HomeAppliance
         super(name,degreeName,gaurantee,company,price,ID,userName,passWord,percentOfDiscount,count);
         this.sizeOfScreen=sizeOfScreen;
         this.gardeOfScreen=gardeOfScreen;
-        if(statusForAdmin.equals("accept"))
-        {
-            this.setCount(super.findCountOfCertainHomeAppilaince(count));
-            this.clearHomeApplianceTelevision();
-            HomeAppliance.getListOfHomeAppliancesAl().add(this);
+        if (statusForAdmin.equals("accept") || statusForAdmin.equals("ignore")) {
+            if (statusForAdmin.equals("accept")) {
+                this.setCount(super.findCountOfCertainHomeAppilaince(count));
+                this.clearHomeApplianceTelevision();
+                HomeAppliance.getListOfHomeAppliancesAl().add(this);
+            } else
+                this.setCount(count);
         }
-        else
-            this.setCount(count);
     }
 
     void setSizeOfScreen(int sizeOfScreen)
