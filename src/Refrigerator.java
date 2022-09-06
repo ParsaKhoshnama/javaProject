@@ -21,14 +21,14 @@ public class Refrigerator extends HomeAppliance
                 break;
             }
         }
-        if(statusForAdmin.equals("accept"))
-        {
-            this.setCount(super.findCountOfCertainHomeAppilaince(count));
-            this.clearHomeApplianceListRefrigerator();
-            HomeAppliance.getListOfHomeAppliancesAl().add(this);
+        if (statusForAdmin.equals("accept") || statusForAdmin.equals("ignore")) {
+            if (statusForAdmin.equals("accept")) {
+                this.setCount(super.findCountOfCertainHomeAppilaince(count));
+                this.clearHomeApplianceListRefrigerator();
+                HomeAppliance.getListOfHomeAppliancesAl().add(this);
+            } else
+                this.setCount(count);
         }
-        else
-            this.setCount(count);
     }
     void setContent(int content)
     {
