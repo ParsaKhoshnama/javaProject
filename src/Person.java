@@ -115,7 +115,6 @@ public abstract class Person
           if(Admin.creatAdminObject().getPersonsListAL().get(i).getUserName().equals(userName) && Admin.creatAdminObject().getPersonsListAL().get(i).getPassWord().equals(passWord))
           return true;
       }
-      System.out.println("this username or password is wrong");
       return false;
   }
   static Person findPerson(String userName,String passWord)
