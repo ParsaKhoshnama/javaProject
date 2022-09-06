@@ -8,14 +8,14 @@ public class Mobile extends  DigitalCommodity
         super(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,percentOfDiscount,count);
         this.countOfSimcards=countOfSimcards;
         this.gradeOfCamera=gradeOfCamera;
-        if(statusForAdmin.equals("accept"))
-        {
+        if (statusForAdmin.equals("accept") || statusForAdmin.equals("ignore")) {
+            if (statusForAdmin.equals("accept")) {
                 this.setCount(super.findCountOfCertainDigitalCommodity(count));
                 this.clearDigitalCommodityMobileAl(name);
                 DigitalCommodity.getDigiritlaCommodityAL().add(this);
+            } else
+                this.setCount(count);
         }
-        else
-            this.setCount(count);
     }
     int getCountOfSimcards()
     {
