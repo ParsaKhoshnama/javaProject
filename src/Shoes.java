@@ -18,14 +18,14 @@ public class Shoes extends Garment
             }
         }
         this.size=size;
-        if(statusForAdmin.equals("accept"))
-        {
-            this.setCount(super.findCountOfCertainGarment(count));
-            this.clearGarmentlistShoes();
-            Garment.getListOfAllGarmentsAl().add(this);
+        if (statusForAdmin.equals("accept") || statusForAdmin.equals("ignore")) {
+            if (statusForAdmin.equals("accept")) {
+                this.setCount(super.findCountOfCertainGarment(count));
+                this.clearGarmentlistShoes();
+                Garment.getListOfAllGarmentsAl().add(this);
+            } else
+                this.setCount(count);
         }
-        else
-            this.setCount(count);
     }
     String getNameOfKind()
     {
