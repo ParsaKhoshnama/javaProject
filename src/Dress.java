@@ -21,13 +21,13 @@ public class Dress extends Garment
             }
         }
         this.size=size;
-        if(statusForAdmin.equals("accept"))
-        {
-            this.setCount(super.findCountOfCertainGarment(count));
-            this.clearGarmentlistDress();
-            Garment.getListOfAllGarmentsAl().add(this);
+        if (statusForAdmin.equals("accept") || statusForAdmin.equals("ignore")) {
+            if (statusForAdmin.equals("accept")) {
+                this.setCount(super.findCountOfCertainGarment(count));
+                this.clearGarmentlistDress();
+                Garment.getListOfAllGarmentsAl().add(this);
+            } else this.setCount(count);
         }
-        else this.setCount(count);
     }
     String getNameOfKind()
     {
