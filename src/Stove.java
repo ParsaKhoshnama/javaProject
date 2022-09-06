@@ -12,14 +12,14 @@ public class Stove extends HomeAppliance
         this.genus=genus;
         this.countOfFlames=countOfFlames;
         this.gasOven=gasOven;
-        if(statusForAdmin.equals("accept"))
-        {
-            this.setCount(super.findCountOfCertainHomeAppilaince(count));
-            this.clearListofHomeApplianceStove();
-            HomeAppliance.getListOfHomeAppliancesAl().add(this);
+        if (statusForAdmin.equals("accept") || statusForAdmin.equals("ignore")) {
+            if (statusForAdmin.equals("accept")) {
+                this.setCount(super.findCountOfCertainHomeAppilaince(count));
+                this.clearListofHomeApplianceStove();
+                HomeAppliance.getListOfHomeAppliancesAl().add(this);
+            } else
+                this.setCount(count);
         }
-        else
-            this.setCount(count);
     }
     String getGenus()
     {
