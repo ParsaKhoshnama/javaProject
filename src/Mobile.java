@@ -1,11 +1,13 @@
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Scanner;
 public class Mobile extends  DigitalCommodity
 {
     private int countOfSimcards;
     private String gradeOfCamera;
-    Mobile(String name,int ram,int valencyOfMemory,String operatingSystem,int weight,String company,double price,String ID,String userName,String passWord,int countOfSimcards,String gradeOfCamera,int count,double percentOfDiscount,String statusForAdmin)
+    Mobile(String name,int ram,int valencyOfMemory,String operatingSystem,int weight,String company,double price,String ID,String userName,String passWord,int countOfSimcards,String gradeOfCamera,int count,Discount discount,String statusForAdmin)
     {
-        super(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,percentOfDiscount,count);
+        super(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,discount,count);
         this.countOfSimcards=countOfSimcards;
         this.gradeOfCamera=gradeOfCamera;
         if (statusForAdmin.equals("accept") || statusForAdmin.equals("ignore")) {
@@ -13,9 +15,17 @@ public class Mobile extends  DigitalCommodity
                 this.setCount(super.findCountOfCertainDigitalCommodity(count));
                 this.clearDigitalCommodityMobileAl(name);
                 DigitalCommodity.getDigiritlaCommodityAL().add(this);
+                Collections.sort(DigitalCommodity.getDigiritlaCommodityAL());
             } else
                 this.setCount(count);
         }
+    }
+    public boolean equals(Mobile mobile1,Mobile mobile2)
+    {
+        if(mobile1.getID().equals(mobile2.getID()))
+            return true;
+        else
+            return false;
     }
     int getCountOfSimcards()
     {
@@ -54,7 +64,7 @@ public class Mobile extends  DigitalCommodity
         Mobile mobile=new Mobile(this.getName(),this.getRam(),this.getValencyOfMemory(),
                 this.getOperatingSystem(),this.getWeight(),this.getCompany(),this.getPrice(),
                 this.getID(),this.getClerk().getUserName(),this.getClerk().getPassWord(),
-                this.getCountOfSimcards(),this.getGradeOfCamera(),this.getCount(),this.getCountOfSimcards(),"accept");
+                this.getCountOfSimcards(),this.getGradeOfCamera(),this.getCount(),this.getDiscount(),"accept");
         DigitalCommodity.getDigiritlaCommodityAL().add(mobile);
         this.getClerk().getCommodityListOfCertainClerk().add(mobile);
     }
@@ -71,12 +81,12 @@ public class Mobile extends  DigitalCommodity
         System.out.println("ID: "+this.getID());
         System.out.println("count of simacards: "+this.getCountOfSimcards());
         System.out.println("count: "+this.getCount());
-        System.out.println("percent of dscount: "+this.getPercentOfDiscount());
+        System.out.println("percent of dscount: "+this.getDiscount().getPercentOfDiscount());
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
 
-    static void addMobileFunction(String name,int ram,int valencyOfMemory,int weight,String operatingSystem ,String company,double price,double percentOfDiscount,String ID,String userName,String passWord)
+    static void addMobileFunction(String name,int ram,int valencyOfMemory,int weight,String operatingSystem ,String company,double price,Discount discount,String ID,String userName,String passWord)
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("count of simcards: ");
@@ -86,7 +96,7 @@ public class Mobile extends  DigitalCommodity
         sc.nextLine();
         System.out.printf("enter grade of camera: ");
         String gardeOfCammera=sc.nextLine();
-        Mobile mobile=new Mobile(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,countOfSimcards,gardeOfCammera,count,percentOfDiscount,"ignore");
+        Mobile mobile=new Mobile(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,countOfSimcards,gardeOfCammera,count,discount,"ignore");
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",mobile);
     }
     void changeInformationOfMobile(Clerk clerk)
@@ -94,7 +104,7 @@ public class Mobile extends  DigitalCommodity
         Mobile mobile=new Mobile(this.getName(),this.getRam(),this.getValencyOfMemory(),
                 this.getOperatingSystem(),this.getWeight(),this.getCompany(),this.getPrice(),
                 this.getID(),this.getClerk().getUserName(),this.getClerk().getPassWord(),
-                this.getCountOfSimcards(),this.getGradeOfCamera(),this.getCount(),this.getCountOfSimcards(),"for change Information request");
+                this.getCountOfSimcards(),this.getGradeOfCamera(),this.getCount(),this.getDiscount(),"for change Information request");
         mobile.changeFieldOfMobile();
         ChangeInformationOfCommodityRequest request=new ChangeInformationOfCommodityRequest(clerk,"Change information of commodity request",this,mobile);
     }
@@ -125,7 +135,7 @@ public class Mobile extends  DigitalCommodity
             {
                 int percentOfDiscount=sc.nextInt();
                 sc.nextLine();
-                this.setPercentOfDiscount(percentOfDiscount);
+                this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
             }
             else if(field.equals("count"))
             {
