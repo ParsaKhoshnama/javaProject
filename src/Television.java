@@ -1,12 +1,13 @@
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Television extends HomeAppliance
 {
     private  int sizeOfScreen;
    private String gardeOfScreen;
-    Television(String name,String degreeName,boolean gaurantee,int sizeOfScreen,String gardeOfScreen,int count,String company,double price,String ID,String userName,String passWord,double percentOfDiscount,String statusForAdmin)
+    Television(String name,String degreeName,boolean gaurantee,int sizeOfScreen,String gardeOfScreen,int count,String company,double price,String ID,String userName,String passWord,Discount discount,String statusForAdmin)
     {
-        super(name,degreeName,gaurantee,company,price,ID,userName,passWord,percentOfDiscount,count);
+        super(name,degreeName,gaurantee,company,price,ID,userName,passWord,discount,count);
         this.sizeOfScreen=sizeOfScreen;
         this.gardeOfScreen=gardeOfScreen;
         if (statusForAdmin.equals("accept") || statusForAdmin.equals("ignore")) {
@@ -14,6 +15,7 @@ public class Television extends HomeAppliance
                 this.setCount(super.findCountOfCertainHomeAppilaince(count));
                 this.clearHomeApplianceTelevision();
                 HomeAppliance.getListOfHomeAppliancesAl().add(this);
+                Collections.sort(HomeAppliance.getListOfHomeAppliancesAl());
             } else
                 this.setCount(count);
         }
@@ -57,7 +59,7 @@ public class Television extends HomeAppliance
         Television television=new Television(this.getName(),this.getDegreeName(),
                 this.isGuearantee(),this.getSizeOfScreen(),this.getGardeOfScreen(),
                 this.getCount(),this.getCompany(),this.getPrice(),this.getID(),
-                this.getClerk().getUserName(),this.getClerk().getPassWord(),this.getPercentOfDiscount(),"accept");
+                this.getClerk().getUserName(),this.getClerk().getPassWord(),this.getDiscount(),"accept");
         HomeAppliance.getListOfHomeAppliancesAl().add(television);
         this.getClerk().getCommodityListOfCertainClerk().add(television);
     }
@@ -74,11 +76,11 @@ public class Television extends HomeAppliance
         System.out.println("company: "+this.getCompany());
         System.out.println("count: "+this.getCount());
         System.out.println("price: "+this.getPrice()+" T");
-        System.out.println("percent of dscount: "+this.getPercentOfDiscount());
+        System.out.println("percent of dscount: "+this.getDiscount().getPercentOfDiscount());
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static void addTelevisionFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,double percentOfDiscount,String ID,String userName,String passWord)
+    static void addTelevisionFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,Discount discount,String ID,String userName,String passWord)
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter size of screen: ");
@@ -89,7 +91,7 @@ public class Television extends HomeAppliance
         System.out.printf("enter grade of screen: ");
         String gradOfScreen=sc.nextLine();
         Television television=new Television(name,degreeOfconsumption,gurant,screenSize,gradOfScreen,count,company,price,
-                ID,userName,passWord,percentOfDiscount,"ignore");
+                ID,userName,passWord,discount,"ignore");
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",television);
     }
     void changeTelevisionInformation(Clerk clerk)
@@ -97,7 +99,7 @@ public class Television extends HomeAppliance
         Television television=new Television(this.getName(),this.getDegreeName(),
                 this.isGuearantee(),this.getSizeOfScreen(),this.getGardeOfScreen(),
                 this.getCount(),this.getCompany(),this.getPrice(),this.getID(),
-                this.getClerk().getUserName(),this.getClerk().getPassWord(),this.getPercentOfDiscount(),"for change Information request");
+                this.getClerk().getUserName(),this.getClerk().getPassWord(),this.getDiscount(),"for change Information request");
         television.changeTelevisionField();
         ChangeInformationOfCommodityRequest request=new ChangeInformationOfCommodityRequest(clerk,"Change information of commodity request",this,television);
     }
@@ -128,7 +130,7 @@ public class Television extends HomeAppliance
             {
                 int percentOfDiscount=sc.nextInt();
                 sc.nextLine();
-                this.setPercentOfDiscount(percentOfDiscount);
+                this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
             }
             else if(field.equals("count"))
             {
