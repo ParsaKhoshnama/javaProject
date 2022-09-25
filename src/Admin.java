@@ -47,7 +47,9 @@ public class Admin {
         if(this.requestsOfclerks.get(number) instanceof BeClerkRequest)
         {
             System.out.println(((BeClerkRequest)this.requestsOfclerks.get(number)).getContext());
+            System.out.printf("username: ");
             System.out.println(((BeClerkRequest)this.requestsOfclerks.get(number)).getClerk().getUserName());
+            System.out.printf("password: ");
             System.out.println(((BeClerkRequest)this.requestsOfclerks.get(number)).getClerk().getPassWord());
             System.out.println("--------------------------------------------------------------");
             return;
@@ -55,7 +57,9 @@ public class Admin {
         if(this.requestsOfclerks.get(number) instanceof AddCommodityRequest)
         {
             System.out.println(((AddCommodityRequest)this.requestsOfclerks.get(number)).getContext());
+            System.out.printf("username: ");
             System.out.println(((AddCommodityRequest)this.requestsOfclerks.get(number)).getClerk().getUserName());
+            System.out.printf("password: ");
             System.out.println(((AddCommodityRequest)this.requestsOfclerks.get(number)).getClerk().getPassWord());
             System.out.println("information of commodity");
             ((AddCommodityRequest)this.requestsOfclerks.get(number)).getCommodity().showCommodity();
@@ -63,7 +67,9 @@ public class Admin {
         if(this.requestsOfclerks.get(number) instanceof ChangeInformationOfCommodityRequest)
         {
             System.out.println(((ChangeInformationOfCommodityRequest)this.requestsOfclerks.get(number)).getContext());
+            System.out.printf("username: ");
             System.out.println(((ChangeInformationOfCommodityRequest)this.requestsOfclerks.get(number)).getClerk().getUserName());
+            System.out.printf("password: ");
             System.out.println(((ChangeInformationOfCommodityRequest)this.requestsOfclerks.get(number)).getClerk().getPassWord());
             System.out.println("current information of commodity: ");
             ((ChangeInformationOfCommodityRequest)this.requestsOfclerks.get(number)).getCurrentCommodity().showCommodity();
@@ -83,6 +89,20 @@ public class Admin {
                     if (this.igonredRequestsOfclerks.get(i).getContext().equals(request.getContext()))
                     {
                         this.igonredRequestsOfclerks.remove(i);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for(int i=0;i<this.igonredRequestsOfclerks.size();i++)
+            {
+                if(this.igonredRequestsOfclerks.get(i).getClerk().getPassWord().equals(request.getClerk().getPassWord()))
+                {
+                    if(this.igonredRequestsOfclerks.get(i).getContext().equals(request.getContext()))
+                    {
+                        this.igonredRequestsOfclerks.remove(i);
+                        return;
                     }
                 }
             }
