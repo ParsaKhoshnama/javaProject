@@ -1,15 +1,16 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
-abstract public class HomeAppliance extends PublicPropertiesOfGoods
+abstract public class HomeAppliance extends PublicPropertiesOfGoods implements Comparable
 {
     private boolean guearantee;
     private DegreeOfenergyConsumption degree;
     private String degreeName;
     private static ArrayList<HomeAppliance> listOfHomeAppliancesAl=new ArrayList<HomeAppliance>();
-    HomeAppliance(String name,String degreeName,boolean guearantee,String company,double price,String ID,String userName,String password,double percentOfDiscount,int count)
+    HomeAppliance(String name,String degreeName,boolean guearantee,String company,double price,String ID,String userName,String password,Discount discount,int count)
     {
-        super(name,company,price,ID,userName,password,percentOfDiscount,count);
+        super(name,company,price,ID,userName,password,discount,count);
         this.guearantee=guearantee;
         this.degreeName=degreeName;
         DegreeOfenergyConsumption[]degrees=DegreeOfenergyConsumption.values();
@@ -19,6 +20,106 @@ abstract public class HomeAppliance extends PublicPropertiesOfGoods
             {
                 this.degree=degrees[i];
                 break;
+            }
+        }
+    }
+    public int compareTo(Object object)
+    {
+        if(this instanceof Television && (object instanceof Television)==false)
+            return -1;
+        else if((this instanceof Television)==false && object instanceof Television)
+            return 1;
+        else
+        {
+            if(this instanceof Television && object instanceof Television)
+            {
+                Television television=(Television)object;
+                return this.televisionCompareTo(television);
+            }
+            else if(this instanceof Refrigerator && (object instanceof Refrigerator)==false)
+                return -1;
+            else if((this instanceof Refrigerator)==false && object instanceof Refrigerator)
+                return 1;
+            else
+            {
+                if(this instanceof Refrigerator && object instanceof Refrigerator)
+                {
+                    Refrigerator refrigerator=(Refrigerator)object;
+                  return this.refrigeratorCompareTo(refrigerator);
+                }
+                else
+                {
+                    Stove stove=(Stove)object;
+                     return this.stoveCompareTo(stove);
+                }
+            }
+        }
+    }
+    private int televisionCompareTo(Television television)
+    {
+        if(this.getName().compareTo(television.getName())>0)
+            return -1;
+        else if(this.getName().compareTo(television.getName())<0)
+            return 1;
+        else
+        {
+            if(((Television)this).isGuearantee()==true && television.isGuearantee()==false)
+                return -1;
+            else if(((Television)this).isGuearantee()==false && television.isGuearantee()==true)
+                return 1;
+            else
+                return this.compareToForGoods(television);
+        }
+    }
+    private int refrigeratorCompareTo(Refrigerator refrigerator)
+    {
+        if(this.getName().compareTo(refrigerator.getName())>0)
+            return -1;
+        else if(this.getName().compareTo(refrigerator.getName())<0)
+            return 1;
+        else
+        {
+            if (this.isGuearantee() == true && refrigerator.isGuearantee() == false)
+                return -1;
+            if (this.isGuearantee() == false && refrigerator.isGuearantee() == true)
+                return 1;
+            else {
+                if (((Refrigerator) this).isFreezer() == true && refrigerator.isFreezer() == false)
+                    return -1;
+                else if (((Refrigerator) this).isFreezer() == false && refrigerator.isFreezer() == true)
+                    return 1;
+                else
+                {
+                    if (((Refrigerator) this).getContent() > refrigerator.getContent())
+                        return -1;
+                    else if (((Refrigerator) this).getContent() < refrigerator.getContent())
+                        return 1;
+                    else
+                        return this.compareToForGoods(refrigerator);
+                }
+            }
+        }
+    }
+    private int stoveCompareTo(Stove stove)
+    {
+        if(this.getName().compareTo(stove.getName())>0)
+            return -1;
+        else if(this.getName().compareTo(stove.getName())<0)
+            return 1;
+        else
+        {
+            if (this.isGuearantee() == true && stove.isGuearantee() == false)
+                return -1;
+            if (this.isGuearantee() == false && stove.isGuearantee() == true)
+                return 1;
+            else
+            {
+                if (((Stove) this).getCountOfFlames() > stove.getCountOfFlames())
+                    return 1;
+                else if (((Stove) this).getCountOfFlames() < stove.getCountOfFlames())
+                    return -1;
+                else
+                    return this.compareToForGoods(stove);
             }
         }
     }
@@ -124,8 +225,9 @@ abstract public class HomeAppliance extends PublicPropertiesOfGoods
                 }
             }
         }
+        Collections.sort(HomeAppliance.getListOfHomeAppliancesAl());
     }
-    static void addHomeApplianceFunction(String commodityCommand,String name,String company,String ID,double price,double percentOfDiscount,String userName,String passWord)
+    static void addHomeApplianceFunction(String commodityCommand,String name,String company,String ID,double price,Discount discount,String userName,String passWord)
     {
         Scanner sc=new Scanner(System.in);
         String gurantee;
@@ -160,15 +262,15 @@ abstract public class HomeAppliance extends PublicPropertiesOfGoods
         }
         if(commodityCommand.equals("stove"))
         {
-            Stove.addStoveFunction(name,degreeOfconsumption,gurant,company,ID,price,percentOfDiscount,userName,passWord);
+            Stove.addStoveFunction(name,degreeOfconsumption,gurant,company,ID,price,discount,userName,passWord);
         }
         else if(commodityCommand.equals("television"))
         {
-            Television.addTelevisionFunction(name,degreeOfconsumption,gurant,company,price,percentOfDiscount,ID,userName,passWord);
+            Television.addTelevisionFunction(name,degreeOfconsumption,gurant,company,price,discount,ID,userName,passWord);
         }
         else
         {
-            Refrigerator.addRefrigeratorFunction(name,degreeOfconsumption,gurant,company,price,percentOfDiscount,ID,userName,passWord);
+            Refrigerator.addRefrigeratorFunction(name,degreeOfconsumption,gurant,company,price,discount,ID,userName,passWord);
         }
     }
 }
