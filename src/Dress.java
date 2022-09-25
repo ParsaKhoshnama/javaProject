@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Dress extends Garment
@@ -7,9 +8,9 @@ public class Dress extends Garment
     private String nameOfKind;
     private int size;
 
-    Dress(String name,String nameOfKind,int size,String country,String genus,String company,double price,String ID,String username,String password,int count,double percentOfDiscount,String statusForAdmin)
+    Dress(String name,String nameOfKind,int size,String country,String genus,String company,double price,String ID,String username,String password,int count,Discount discount,String statusForAdmin)
     {
-        super(name,country,genus,company,price,ID,username,password,percentOfDiscount,count);
+        super(name,country,genus,company,price,ID,username,password,discount,count);
       //  this.name=name;
         KindOfDress[]kinds=KindOfDress.values();
         for(int i=0;i<kinds.length;i++)
@@ -26,8 +27,15 @@ public class Dress extends Garment
                 this.setCount(super.findCountOfCertainGarment(count));
                 this.clearGarmentlistDress();
                 Garment.getListOfAllGarmentsAl().add(this);
+                Collections.sort(Garment.getListOfAllGarmentsAl());
             } else this.setCount(count);
         }
+    }
+    public boolean equals(Dress dress1,Dress dress2)
+    {
+        if(dress1.getID().equals(dress2.getID()))
+            return true;
+        return false;
     }
     String getNameOfKind()
     {
@@ -92,7 +100,7 @@ public class Dress extends Garment
         Dress dress=new Dress(this.getName(),this.getNameOfKind(),this.getSize(),
                 this.getCountry(),this.getGenus(),this.getCompany(),this.getPrice(),
                 this.getID(),this.getClerk().getUserName(),this.getClerk().getPassWord(),
-                this.getCount(),this.getPercentOfDiscount(),"accept");
+                this.getCount(),this.getDiscount(),"accept");
         Garment.getListOfAllGarmentsAl().add(dress);
         this.getClerk().getCommodityListOfCertainClerk().add(dress);
     }
@@ -108,11 +116,11 @@ public class Dress extends Garment
         System.out.println("price: "+this.getPrice()+" T");
         System.out.println("ID: "+this.getID());
         System.out.println("count: "+this.getCount());
-        System.out.println("percent of dscount: "+this.getPercentOfDiscount());
+        System.out.println("percent of dscount: "+this.getDiscount().getPercentOfDiscount());
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static void addDressFunction(String name,String country,String genus,String company,double price,double percentOfDiscount,String ID,String userName,String passWord)
+    static void addDressFunction(String name,String country,String genus,String company,double price,Discount discount,String ID,String userName,String passWord)
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter size: ");
@@ -132,7 +140,7 @@ public class Dress extends Garment
             else
                 break;
         }
-        Dress dress=new Dress(name,nameOfKind,size,country,genus,company,price,ID,userName,passWord,count,percentOfDiscount,"ignore");
+        Dress dress=new Dress(name,nameOfKind,size,country,genus,company,price,ID,userName,passWord,count,discount,"ignore");
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",dress);
     }
     void changeDressInformation(Clerk clerk)
@@ -140,7 +148,7 @@ public class Dress extends Garment
         Dress dress=new Dress(this.getName(),this.getNameOfKind(),this.getSize(),
                 this.getCountry(),this.getGenus(),this.getCompany(),this.getPrice(),
                 this.getID(),this.getClerk().getUserName(),this.getClerk().getPassWord(),
-                this.getCount(),this.getPercentOfDiscount(),"for change Information request");
+                this.getCount(),this.getDiscount(),"for change Information request");
        dress.changefieldsOfDress();
        ChangeInformationOfCommodityRequest request=new ChangeInformationOfCommodityRequest(clerk,"Change information of commodity request",this,dress);
     }
@@ -171,7 +179,7 @@ public class Dress extends Garment
             {
                 int percentOfDiscount=sc.nextInt();
                 sc.nextLine();
-                this.setPercentOfDiscount(percentOfDiscount);
+                this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
             }
             else if(field.equals("genus"))
             {
