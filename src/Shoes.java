@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Shoes extends Garment
@@ -5,9 +6,9 @@ public class Shoes extends Garment
     private KindOfShoes kind;
     private int size;
     private String nameOfKind;
-    Shoes(String name,String nameOfkind,int size,String country,String genus,String company,double price,String ID,String username,String password,int count,double percentOfDiscount,String statusForAdmin)
+    Shoes(String name,String nameOfkind,int size,String country,String genus,String company,double price,String ID,String username,String password,int count,Discount discount,String statusForAdmin)
     {
-        super(name,country,genus,company,price,ID,username,password,percentOfDiscount,count);
+        super(name,country,genus,company,price,ID,username,password,discount,count);
         KindOfShoes[]kinds=KindOfShoes.values();
         for(int i=0;i<kinds.length;i++)
         {
@@ -23,9 +24,17 @@ public class Shoes extends Garment
                 this.setCount(super.findCountOfCertainGarment(count));
                 this.clearGarmentlistShoes();
                 Garment.getListOfAllGarmentsAl().add(this);
+                Collections.sort(Garment.getListOfAllGarmentsAl());
             } else
                 this.setCount(count);
         }
+    }
+    public boolean equals(Shoes shoes1,Shoes shoes2)
+    {
+        if(shoes1.getID().equals(shoes2.getID()))
+            return true;
+        else
+            return false;
     }
     String getNameOfKind()
     {
@@ -85,7 +94,7 @@ public class Shoes extends Garment
         Shoes shoes=new Shoes(this.getName(),this.getNameOfKind(),this.getSize(),
                 this.getCountry(),this.getGenus(),this.getCompany(),this.getPrice(),
                 this.getID(),this.getClerk().getUserName(),this.getClerk().getPassWord(),
-                this.getCount(),this.getPercentOfDiscount(),"accept");
+                this.getCount(),this.getDiscount(),"accept");
         Garment.getListOfAllGarmentsAl().add(shoes);
         this.getClerk().getCommodityListOfCertainClerk().add(shoes);
     }
@@ -101,11 +110,11 @@ public class Shoes extends Garment
         System.out.println("price: "+this.getPrice()+" T");
         System.out.println("ID: "+this.getID());
         System.out.println("count: "+this.getCount());
-        System.out.println("percent of dscount: "+this.getPercentOfDiscount());
+        System.out.println("percent of dscount: "+this.getDiscount().getPercentOfDiscount());
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-   static void addShooesFunction(String name,String country,String genus,String company,double price,double percentOfDiscount,String ID,String userName,String passWord)
+   static void addShooesFunction(String name,String country,String genus,String company,double price,Discount discount,String ID,String userName,String passWord)
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter size: ");
@@ -126,7 +135,7 @@ public class Shoes extends Garment
                 break;
         }
         Shoes shoes=new Shoes(name,nameOfKind,size,country,genus,company,price,ID,userName,
-                passWord,count,percentOfDiscount,"ignore");
+                passWord,count,discount,"ignore");
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",shoes);
     }
     void changeShoesInformation(Clerk clerk)
@@ -134,7 +143,7 @@ public class Shoes extends Garment
        Shoes shoes=new Shoes(this.getName(),this.getNameOfKind(),this.getSize(),
                this.getCountry(),this.getGenus(),this.getCompany(),this.getPrice(),
                this.getID(),this.getClerk().getUserName(),this.getClerk().getPassWord(),
-               this.getCount(),this.getPercentOfDiscount(),"Change information of commodity request");
+               this.getCount(),this.getDiscount(),"Change information of commodity request");
        shoes.changeFiledOfShoes();
        ChangeInformationOfCommodityRequest request=new ChangeInformationOfCommodityRequest(clerk,"Change information of commodity request",this,shoes);
     }
@@ -165,7 +174,7 @@ public class Shoes extends Garment
             {
                 int percentOfDiscount=sc.nextInt();
                 sc.nextLine();
-                this.setPercentOfDiscount(percentOfDiscount);
+                this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
             }
             else if(field.equals("genus"))
             {
