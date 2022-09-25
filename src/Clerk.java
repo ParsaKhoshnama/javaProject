@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Clerk extends Person
 {
@@ -160,7 +161,7 @@ public class Clerk extends Person
             System.out.println(this.sellFactors.get(i).getCommodity().getGood().getName());
             System.out.println("Commodity ID: "+this.sellFactors.get(i).getCommodity().getGood().getID());
             System.out.println("price without discount: "+this.sellFactors.get(i).getCommodity().getGood().getPrice());
-            System.out.println("percent of discount: "+this.sellFactors.get(i).getCommodity().getGood().getPercentOfDiscount());
+            System.out.println("percent of discount: "+this.sellFactors.get(i).getCommodity().getGood().getDiscount().getPercentOfDiscount());
             System.out.println("number: "+this.sellFactors.get(i).getCommodity().getCount());
             System.out.println("payed: "+this.sellFactors.get(i).getPriceAfterDiscount());
             System.out.println("buyer information: ");
