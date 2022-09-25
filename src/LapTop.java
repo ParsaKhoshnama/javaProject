@@ -1,10 +1,13 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 public class LapTop extends DigitalCommodity
 {
     private boolean gamingCPU;
-   LapTop(String name,int ram,int valencyOfMemory,String operatingSystem,int weight,String company,double price,String ID,String userName,String passWord,boolean gamingCPU,int count,double percentOfDiscount,String statusForAdmin)
+
+   LapTop(String name,int ram,int valencyOfMemory,String operatingSystem,int weight,String company,double price,String ID,String userName,String passWord,boolean gamingCPU,int count,Discount discount,String statusForAdmin)
    {
-       super(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,percentOfDiscount,count);
+       super(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,discount,count);
        this.gamingCPU=gamingCPU;
        if (statusForAdmin.equals("accept") || statusForAdmin.equals("ignore"))
        {
@@ -13,9 +16,16 @@ public class LapTop extends DigitalCommodity
                this.setCount(super.findCountOfCertainDigitalCommodity(count));
                this.clearDigitalCommodityLapTopAl(name);
                DigitalCommodity.getDigiritlaCommodityAL().add(this);
+               Collections.sort(DigitalCommodity.getDigiritlaCommodityAL());
            } else
                this.setCount(count);
        }
+   }
+   public boolean equals(LapTop lapTop1,LapTop lapTop2)
+   {
+       if(lapTop1.getID().equals(lapTop2.getID()))
+           return true;
+       return false;
    }
    boolean isGamingCPU()
    {
@@ -47,7 +57,7 @@ public class LapTop extends DigitalCommodity
                this.getValencyOfMemory(),this.getOperatingSystem(),this.getWeight(),this.getCompany(),
                this.getPrice(),this.getID(),this.
                getClerk().getUserName(),this.getClerk().getPassWord(),this.
-               isGamingCPU(),this.getCount(),this.getPercentOfDiscount(),"accept");
+               isGamingCPU(),this.getCount(),this.getDiscount(),"accept");
        DigitalCommodity.getDigiritlaCommodityAL().add(lapTop);
        this.getClerk().getCommodityListOfCertainClerk().add(lapTop);
    }
@@ -65,11 +75,11 @@ public class LapTop extends DigitalCommodity
        if(this.gamingCPU==true)
            System.out.println("Gaming lapTop");
        System.out.println("count: "+this.getCount());
-       System.out.println("percent of dscount: "+this.getPercentOfDiscount());
+       System.out.println("percent of dscount: "+this.getDiscount().getPercentOfDiscount());
        System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
        System.out.println("average of scores: "+this.getAverageMark());
    }
-   static void addLapTopFunction(String name,String company,double price,double percentOfDiscount,String ID,String userName,String passWord,int ram,int valencyOfMemory,int weight,String operatingSystem)
+   static void addLapTopFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,int ram,int valencyOfMemory,int weight,String operatingSystem)
    {
        Scanner sc=new Scanner(System.in);
        System.out.printf("enter count: ");
@@ -81,13 +91,13 @@ public class LapTop extends DigitalCommodity
            String gamingCPU=sc.nextLine();
            if(gamingCPU.equals("true"))
            {
-               LapTop lapTop=new LapTop(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,true,count,percentOfDiscount,"ignore");
+               LapTop lapTop=new LapTop(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,true,count,discount,"ignore");
                AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",lapTop);
                break;
            }
            else if(gamingCPU.equals("false"))
            {
-               LapTop lapTop=new LapTop(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,false,count,percentOfDiscount,"ignore");
+               LapTop lapTop=new LapTop(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,false,count,discount,"ignore");
                AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",lapTop);
                break;
            }
@@ -101,7 +111,7 @@ public class LapTop extends DigitalCommodity
                this.getValencyOfMemory(),this.getOperatingSystem(),this.getWeight(),this.getCompany(),
                this.getPrice(),this.getID(),this.
                getClerk().getUserName(),this.getClerk().getPassWord(),this.
-               isGamingCPU(),this.getCount(),this.getPercentOfDiscount(),"for change Information request");
+               isGamingCPU(),this.getCount(),this.getDiscount(),"for change Information request");
        lapTop.changeFiledOfLapTop();
        ChangeInformationOfCommodityRequest request=new ChangeInformationOfCommodityRequest(clerk,"Change information of commodity request",this,lapTop);
 
@@ -133,7 +143,7 @@ public class LapTop extends DigitalCommodity
            {
                int percentOfDiscount=sc.nextInt();
                sc.nextLine();
-               this.setPercentOfDiscount(percentOfDiscount);
+               this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
            }
            else if(field.equals("count"))
            {
