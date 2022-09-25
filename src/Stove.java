@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Stove extends HomeAppliance
@@ -6,9 +7,9 @@ public class Stove extends HomeAppliance
     private int countOfFlames;
     private boolean gasOven;
 
-    Stove(String name,String degreeName,boolean guarantee,String genus,int countOfFlames,boolean gasOven,int count,String company,double price,String ID,String userName,String passWord,double percentOfDiscount,String statusForAdmin)
+    Stove(String name,String degreeName,boolean guarantee,String genus,int countOfFlames,boolean gasOven,int count,String company,double price,String ID,String userName,String passWord,Discount discount,String statusForAdmin)
     {
-        super(name,degreeName,guarantee,company,price,ID,userName,passWord,percentOfDiscount,count);
+        super(name,degreeName,guarantee,company,price,ID,userName,passWord,discount,count);
         this.genus=genus;
         this.countOfFlames=countOfFlames;
         this.gasOven=gasOven;
@@ -17,6 +18,7 @@ public class Stove extends HomeAppliance
                 this.setCount(super.findCountOfCertainHomeAppilaince(count));
                 this.clearListofHomeApplianceStove();
                 HomeAppliance.getListOfHomeAppliancesAl().add(this);
+                Collections.sort(HomeAppliance.getListOfHomeAppliancesAl());
             } else
                 this.setCount(count);
         }
@@ -67,7 +69,7 @@ public class Stove extends HomeAppliance
         Stove stove=new Stove(this.getName(),this.getDegreeName(),this.isGuearantee(),
                 this.getGenus(),this.getCountOfFlames(),this.isGasOven(),this.getCount(),
                 this.getCompany(),this.getPrice(),this.getID(),this.getClerk().getUserName(),
-                this.getClerk().getPassWord(),this.getPercentOfDiscount(),"accept");
+                this.getClerk().getPassWord(),this.getDiscount(),"accept");
         HomeAppliance.getListOfHomeAppliancesAl().add(stove);
         this.getClerk().getCommodityListOfCertainClerk().add(stove);
     }
@@ -85,11 +87,11 @@ public class Stove extends HomeAppliance
         System.out.println("company: "+this.getCompany());
         System.out.println("count: "+this.getCount());
         System.out.println("price: "+this.getPrice()+" T");
-        System.out.println("percent of dscount: "+this.getPercentOfDiscount());
+        System.out.println("percent of dscount: "+this.getDiscount().getPercentOfDiscount());
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static void addStoveFunction(String name,String degreeOfconsumption,boolean gurant,String company,String ID,double price,double percentOfDiscount,String userName,String passWord)
+    static void addStoveFunction(String name,String degreeOfconsumption,boolean gurant,String company,String ID,double price,Discount discount,String userName,String passWord)
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter the genus: ");
@@ -106,12 +108,12 @@ public class Stove extends HomeAppliance
             gasOven = sc.nextLine();
             if (gasOven.equals("true")) {
                 Stove stove = new Stove(name, degreeOfconsumption, gurant, genus, countOfFlames, true, count, company, price, ID, userName,
-                        passWord, percentOfDiscount, "ignore");
+                        passWord, discount, "ignore");
                 AddCommodityRequest request = new AddCommodityRequest(Clerk.findingClerk(userName, passWord), "add commodity request", stove);
                 break;
             } else if (gasOven.equals("false")) {
                 Stove stove = new Stove(name, degreeOfconsumption, gurant, genus, countOfFlames, false, count, company, price, ID, userName,
-                        passWord, percentOfDiscount, "ignore");
+                        passWord, discount, "ignore");
                 AddCommodityRequest request = new AddCommodityRequest(Clerk.findingClerk(userName, passWord), "add commodity request", stove);
                 break;
             } else
@@ -123,7 +125,7 @@ public class Stove extends HomeAppliance
         Stove stove=new Stove(this.getName(),this.getDegreeName(),this.isGuearantee(),
                 this.getGenus(),this.getCountOfFlames(),this.isGasOven(),this.getCount(),
                 this.getCompany(),this.getPrice(),this.getID(),this.getClerk().getUserName(),
-                this.getClerk().getPassWord(),this.getPercentOfDiscount(),"for change Information request");
+                this.getClerk().getPassWord(),this.getDiscount(),"for change Information request");
         stove.cahngeStoveField();
         ChangeInformationOfCommodityRequest request=new ChangeInformationOfCommodityRequest(clerk,"Change information of commodity request",this,stove);
     }
@@ -154,7 +156,7 @@ public class Stove extends HomeAppliance
             {
                 int percentOfDiscount=sc.nextInt();
                 sc.nextLine();
-                this.setPercentOfDiscount(percentOfDiscount);
+                this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
             }
             else if(field.equals("count"))
             {
