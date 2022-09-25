@@ -1,11 +1,20 @@
 public class Commodity
 {
    private PublicPropertiesOfGoods good;
+   private boolean useDiscount=false;
+   private  int countOfDiscounts=0;
    private int count;
    Commodity(PublicPropertiesOfGoods commodity,int count)
    {
        this.good=commodity;
        this.count=count;
+   }
+   public boolean equals(Commodity commodity1,Commodity commodity2)
+   {
+      if(commodity1.getGood().getID().equals(commodity2.getGood().getID()))
+         return true;
+      else
+         return false;
    }
    static  PublicPropertiesOfGoods findCommodity(String ID)
    {
@@ -59,9 +68,25 @@ public class Commodity
       System.out.println("wrong ID");
       return null;
    }
+   void setUseDiscount(boolean useDiscount)
+   {
+      this.useDiscount=useDiscount;
+   }
    static boolean checkCount(PublicPropertiesOfGoods good,int count)
    {
      return good.checkNumberForBasket(count);
+   }
+   int getCountOfDiscounts()
+   {
+      return this.countOfDiscounts;
+   }
+   void setCountOfDiscounts(int countOfDiscounts)
+   {
+      this.countOfDiscounts=countOfDiscounts;
+   }
+   boolean getUseDiscount()
+   {
+      return this.useDiscount;
    }
    int getCount()
    {
