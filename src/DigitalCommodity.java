@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
-abstract public class DigitalCommodity extends PublicPropertiesOfGoods
+abstract public class DigitalCommodity extends PublicPropertiesOfGoods implements Comparable
 {
     private static ArrayList<DigitalCommodity> DigiritlaCommodityAL=new ArrayList<DigitalCommodity>();
     private int ram;
@@ -8,14 +9,66 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods
     private String operatingSystem;
     private int weight;
 
-    DigitalCommodity(String name,int ram,int valencyOfMemory,String operatingSystem,int weight,String company,double price,String ID,String userName,String passWord,double percentOfDiscount,int count)
+    DigitalCommodity(String name,int ram,int valencyOfMemory,String operatingSystem,int weight,String company,double price,String ID,String userName,String passWord,Discount discount,int count)
     {
-        super(name,company,price,ID,userName,passWord,percentOfDiscount,count);
+        super(name,company,price,ID,userName,passWord,discount,count);
         this.ram=ram;
         this.valencyOfMemory=valencyOfMemory;
         this.operatingSystem=operatingSystem;
         this.weight=weight;
 
+    }
+   public int compareTo(Object object)
+    {
+        if(this instanceof LapTop &&(object instanceof LapTop)==false)
+            return -1;
+        else if((this instanceof LapTop)==false && object instanceof LapTop)
+            return 1;
+        else
+        {
+            if(this instanceof LapTop && object instanceof LapTop)
+            {
+                LapTop lapTop=(LapTop)object;
+               return this.lapTopCompareTo(lapTop);
+            }
+            else
+            {
+                Mobile mobile=(Mobile)object;
+                return this.mobileCompareTo(mobile);
+            }
+        }
+    }
+   private int lapTopCompareTo(LapTop lapTop)
+    {
+        if(this.getName().compareTo(lapTop.getName())>0)
+            return -1;
+        else if(this.getName().compareTo(lapTop.getName())<0)
+            return 1;
+        else
+        {
+            if(this.getRam()>lapTop.getRam())
+                return -1;
+            else if(this.getRam()<lapTop.getRam())
+                return 1;
+            else
+                return this.compareToForGoods(lapTop);
+        }
+    }
+   private int mobileCompareTo(Mobile mobile)
+    {
+        if(this.getName().compareTo(mobile.getName())>0)
+            return -1;
+        else if(this.getName().compareTo(mobile.getName())<0)
+            return 1;
+        else
+        {
+            if(this.getRam()>mobile.getRam())
+                return -1;
+            else if(this.getRam()<mobile.getRam())
+                return 1;
+            else
+                return this.compareToForGoods(mobile);
+        }
     }
     int getRam()
     {
@@ -101,8 +154,9 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods
                 }
             }
         }
+        Collections.sort(DigitalCommodity.getDigiritlaCommodityAL());
     }
-   static void addDigitlaCommodityFunction(String name,String company,double price,double percentOfDiscount,String ID,String userName,String passWord,String commodityCommand)
+   static void addDigitlaCommodityFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,String commodityCommand)
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter ram: ");
@@ -116,11 +170,11 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods
         String operatingSystem=sc.nextLine();
         if(commodityCommand.equals("laptop"))
         {
-            LapTop.addLapTopFunction(name,company,price,percentOfDiscount,ID,userName,passWord,ram,valencyOfMemory,weight,operatingSystem);
+            LapTop.addLapTopFunction(name,company,price,discount,ID,userName,passWord,ram,valencyOfMemory,weight,operatingSystem);
         }
         else
         {
-            Mobile.addMobileFunction(name,ram,valencyOfMemory,weight,operatingSystem,company,price,percentOfDiscount,ID,userName,passWord);
+            Mobile.addMobileFunction(name,ram,valencyOfMemory,weight,operatingSystem,company,price,discount,ID,userName,passWord);
         }
     }
 }
