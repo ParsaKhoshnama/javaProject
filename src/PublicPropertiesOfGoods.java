@@ -1,38 +1,39 @@
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 abstract public class PublicPropertiesOfGoods
 {
     private String company;
     private String name;
     private double price;
-    private double percentOfDiscount;
     private double priceAfterDiscount;
     private String ID;
     private Clerk clerk;
     private int count;
+    private Discount discount;
+    private boolean discountRemain;
     private double averageMark=0;
     private ArrayList<Score>listOfScores=new ArrayList<Score>();
     private ArrayList<Comment>listOfComments=new ArrayList<Comment>();
-    PublicPropertiesOfGoods(String name,String company,double price,String ID,String username,String passWord,double percentOfDiscount,int count)
+    PublicPropertiesOfGoods(String name,String company,double price,String ID,String username,String passWord,Discount discount,int count)
     {
         this.clerk=Clerk.findingClerk(username,passWord);
         this.count=count;
-        this.percentOfDiscount=percentOfDiscount;
-        this.priceAfterDiscount=price-(price*percentOfDiscount/100);
+        this.discount=discount;
+        this.priceAfterDiscount=price-(price*this.discount.getPercentOfDiscount()/100);
         this.ID=ID;
         this.company=company;
         this.price=price;
         this.name=name;
 
     }
-    double getPercentOfDiscount()
+    Discount getDiscount()
     {
-        return this.percentOfDiscount;
+        return this.discount;
     }
-    void setPercentOfDiscount(double percentOfDiscount)
+    void setDiscount(Discount discount)
     {
-        this.percentOfDiscount=percentOfDiscount;
-        this.priceAfterDiscount=getPrice()-(this.getPrice()*percentOfDiscount/100);
+        this.discount=discount;
     }
     double getPriceAfterDiscount()
     {
@@ -93,6 +94,30 @@ abstract public class PublicPropertiesOfGoods
     String getName()
     {
         return this.name;
+    }
+    int compareToForGoods(PublicPropertiesOfGoods good)
+    {
+
+        if(this.getAverageMark()>good.getAverageMark())
+            return -1;
+        else if(this.getAverageMark()<good.getAverageMark())
+            return 1;
+        else
+        {
+            if(this.getPrice()>good.getPrice())
+                return -1;
+            else if(this.getPrice()<good.getPrice())
+                return 1;
+            else
+            {
+                if(this.getCount()>good.getCount())
+                    return -1;
+                else if(this.getCount()<good.getCount())
+                    return 1;
+                else
+                    return 0;
+            }
+        }
     }
     void showCommodity()
     {
@@ -180,9 +205,7 @@ abstract public class PublicPropertiesOfGoods
         System.out.printf("enter price: ");
         double price=sc.nextDouble();
         sc.nextLine();
-        System.out.printf("enter percent of discount: ");
-        double percentOfDiscount=sc.nextDouble();
-        sc.nextLine();
+        Discount discount=giveDiscountInfo();
         while (true)
         {
             System.out.printf("enter ID: ");
@@ -196,15 +219,15 @@ abstract public class PublicPropertiesOfGoods
         }
         if(categoryCommand.equals("digital"))
         {
-            DigitalCommodity.addDigitlaCommodityFunction(name,company,price,percentOfDiscount,ID,userName,passWord,commodityCommand);
+            DigitalCommodity.addDigitlaCommodityFunction(name,company,price,discount,ID,userName,passWord,commodityCommand);
         }
         else if(categoryCommand.equals("garment"))
         {
-           Garment.addGarmentFunction(userName,passWord,commodityCommand,company,price,percentOfDiscount,ID,name);
+           Garment.addGarmentFunction(userName,passWord,commodityCommand,company,price,discount,ID,name);
         }
         else
         {
-           HomeAppliance.addHomeApplianceFunction(commodityCommand,name,company,ID,price,percentOfDiscount,userName,passWord);
+           HomeAppliance.addHomeApplianceFunction(commodityCommand,name,company,ID,price,discount,userName,passWord);
         }
     }
     static void showCommentCheck()
@@ -225,6 +248,60 @@ abstract public class PublicPropertiesOfGoods
                 return;
         }
         Commodity.findCommodity(ID).showComments();
+    }
+    static Discount giveDiscountInfo()
+    {
+        Scanner sc=new Scanner(System.in);
+        Discount discount;
+        String DiscountCommand;
+        while (true)
+        {
+            System.out.printf("dou you want to give discount: ");
+            DiscountCommand=sc.nextLine();
+            Date date=new Date();
+            if(DiscountCommand.equals("yes"))
+            {
+                while (true)
+                {
+                    System.out.printf("enter year: ");
+                    int year = sc.nextInt();
+                    System.out.printf("enter month: ");
+                    int month = sc.nextInt();
+                    System.out.printf("enter day of month: ");
+                    int day = sc.nextInt();
+                    System.out.printf("enter hour: ");
+                    int hour = sc.nextInt();
+                    System.out.printf("enter minute: ");
+                    int minute = sc.nextInt();
+                    if (minute > 0)
+                    {
+                        date.setYear(year);
+                        date.setMonth(month);
+                        date.setDate(day);
+                        date.setHours(hour);
+                        date.setMinutes(minute);
+                        break;
+                    }
+                }
+                System.out.printf("enter code of discount: ");
+                String code=sc.nextLine();
+                while (true)
+                {
+                    System.out.printf("enter capacity: ");
+                    int capacity=sc.nextInt();
+                    System.out.printf("enter percent of discount: ");
+                    double percntOfDiscount=sc.nextDouble();
+                    if(percntOfDiscount>0)
+                        return new Discount(date,capacity,percntOfDiscount,code);
+                }
+            }
+            else if(DiscountCommand.equals("no"))
+                return null;
+            else
+            {
+                System.out.println("wrong command try again.press yes or no");
+            }
+        }
     }
     static void showScoresCheck()
     {
