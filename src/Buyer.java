@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Buyer extends Person
@@ -82,7 +83,7 @@ public class Buyer extends Person
               System.out.println(this.factors.get(i).getFactorCommoditiesAl().get(j).getGood().getName());
               System.out.println(this.factors.get(i).getFactorCommoditiesAl().get(j).getGood().getID());
               System.out.println("price: "+this.factors.get(i).getFactorCommoditiesAl().get(j).getGood().getPrice());
-              System.out.println("percent of discount: "+this.factors.get(i).getFactorCommoditiesAl().get(j).getGood().getPercentOfDiscount());
+              System.out.println("percent of discount: "+this.factors.get(i).getFactorCommoditiesAl().get(j).getGood().getDiscount().getPercentOfDiscount());
               System.out.println("count: "+this.factors.get(i).getFactorCommoditiesAl().get(j).getCount());
               System.out.println("total price of this commodity: "+(this.factors.get(i).getFactorCommoditiesAl().get(j).getGood().getPriceAfterDiscount()*this.factors.get(i).getFactorCommoditiesAl().get(j).getCount()));
               System.out.println("Clerk information:");
@@ -120,7 +121,9 @@ public class Buyer extends Person
         for (int i=0;i<DigitalCommodity.getDigiritlaCommodityAL().size();i++)
         {
             if(DigitalCommodity.getDigiritlaCommodityAL().get(i) instanceof LapTop)
+            {
                 DigitalCommodity.getDigiritlaCommodityAL().get(i).showCommodity();
+            }
         }
         for (int i=0;i<DigitalCommodity.getDigiritlaCommodityAL().size();i++)
         {
@@ -192,23 +195,27 @@ public class Buyer extends Person
         String buyCommand;
         while (true)
         {
-            System.out.printf("enter command (add commmodity),(remove commodity),(change count of a good),(buy basket),(leave): ");
+            System.out.printf("enter command (change commodity),(remove commodity),(change count of a good),(buy basket),(leave): ");
             buyCommand=sc.nextLine();
             if(buyCommand.equals("leave"))
             {
+                for (int i=0;i<basket.getListOfCommodities().size();i++)
+                {
+                    basket.returnCommodities(basket.getListOfCommodities().get(i));
+                }
                 break;
             }
-            else if(buyCommand.equals("add commmodity"))
+            else if(buyCommand.equals("add commodity"))
             {
-                this.addCommodityForBuy(basket);
+                basket.addCommodityForBuy();
             }
             else if(buyCommand.equals("remove commodity"))
             {
-              this.removeCommodityForBuy(basket);
+              basket.removeCommodityForBuy();
             }
-            else if(buyCommand.equals("change count of a good"))
+            else if(buyCommand.equals("change commodity"))
             {
-                this.changeCountofGoodForBuy(basket);
+                this.changeCommodityFunction(basket);
             }
             else if(buyCommand.equals("buy basket"))
             {
@@ -223,49 +230,7 @@ public class Buyer extends Person
                 System.out.println("wrong command");
         }
     }
-    private void addCommodityForBuy(Basket basket)
-    {
-        Scanner sc=new Scanner(System.in);
-        String ID;
-        System.out.printf("enter ID of commodity: ");
-        ID = sc.nextLine();
-        if(Commodity.findCommodity(ID)==null)
-            System.out.println("wrong ID");
-        else
-        {
-            System.out.printf("enter count: ");
-            int count = sc.nextInt();
-            if (Commodity.checkCount(Commodity.findCommodity(ID), count) == true)
-            {
-                Commodity commodity=new Commodity(Commodity.findCommodity(ID),count);
-                basket.addCommodity(commodity);
-            }
-            else
-                System.out.println("this number is mor than that there are in store");
-        }
-    }
-    private void removeCommodityForBuy(Basket basket)
-    {
-        Scanner sc=new Scanner(System.in);
-        System.out.printf("enter ID: ");
-        String ID=sc.nextLine();
-        basket.removeCertainCommodity(basket.findIDinBasket(ID));
-    }
-    private void changeCountofGoodForBuy(Basket basket)
-    {
-        Scanner sc=new Scanner(System.in);
-        System.out.printf("enter ID: ");
-        String ID=sc.nextLine();
-        if(basket.findIDinBasket(ID)==null)
-        {}
-        else
-        {
-            System.out.printf("enter new number: ");
-            int newCount=sc.nextInt();
-            sc.nextLine();
-            basket.changeNumberOfcertainCommodity(basket.findIDinBasket(ID).getCount(),newCount,basket.findIDinBasket(ID));
-        }
-    }
+
     static void buyerRegisteration(String firstName,String lastName,String phoneNumber,String passWord,String userName,String eMail)
     {
         Scanner sc=new Scanner(System.in);
@@ -274,6 +239,34 @@ public class Buyer extends Person
             Buyer buyer=new Buyer(userName,passWord,firstName,lastName,phoneNumber,eMail);
             Admin.creatAdminObject().addPersonToPersonsListAL(buyer);
             Buyer.addBuyerToBuyerListAl(buyer);
+        }
+    }
+    void changeCommodityFunction(Basket basket)
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.printf("enter ID: ");
+        String ID=sc.nextLine();
+        if(basket.findIDinBasket(ID)==null)
+        {
+            System.out.println("wrong ID");
+            return;
+        }
+        String changeCommodityCommand;
+        while (true)
+        {
+            System.out.printf("enter command (change count of commodity) or (use discount) or (leave): ");
+            changeCommodityCommand=sc.nextLine();
+            if(changeCommodityCommand.equals("change count of commodity"))
+                basket.changeCountofGoodForBuy(basket.findIDinBasket(ID));
+            else if(changeCommodityCommand.equals("use discount"))
+                basket.useDiscountForChangeFunction(basket.findIDinBasket(ID));
+            else if(changeCommodityCommand.equals("leave"))
+                return;
+            else
+            {
+                System.out.println("wrong command");
+            }
+
         }
     }
 }
