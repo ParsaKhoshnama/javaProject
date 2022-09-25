@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.Scanner;
 
 public class Refrigerator extends HomeAppliance
@@ -6,9 +7,9 @@ public class Refrigerator extends HomeAppliance
     private   KindOfFridge kind;
    private String nameOfKindOfFridge;
     private boolean freezer;
-    Refrigerator(String name,String degreeName,boolean guarantee,int content,String nameOfKindOfFridge,boolean freezer,int count,String company,double price,String ID,String userName,String passWord,double percentOfDiscount,String statusForAdmin)
+    Refrigerator(String name,String degreeName,boolean guarantee,int content,String nameOfKindOfFridge,boolean freezer,int count,String company,double price,String ID,String userName,String passWord,Discount discount,String statusForAdmin)
     {
-        super(name,degreeName,guarantee,company,price,ID,userName,passWord,percentOfDiscount,count);
+        super(name,degreeName,guarantee,company,price,ID,userName,passWord,discount,count);
         this.content=content;
         this.freezer=freezer;
         this.nameOfKindOfFridge=nameOfKindOfFridge;
@@ -26,6 +27,7 @@ public class Refrigerator extends HomeAppliance
                 this.setCount(super.findCountOfCertainHomeAppilaince(count));
                 this.clearHomeApplianceListRefrigerator();
                 HomeAppliance.getListOfHomeAppliancesAl().add(this);
+                Collections.sort(HomeAppliance.getListOfHomeAppliancesAl());
             } else
                 this.setCount(count);
         }
@@ -92,7 +94,7 @@ public class Refrigerator extends HomeAppliance
                 this.isGuearantee(),this.getContent(),this.getNameOfKindOfFridge(),
                 this.isFreezer(),this.getCount(),this.getCompany(),
                 this.getPrice(),this.getID(),this.getClerk().getPassWord(),
-                this.getClerk().getPassWord(),this.getPercentOfDiscount(),"accept");
+                this.getClerk().getPassWord(),this.getDiscount(),"accept");
         HomeAppliance.getListOfHomeAppliancesAl().add(refrigerator);
         this.getClerk().getCommodityListOfCertainClerk().add(refrigerator);
     }
@@ -110,11 +112,11 @@ public class Refrigerator extends HomeAppliance
         System.out.println("company: "+this.getCompany());
         System.out.println("count: "+this.getCount());
         System.out.println("price: "+this.getPrice()+" T");
-        System.out.println("percent of dscount: "+this.getPercentOfDiscount());
+        System.out.println("percent of dscount: "+this.getDiscount().getPercentOfDiscount());
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static void addRefrigeratorFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,double percentOfDiscount,String ID,String userName,String passWord)
+    static void addRefrigeratorFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,Discount discount,String ID,String userName,String passWord)
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter content: ");
@@ -155,7 +157,7 @@ public class Refrigerator extends HomeAppliance
         int count=sc.nextInt();
         sc.nextLine();
         Refrigerator refrigerator=new Refrigerator(name,degreeOfconsumption,gurant,content,kindOfFridge,freezer,count,
-                company,price,ID,userName,passWord,percentOfDiscount,"ignore");
+                company,price,ID,userName,passWord,discount,"ignore");
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",refrigerator);
     }
    void changeInformationOfRefrigerator(Clerk clerk)
@@ -164,7 +166,7 @@ public class Refrigerator extends HomeAppliance
                 this.isGuearantee(),this.getContent(),this.getNameOfKindOfFridge(),
                 this.isFreezer(),this.getCount(),this.getCompany(),
                 this.getPrice(),this.getID(),this.getClerk().getPassWord(),
-                this.getClerk().getPassWord(),this.getPercentOfDiscount(),"for change Information request");
+                this.getClerk().getPassWord(),this.getDiscount(),"for change Information request");
         refrigerator.changeFieldOFRefrigerator();
         ChangeInformationOfCommodityRequest request=new ChangeInformationOfCommodityRequest(clerk,"Change information of commodity request",this,refrigerator);
 
@@ -192,11 +194,11 @@ public class Refrigerator extends HomeAppliance
                 sc.nextLine();
                 this.setPrice(price);
             }
-            else if(field.equals("percent of discount"))
+            else if(field.equals("discount"))
             {
                 int percentOfDiscount=sc.nextInt();
                 sc.nextLine();
-                this.setPercentOfDiscount(percentOfDiscount);
+                this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
             }
             else if(field.equals("count"))
             {
