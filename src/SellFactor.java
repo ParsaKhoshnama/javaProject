@@ -17,6 +17,7 @@ public class SellFactor
         this.commodity=commodity;
         this.price=price;
         this.priceAfterDiscount=priceAfterDiscount;
+        this.getCommodity().getGood().getDiscount().setCapacity(this.getCommodity().getGood().getDiscount().getCapacity()-this.commodity.getCount());
     }
     double getPrice()
     {
