@@ -5,9 +5,10 @@ import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.Callable;
 import java.util.ArrayList;
+import java.time.*;
 public class MainClass {
     static Scanner sc=new Scanner(System.in);
-    static String firstName,lastName,phoneNumber,eMail,userName,passWord;
+    static String userName,passWord;
     public static void main(String[] args)
     {
 
@@ -302,7 +303,7 @@ public class MainClass {
                     String adminCommand;
                     while (true)
                     {
-                        System.out.println("if you want to see requests enter(requests)");
+                        System.out.println("if you want to see requests enter(requests)or(show user) or(remove user)");
                         System.out.println("if you want to log out enter (log out)");
                         adminCommand = sc.nextLine();
                         if (adminCommand.equals("requests"))
@@ -375,7 +376,6 @@ public class MainClass {
     }
     static void adminCheckRequests()
     {
-
        Admin.creatAdminObject().adminCheckRequests();
     }
    static void changeInformationFunction(String userName,String passWord)
