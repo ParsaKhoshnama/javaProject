@@ -42,7 +42,6 @@ public class Buyer extends Person
     }
   static void addBuyerToBuyerListAl(Buyer buyer)
   {
-
       buyersListAl.add(buyer);
   }
   ArrayList<Commodity> getBoughtCommoditiesList()
@@ -69,6 +68,11 @@ public class Buyer extends Person
   }
   void showBuyFactors()
   {
+      if(this.factors.size()==0)
+      {
+          System.out.println("you don't have any factor");
+          return;
+      }
       for(int i=0;i<this.factors.size();i++)
       {
           System.out.println("Factor "+(i+1)+":");
@@ -111,6 +115,11 @@ public class Buyer extends Person
     }
     void showAllGoods()
     {
+        if(DigitalCommodity.getDigiritlaCommodityAL().size()==0 && Garment.getListOfAllGarmentsAl().size()==0 && HomeAppliance.getListOfHomeAppliancesAl().size()==0)
+        {
+            System.out.println("there isn't any good for show");
+            return;
+        }
         this.showDigitals();
         this.showHomeAppliance();
         this.showGarment();

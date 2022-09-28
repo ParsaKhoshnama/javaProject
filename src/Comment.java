@@ -6,9 +6,9 @@ public class Comment
    private Person person;
    private String opinion;
    private static ArrayList<Comment> listOfComments=new ArrayList<Comment>();
-   Comment(String userName,String passWord,String ID,String opinion)
+   Comment(Person person,String ID,String opinion)
    {
-      this.person=Person.findPerson(userName,passWord);
+      this.person=person;
       this.good=Commodity.findCommodity(ID);
       this.opinion=opinion;
       this.good.getListOfComments().add(this);

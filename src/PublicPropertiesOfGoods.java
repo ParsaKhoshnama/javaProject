@@ -242,7 +242,7 @@ abstract public class PublicPropertiesOfGoods
                 break;
             else
             {
-                System.out.println("wrong ID. try again oe enter laeave");
+                System.out.println("wrong ID. try again oe enter leave");
             }
             if(ID.equals("leave"))
                 return;

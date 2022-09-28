@@ -1,3 +1,6 @@
+import exceptions.CheckDefaultExceptions;
+import exceptions.CheckMyExceptions;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 public abstract class Person
@@ -143,6 +146,7 @@ public abstract class Person
   }
   void changeInformation()
   {
+      CheckMyExceptions checkMyExceptions=new CheckMyExceptions();
       Scanner sc=new Scanner(System.in);
       String changeInformationCommand;
       Person person=Person.findPerson(userName,passWord);
@@ -151,9 +155,7 @@ public abstract class Person
           System.out.printf("enter (name)or(last name)or(username)or(password)or(email)or(phone number)or(leave): ");
           changeInformationCommand=sc.nextLine();
           if(changeInformationCommand.equals("leave"))
-          {
               break;
-          }
           else if(changeInformationCommand.equals("name"))
           {
               String rename=sc.nextLine();
@@ -176,12 +178,16 @@ public abstract class Person
           }
           else if(changeInformationCommand.equals("email"))
           {
-              String rEmail=sc.nextLine();
+              String rEmail=checkMyExceptions.checkEmail("Enter your eMail address");
+              if(rEmail.equals("wrong eMail"))
+                  continue;
               person.seteMail(rEmail);
           }
           else if(changeInformationCommand.equals("phone number"))
           {
-              String rePhoneNumber=sc.nextLine();
+              String rePhoneNumber=checkMyExceptions.checkPhoneNumber("Enter your phoneNumber");
+              if(rePhoneNumber.equals("wrong number"))
+                  continue;
               person.setPhoneNumber(rePhoneNumber);
           }
           else
@@ -200,16 +206,25 @@ public abstract class Person
           ID=sc.nextLine();
           if(Commodity.findCommodity(ID)!=null)
               break;
-          else
+         else
           {
-              System.out.println("wrong ID. try again oe enter laeave");
+              String command;
+              while (true)
+              {
+                  System.out.printf("press leave or try again");
+                  command=sc.nextLine();
+                  if(command.equals("leave"))
+                      return;
+                  else if(command.equals("try again"))
+                      break;
+                  else
+                      System.out.println("wrong command");
+              }
           }
-          if(ID.equals("leave"))
-              return;
       }
       System.out.printf("write your comment: ");
       String opinion=sc.nextLine();
-      Comment  comment=new Comment(userName,passWord,ID,opinion);
+      Comment  comment=new Comment(this,ID,opinion);
   }
     static void getLOginInformation()
     {
@@ -226,37 +241,47 @@ public abstract class Person
     }
     static void getRegisterationInformations()
     {
-        System.out.printf("If you want to be buyer enter(clerk) else enter(buyer): ");
-        Scanner sc=new Scanner(System.in);
-        String buyerOrClerkCommand;
-        buyerOrClerkCommand=sc.nextLine();
-        System.out.printf("Enter first name: ");
-       String firstName=sc.nextLine();
-        System.out.println();
-        System.out.printf("Enter last name: ");
-       String lastName=sc.nextLine();
-        System.out.println();
-        System.out.printf("Enter your phoneNumber: ");
-      String  phoneNumber=sc.nextLine();
-        System.out.println();
-        System.out.printf("Enter your eMail address: ");
-      String  eMail=sc.nextLine();
-        System.out.println();
-       // getLOginInformation();
-        String userName,passWord;
-        System.out.printf("Enter userName: ");
-        userName=sc.nextLine();
-        System.out.println();
-        System.out.printf("Enter passWord: ");
-        passWord=sc.nextLine();
-        System.out.println();
+        CheckMyExceptions checkMyExceptions=new CheckMyExceptions();
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.printf("If you want to be buyer enter(clerk) else enter(buyer): ");
+            String buyerOrClerkCommand;
+            buyerOrClerkCommand = sc.nextLine();
+            System.out.printf("Enter first name: ");
+            String firstName = sc.nextLine();
+            System.out.println();
+            System.out.printf("Enter last name: ");
+            String lastName = sc.nextLine();
+            System.out.println();
+            String phoneNumber = checkMyExceptions.checkPhoneNumber("Enter your phoneNumber");
+            if(phoneNumber.equals("wrong number"))
+                continue;
+            System.out.println();
+            String eMail =checkMyExceptions.checkEmail("Enter your eMail address");
+            if(eMail.equals("wrong eMail"))
+                continue;
+            System.out.println();
+            String userName, passWord;
+            System.out.printf("Enter userName: ");
+            userName = sc.nextLine();
+            System.out.println();
+            System.out.printf("Enter passWord: ");
+            passWord = sc.nextLine();
 
-        if(buyerOrClerkCommand.equals("buyer"))
-            Buyer.buyerRegisteration(firstName,lastName,phoneNumber,passWord,userName,eMail);
-        else if(buyerOrClerkCommand.equals("clerk"))
-            Clerk.clerkRegisteration(firstName,lastName,phoneNumber,eMail,userName,passWord);
-        else
-            System.out.println("wrong command");
+            System.out.println();
+            if (buyerOrClerkCommand.equals("buyer"))
+            {
+                Buyer.buyerRegisteration(firstName, lastName, phoneNumber, passWord, userName, eMail);
+                return;
+            }
+            else if (buyerOrClerkCommand.equals("clerk"))
+            {
+                Clerk.clerkRegisteration(firstName, lastName, phoneNumber, eMail, userName, passWord);
+                return;
+            }
+            else
+                System.out.println("wrong command");
+        }
 
     }
 }

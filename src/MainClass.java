@@ -54,7 +54,7 @@ public class MainClass {
                                     }
                                     else if(userAreaCommand.equals("increase fund"))
                                     {
-                                        System.out.printf("enter the number of moneney: ");
+                                        System.out.printf("enter the number of money: ");
                                         int fund=sc.nextInt();
                                         sc.nextLine();
                                         Buyer.findBuyer(userName,passWord).setFund(fund);
@@ -119,7 +119,7 @@ public class MainClass {
                                         {
                                             break;
                                         }
-                                        else if(userAreaCommand.equals("change informations of a good"))
+                                        else if(userAreaCommand.equals("change information of a good"))
                                         {
                                             String ID;
                                             while (true)
@@ -160,7 +160,7 @@ public class MainClass {
                                             String commodityCommand;
                                             while (true)
                                             {
-                                                System.out.printf("eneter category(digital or home appliance or garment or leave)");
+                                                System.out.printf("enter category(digital or home appliance or garment or leave)");
                                                 categoryCommand=sc.nextLine();
                                                 if(categoryCommand.equals("digital"))
                                                 {

@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -175,7 +176,7 @@ public class Clerk extends Person
         if(Person.checkPersonsInformation(firstName,lastName,phoneNumber,eMail,passWord,userName))
         {
             Clerk clerk=new Clerk(userName,passWord,firstName,lastName,phoneNumber,eMail);
-            BeClerkRequest BCrequest=new BeClerkRequest(clerk,"requset for being clerk");
+            BeClerkRequest BCrequest=new BeClerkRequest(clerk,"request for being clerk");
             BCrequest.addRequest();
         }
     }
