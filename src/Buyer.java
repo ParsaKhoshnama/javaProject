@@ -32,6 +32,10 @@ public class Buyer extends Person
             return;
         this.fund=this.getFund()+fund;
     }
+    void setFund(double fund)
+    {
+        this.fund=fund;
+    }
     static boolean searchBuyrListAl(String userName,String passWord)
     {
         System.out.println(buyersListAl);

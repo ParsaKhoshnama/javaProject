@@ -1,3 +1,7 @@
+import exceptions.CheckDefaultExceptions;
+import exceptions.CheckMyExceptions;
+import exceptions.InoperativeBuyException;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
@@ -80,6 +84,7 @@ public class Basket {
         this.getListOfCommodities().remove(commodity);
     }
     void addCommodityForBuy() {
+        CheckMyExceptions checkMyExceptions=new CheckMyExceptions();
         Scanner sc = new Scanner(System.in);
         String ID;
         System.out.printf("enter ID of commodity: ");
@@ -87,9 +92,9 @@ public class Basket {
         if (Commodity.findCommodity(ID) == null)
             System.out.println("wrong ID");
         else {
-            System.out.printf("enter count: ");
-            int count = sc.nextInt();
-            sc.nextLine();
+            int count=this.checkNumberOfGoodsForThrowingException(Commodity.findCommodity(ID));
+            if(count<0)
+                return;
             if (Commodity.checkCount(Commodity.findCommodity(ID), count) == true) {
                 String discountCommand;
                 Commodity commodity = new Commodity(Commodity.findCommodity(ID), count);
@@ -140,13 +145,10 @@ public class Basket {
                 System.out.println("this number is mor than that there are in store");
         }
     }
-    boolean buyBasket()
+    void buyBasket()throws InoperativeBuyException
     {
         if(this.commodityListBasket.size()==0)
-        {
             System.out.println("warning. basket is empty");
-            return false;
-        }
         else if(this.buyer.getFund()>=this.priceOfBasket)
         {
             this.buyer.setFund(this.buyer.getFund()-this.priceOfBasket);
@@ -165,13 +167,9 @@ public class Basket {
                 this.buyer.getBoughtCommoditiesList().add(this.commodityListBasket.get(i));
             }
             System.out.println("your buying was successfully");
-            return true;
         }
         else
-        {
-            System.out.println("your fund is not enough");
-            return false;
-        }
+            this.throwExceptionForBuy();
     }
     ArrayList<Commodity> getListOfCommodities()
     {
@@ -282,6 +280,40 @@ public class Basket {
                }
            }
        }
+    }
+    int checkNumberOfGoodsForThrowingException(PublicPropertiesOfGoods publicPropertiesOfGoods)
+    {
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
+        System.out.printf("enter the count of good witch you want: ");
+        int count=checkDefaultExceptions.checkInt("enter the count of good witch you want");
+        if(count<0)
+            return count;
+        try
+        {
+            if(count>publicPropertiesOfGoods.getCount())
+               throw new InoperativeBuyException("the count of this good witch you want is more than the count of stock for this good");
+            return count;
+        }
+        catch (InoperativeBuyException inoperativeBuyException)
+        {
+            System.out.println(inoperativeBuyException.getMessage());
+            inoperativeBuyException.printStackTrace();
+            return -1;
+        }
+
+    }
+    private void throwExceptionForBuy()
+    {
+        try
+        {
+            throw new InoperativeBuyException("the price of basket is more than your fund");
+        }
+        catch (InoperativeBuyException inoperativeBuyException)
+        {
+            System.out.println(inoperativeBuyException.getMessage());
+            inoperativeBuyException.printStackTrace();
+            return;
+        }
     }
    void showBasket()
    {

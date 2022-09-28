@@ -10,12 +10,12 @@ public class CheckMyExceptions {
             System.out.printf("%s :", string);
             phoneNumber = sc.nextLine();
             if (phoneNumber.charAt(0) != '0')
-                throw new InoperativeInputException("this phone number wasn't valid");
+                throw new InvalidPhoneNumberException("invalid phone number Exception message","this phone number wasn't valid");
             if (phoneNumber.length() > 11)
-                throw new InoperativeInputException("this phone number wasn't valid");
+                throw new InvalidPhoneNumberException("invalid phone number Exception message","this phone number wasn't valid");
             for (int i = 0; i < phoneNumber.length(); i++) {
                 if (phoneNumber.charAt(i) < 48 || phoneNumber.charAt(i) > 57)
-                    throw new InoperativeInputException("this phone number wasn't valid");
+                    throw new InvalidPhoneNumberException("invalid phone number Exception message","this phone number wasn't valid");
             }
             return phoneNumber;
         } catch (InoperativeInputException inoperativeInputException) {
@@ -40,9 +40,9 @@ public class CheckMyExceptions {
                     counter++;
             }
             if(counter!=1)
-                throw new InoperativeInputException("this Email address wasn't valid");
-            if(eMail.lastIndexOf("com")==-1)
-                throw new InoperativeInputException("this Email address wasn't valid");
+                throw new InvalidEmailException("invalid Email address exception","this Email address wasn't valid");
+            if(eMail.lastIndexOf(".com")==-1)
+                throw new InvalidEmailException("invalid Email address exception","this Email address wasn't valid");
             return eMail;
         }
         catch (InoperativeInputException inoperativeInputException)

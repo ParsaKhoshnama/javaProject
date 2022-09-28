@@ -1,7 +1,7 @@
 package exceptions;
 public class InoperativeBuyException extends RuntimeException
 {
-    InoperativeBuyException(String message)
+   public InoperativeBuyException(String message)
     {
         super(message);
     }
