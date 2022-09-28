@@ -1,3 +1,5 @@
+import exceptions.CheckDefaultExceptions;
+
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -116,11 +118,13 @@ public class Refrigerator extends HomeAppliance
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static void addRefrigeratorFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,Discount discount,String ID,String userName,String passWord)
+    static boolean addRefrigeratorFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,Discount discount,String ID,String userName,String passWord)
     {
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
-        System.out.printf("enter content: ");
-        int content= sc.nextInt();
+        int content=checkDefaultExceptions.checkInt("enter content");
+        if(content<0)
+            return false;
         sc.nextLine();
         String kindOfFridge;
         while (true)
@@ -153,12 +157,14 @@ public class Refrigerator extends HomeAppliance
 
 
         }
-        System.out.printf("enter count: ");
-        int count=sc.nextInt();
+        int count=checkDefaultExceptions.checkInt("enter count");
+        if(count<0)
+            return false;
         sc.nextLine();
         Refrigerator refrigerator=new Refrigerator(name,degreeOfconsumption,gurant,content,kindOfFridge,freezer,count,
                 company,price,ID,userName,passWord,discount,"ignore");
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",refrigerator);
+        return true;
     }
    void changeInformationOfRefrigerator(Clerk clerk)
     {
@@ -173,6 +179,7 @@ public class Refrigerator extends HomeAppliance
     }
     private void changeFieldOFRefrigerator()
     {
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         String field;
         Scanner sc=new Scanner(System.in);
         while (true)
@@ -190,20 +197,20 @@ public class Refrigerator extends HomeAppliance
             }
             else if(field.equals("price"))
             {
-                int price=sc.nextInt();
-                sc.nextLine();
+                double price=checkDefaultExceptions.checkDouble("price");
+                if(price<0)
+                    continue;
                 this.setPrice(price);
             }
             else if(field.equals("discount"))
             {
-                int percentOfDiscount=sc.nextInt();
-                sc.nextLine();
                 this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
             }
             else if(field.equals("count"))
             {
-                int count=sc.nextInt();
-                sc.nextLine();
+                int count=checkDefaultExceptions.checkInt("count");
+                if(count<0)
+                    continue;
                 this.setCount(count);
             }
             else if(field.equals("degree of concumption"))
@@ -282,8 +289,9 @@ public class Refrigerator extends HomeAppliance
             }
             else if(field.equals("content"))
             {
-                int content=sc.nextInt();
-                sc.nextLine();
+                int content=checkDefaultExceptions.checkInt("content");
+                if(content<0)
+                    continue;
                 this.setContent(content);
             }
             else if(field.equals("leave"))

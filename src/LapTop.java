@@ -1,3 +1,5 @@
+import exceptions.CheckDefaultExceptions;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -79,12 +81,13 @@ public class LapTop extends DigitalCommodity
        System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
        System.out.println("average of scores: "+this.getAverageMark());
    }
-   static void addLapTopFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,int ram,int valencyOfMemory,int weight,String operatingSystem)
+   static boolean addLapTopFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,int ram,int valencyOfMemory,int weight,String operatingSystem)
    {
+       CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
        Scanner sc=new Scanner(System.in);
-       System.out.printf("enter count: ");
-       int count=sc.nextInt();
-       sc.nextLine();
+       int count=checkDefaultExceptions.checkInt("enter count");
+       if(count<0)
+           return false;
        while (true)
        {
            System.out.printf("gamingCPU: ");
@@ -104,6 +107,7 @@ public class LapTop extends DigitalCommodity
            else
                System.out.println("wrong.try again");
        }
+       return true;
    }
    void changeInformationOfLapTop(Clerk clerk)
    {
@@ -118,6 +122,7 @@ public class LapTop extends DigitalCommodity
    }
    private void changeFiledOfLapTop()
    {
+       CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
        String field;
        Scanner sc=new Scanner(System.in);
        while (true)
@@ -135,32 +140,34 @@ public class LapTop extends DigitalCommodity
            }
            else if(field.equals("price"))
            {
-               int price=sc.nextInt();
-               sc.nextLine();
+               double price=checkDefaultExceptions.checkDouble("price");
+               if(price<0)
+                   continue;
                this.setPrice(price);
            }
-           else if(field.equals("percent of discount"))
+           else if(field.equals("discount"))
            {
-               int percentOfDiscount=sc.nextInt();
-               sc.nextLine();
                this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
            }
            else if(field.equals("count"))
            {
-               int count=sc.nextInt();
-               sc.nextLine();
+               int count=checkDefaultExceptions.checkInt("count");
+               if(count<0)
+                   continue;
                this.setCount(count);
            }
            else if(field.equals("ram"))
            {
-               int ram=sc.nextInt();
-               sc.nextLine();
+               int ram=checkDefaultExceptions.checkInt("ram");
+               if(ram<0)
+                   continue;
                this.setRam(ram);
            }
            else if(field.equals("valancy of memory"))
            {
-               int valancyOfMemory=sc.nextInt();
-               sc.nextLine();
+               int valancyOfMemory=checkDefaultExceptions.checkInt("valancy of memory");
+               if(valancyOfMemory<0)
+                   continue;
                this.setValencyOfMemory(valancyOfMemory);
            }
            else if(field.equals("operating system"))

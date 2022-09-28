@@ -1,8 +1,12 @@
+import exceptions.CheckDefaultExceptions;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 abstract public class PublicPropertiesOfGoods
 {
+    private static boolean discountExceptionsFlag=true;
+    static boolean checkDefauktExceptionFlag=true;
     private String company;
     private String name;
     private double price;
@@ -196,38 +200,43 @@ abstract public class PublicPropertiesOfGoods
   static  void addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)
     {
         Scanner sc=new Scanner(System.in);
-        String IdCommand;
-        String ID;
-        System.out.printf("enter name: ");
-        String name=sc.nextLine();
-        System.out.printf("enter company: ");
-        String company=sc.nextLine();
-        System.out.printf("enter price: ");
-        double price=sc.nextDouble();
-        sc.nextLine();
-        Discount discount=giveDiscountInfo();
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         while (true)
         {
-            System.out.printf("enter ID: ");
-            ID=sc.nextLine();
-            if(Clerk.findingClerk(userName,passWord).checkCommodityID(ID)==false)
+            String IdCommand;
+            String ID;
+            System.out.printf("enter name: ");
+            String name = sc.nextLine();
+            System.out.printf("enter company: ");
+            String company = sc.nextLine();
+            double price =checkDefaultExceptions.checkDouble("enter price: ");
+            if(price<0)
+                continue;
+            sc.nextLine();
+            Discount discount = giveDiscountInfo();
+            if(discount==null && discountExceptionsFlag==false)
             {
-                System.out.println("this ID has been used before . try again");
+                discountExceptionsFlag=true;
+                continue;
             }
-            else
-                break;
-        }
-        if(categoryCommand.equals("digital"))
-        {
-            DigitalCommodity.addDigitlaCommodityFunction(name,company,price,discount,ID,userName,passWord,commodityCommand);
-        }
-        else if(categoryCommand.equals("garment"))
-        {
-           Garment.addGarmentFunction(userName,passWord,commodityCommand,company,price,discount,ID,name);
-        }
-        else
-        {
-           HomeAppliance.addHomeApplianceFunction(commodityCommand,name,company,ID,price,discount,userName,passWord);
+            while (true) {
+                System.out.printf("enter ID: ");
+                ID = sc.nextLine();
+                if (Clerk.findingClerk(userName, passWord).checkCommodityID(ID) == false) {
+                    System.out.println("this ID has been used before . try again");
+                } else
+                    break;
+            }
+            if (categoryCommand.equals("digital")) {
+                DigitalCommodity.addDigitlaCommodityFunction(name, company, price, discount, ID, userName, passWord, commodityCommand);
+                return;
+            } else if (categoryCommand.equals("garment")) {
+                Garment.addGarmentFunction(userName, passWord, commodityCommand, company, price, discount, ID, name);
+                return;
+            } else {
+                HomeAppliance.addHomeApplianceFunction(commodityCommand, name, company, ID, price, discount, userName, passWord);
+                return;
+            }
         }
     }
     static void showCommentCheck()
@@ -254,6 +263,7 @@ abstract public class PublicPropertiesOfGoods
         Scanner sc=new Scanner(System.in);
         Discount discount;
         String DiscountCommand;
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         while (true)
         {
             System.out.printf("dou you want to give discount: ");
@@ -263,17 +273,29 @@ abstract public class PublicPropertiesOfGoods
             {
                 while (true)
                 {
-                    System.out.printf("enter year: ");
-                    int year = sc.nextInt();
-                    System.out.printf("enter month: ");
-                    int month = sc.nextInt();
-                    System.out.printf("enter day of month: ");
-                    int day = sc.nextInt();
-                    System.out.printf("enter hour: ");
-                    int hour = sc.nextInt();
+                    int year = checkDefaultExceptions.checkInt("enter year");
+                    if(year<0){
+                        discountExceptionsFlag=false;
+                        return null;
+                    }
+                    int month =checkDefaultExceptions.checkInt("enter month");
+                    if(month<0){
+                        discountExceptionsFlag=false;
+                        return null;
+                    }
+                    int day =checkDefaultExceptions.checkInt("enter day of month");
+                    if(day<0) {
+                        discountExceptionsFlag=false;
+                        return null;
+                    }
+                    int hour =checkDefaultExceptions.checkInt("enter hour");
+                        if(hour<0){
+                            discountExceptionsFlag=false;
+                            return null;
+                        }
                     System.out.printf("enter minute: ");
-                    int minute = sc.nextInt();
-                    if (minute > 0)
+                    int minute =checkDefaultExceptions.checkInt("enter minute");
+                    if (minute >=0)
                     {
                         date.setYear(year);
                         date.setMonth(month);
@@ -281,6 +303,10 @@ abstract public class PublicPropertiesOfGoods
                         date.setHours(hour);
                         date.setMinutes(minute);
                         break;
+                    }
+                    else {
+                        discountExceptionsFlag=false;
+                        return null;
                     }
                 }
                 System.out.printf("enter code of discount: ");

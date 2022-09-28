@@ -1,5 +1,8 @@
+import exceptions.CheckDefaultExceptions;
+
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.concurrent.Callable;
 
 public class Stove extends HomeAppliance
 {
@@ -91,16 +94,19 @@ public class Stove extends HomeAppliance
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static void addStoveFunction(String name,String degreeOfconsumption,boolean gurant,String company,String ID,double price,Discount discount,String userName,String passWord)
+    static boolean addStoveFunction(String name,String degreeOfconsumption,boolean gurant,String company,String ID,double price,Discount discount,String userName,String passWord)
     {
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter the genus: ");
         String genus=sc.nextLine();
-        System.out.printf("enter the count of falmes: ");
-        int countOfFlames=sc.nextInt();
+        int countOfFlames=checkDefaultExceptions.checkInt("count of flames");
+        if(countOfFlames<0)
+            return false;
         System.out.printf("enter count: ");
-        int count=sc.nextInt();
-        sc.nextLine();
+        int count=checkDefaultExceptions.checkInt("enter count");
+        if(count<0)
+            return false;
         String gasOven;
         while (true)
         {
@@ -119,6 +125,7 @@ public class Stove extends HomeAppliance
             } else
                 System.out.println("wrong name for having gas oven.try again");
         }
+        return true;
     }
     void changeInformationOfStove(Clerk clerk)
     {
@@ -131,6 +138,7 @@ public class Stove extends HomeAppliance
     }
     private void cahngeStoveField()
     {
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         String field;
         Scanner sc=new Scanner(System.in);
         while (true)
@@ -148,26 +156,27 @@ public class Stove extends HomeAppliance
             }
             else if(field.equals("price"))
             {
-                int price=sc.nextInt();
-                sc.nextLine();
+                double price=checkDefaultExceptions.checkDouble("price");
+                if(price<0)
+                    continue;
                 this.setPrice(price);
             }
-            else if(field.equals("percent of discount"))
+            else if(field.equals("discount"))
             {
-                int percentOfDiscount=sc.nextInt();
-                sc.nextLine();
                 this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
             }
             else if(field.equals("count"))
             {
-                int count=sc.nextInt();
-                sc.nextLine();
+                int count=checkDefaultExceptions.checkInt("count");
+                if(count<0)
+                    continue;
                 this.setCount(count);
             }
             else if(field.equals("count of flames"))
             {
-                int CountOfFlames=sc.nextInt();
-                sc.nextLine();
+                int CountOfFlames=checkDefaultExceptions.checkInt("count of flames");
+                if(CountOfFlames<0)
+                    continue;
                 this.setCountOfFlames(CountOfFlames);
             }
             else if(field.equals("genus"))

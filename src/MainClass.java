@@ -1,4 +1,6 @@
 
+import exceptions.CheckDefaultExceptions;
+
 import java.util.Scanner;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -45,44 +47,23 @@ public class MainClass {
                                     Buyer.showBuyerInformation(passWord);
                                     userAreaCommand=sc.nextLine();
                                     if(userAreaCommand.equals("leave user area"))
-                                    {
                                         break;
-                                    }
                                     else if(userAreaCommand.equals("change information"))
-                                    {
                                         changeInformationFunction(userName,passWord);
-                                    }
                                     else if(userAreaCommand.equals("increase fund"))
-                                    {
-                                        System.out.printf("enter the number of money: ");
-                                        int fund=sc.nextInt();
-                                        sc.nextLine();
-                                        Buyer.findBuyer(userName,passWord).setFund(fund);
-                                    }
+                                        Buyer.findBuyer(userName,passWord).setFund();
                                     else if(userAreaCommand.equals("show all goods"))
-                                    {
                                         Buyer.findBuyer(userName,passWord).showAllGoods();
-                                    }
                                     else if(userAreaCommand.equals("show factors"))
-                                    {
                                         Buyer.findBuyer(userName,passWord).showBuyFactors();
-                                    }
                                     else if(userAreaCommand.equals("give mark"))
-                                    {
                                         giveMark();
-                                    }
                                     else if(userAreaCommand.equals("send comment"))
-                                    {
                                         sendComment();
-                                    }
                                     else if(userAreaCommand.equals("show comments"))
-                                    {
                                         showCommnets();
-                                    }
                                     else if(userAreaCommand.equals("buy"))
-                                    {
                                        Buyer.findBuyer(userName,passWord).buy();
-                                    }
                                     else
                                         System.out.println("wrong command");
                                 }

@@ -1,3 +1,5 @@
+import exceptions.CheckDefaultExceptions;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Scanner;
@@ -86,18 +88,22 @@ public class Mobile extends  DigitalCommodity
         System.out.println("average of scores: "+this.getAverageMark());
     }
 
-    static void addMobileFunction(String name,int ram,int valencyOfMemory,int weight,String operatingSystem ,String company,double price,Discount discount,String ID,String userName,String passWord)
+    static boolean addMobileFunction(String name,int ram,int valencyOfMemory,int weight,String operatingSystem ,String company,double price,Discount discount,String ID,String userName,String passWord)
     {
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
-        System.out.printf("count of simcards: ");
-        int countOfSimcards=sc.nextInt();
+        int countOfSimcards=checkDefaultExceptions.checkInt("count of simcards");
+        if(countOfSimcards<0)
+            return false;
         System.out.printf("enter count: ");
-        int count=sc.nextInt();
-        sc.nextLine();
+        int count=checkDefaultExceptions.checkInt("enter count");
+        if(count<0)
+            return false;
         System.out.printf("enter grade of camera: ");
         String gardeOfCammera=sc.nextLine();
         Mobile mobile=new Mobile(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,countOfSimcards,gardeOfCammera,count,discount,"ignore");
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",mobile);
+        return true;
     }
     void changeInformationOfMobile(Clerk clerk)
     {
@@ -110,6 +116,7 @@ public class Mobile extends  DigitalCommodity
     }
     private void changeFieldOfMobile()
     {
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         String field;
         Scanner sc=new Scanner(System.in);
         while (true)
@@ -127,20 +134,20 @@ public class Mobile extends  DigitalCommodity
             }
             else if(field.equals("price"))
             {
-                int price=sc.nextInt();
-                sc.nextLine();
+                double price=checkDefaultExceptions.checkDouble("price");
+                if(price<0)
+                    continue;
                 this.setPrice(price);
             }
-            else if(field.equals("percent of discount"))
+            else if(field.equals("discount"))
             {
-                int percentOfDiscount=sc.nextInt();
-                sc.nextLine();
                 this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
             }
             else if(field.equals("count"))
             {
-                int count=sc.nextInt();
-                sc.nextLine();
+                int count=checkDefaultExceptions.checkInt("count");
+                if(count<0)
+                    continue;
                 this.setCount(count);
             }
             else if(field.equals("ram"))
@@ -151,15 +158,17 @@ public class Mobile extends  DigitalCommodity
             }
             else if(field.equals("valancy of memory"))
             {
-                int valancyOfMemory=sc.nextInt();
-                sc.nextLine();
+                int valancyOfMemory=checkDefaultExceptions.checkInt("valancy of memory");
+                if(valancyOfMemory<0)
+                    continue;
                 this.setValencyOfMemory(valancyOfMemory);
             }
             else if(field.equals("count of simcards"))
             {
-                int countOfSimcarads=sc.nextInt();
-                sc.nextLine();
-                this.setCountOfSimcards(countOfSimcarads);
+                int countOfSimcards=checkDefaultExceptions.checkInt("count of simcards");
+                if(countOfSimcards<0)
+                    continue;
+                this.setCountOfSimcards(countOfSimcards);
             }
             else if(field.equals("grade of camera"))
             {

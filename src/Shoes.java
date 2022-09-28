@@ -1,3 +1,5 @@
+import exceptions.CheckDefaultExceptions;
+
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -114,13 +116,16 @@ public class Shoes extends Garment
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-   static void addShooesFunction(String name,String country,String genus,String company,double price,Discount discount,String ID,String userName,String passWord)
+   static boolean addShooesFunction(String name,String country,String genus,String company,double price,Discount discount,String ID,String userName,String passWord)
     {
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
-        System.out.printf("enter size: ");
-        int size=sc.nextInt();
-        System.out.printf("enter count: ");
-        int count=sc.nextInt();
+        int size=checkDefaultExceptions.checkInt("enter size");
+        if(size<0)
+            return false;
+        int count=checkDefaultExceptions.checkInt("enter count: ");
+        if(count<0)
+            return false;
         sc.nextLine();
         String nameOfKind;
         while (true)
@@ -137,6 +142,7 @@ public class Shoes extends Garment
         Shoes shoes=new Shoes(name,nameOfKind,size,country,genus,company,price,ID,userName,
                 passWord,count,discount,"ignore");
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",shoes);
+        return true;
     }
     void changeShoesInformation(Clerk clerk)
     {
@@ -151,6 +157,7 @@ public class Shoes extends Garment
     {
         String field;
         Scanner sc=new Scanner(System.in);
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         while (true)
         {
             field=sc.nextLine();
@@ -166,14 +173,13 @@ public class Shoes extends Garment
             }
             else if(field.equals("price"))
             {
-                int price=sc.nextInt();
-                sc.nextLine();
+                double price=checkDefaultExceptions.checkDouble("price");
+                if(price<0)
+                    continue;
                 this.setPrice(price);
             }
-            else if(field.equals("percent of discount"))
+            else if(field.equals("discount"))
             {
-                int percentOfDiscount=sc.nextInt();
-                sc.nextLine();
                 this.setDiscount(PublicPropertiesOfGoods.giveDiscountInfo());
             }
             else if(field.equals("genus"))
@@ -183,8 +189,9 @@ public class Shoes extends Garment
             }
             else if(field.equals("size"))
             {
-                int size=sc.nextInt();
-                sc.nextLine();
+                int size=checkDefaultExceptions.checkInt("size");
+                if(size<0)
+                    continue;
                 this.setSize(size);
             }
             else if(field.equals("name of kind"))
@@ -206,8 +213,9 @@ public class Shoes extends Garment
             }
             else if(field.equals("count"))
             {
-                int count=sc.nextInt();
-                sc.nextLine();
+                int count=checkDefaultExceptions.checkInt("count");
+                if(count<0)
+                    continue;
                 this.setCount(count);
             }
             else if(field.equals("leave"))

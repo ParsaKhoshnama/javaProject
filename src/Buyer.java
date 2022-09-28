@@ -1,3 +1,5 @@
+import exceptions.CheckDefaultExceptions;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -22,8 +24,12 @@ public class Buyer extends Person
     {
         this.fund+=fund;
     }
-    void setFund(double fund)
+    void setFund()
     {
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
+        int fund=checkDefaultExceptions.checkInt("enter the number of money");
+        if(fund<0)
+            return;
         this.fund=this.getFund()+fund;
     }
     static boolean searchBuyrListAl(String userName,String passWord)
