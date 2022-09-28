@@ -6,7 +6,6 @@ import java.util.Scanner;
 abstract public class PublicPropertiesOfGoods
 {
     private static boolean discountExceptionsFlag=true;
-    static boolean checkDefauktExceptionFlag=true;
     private String company;
     private String name;
     private double price;
@@ -197,12 +196,10 @@ abstract public class PublicPropertiesOfGoods
         System.out.println("your number is mor than commodity count");
         return false;
     }
-  static  void addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)
+  static  boolean addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)
     {
         Scanner sc=new Scanner(System.in);
         CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
-        while (true)
-        {
             String IdCommand;
             String ID;
             System.out.printf("enter name: ");
@@ -211,13 +208,13 @@ abstract public class PublicPropertiesOfGoods
             String company = sc.nextLine();
             double price =checkDefaultExceptions.checkDouble("enter price: ");
             if(price<0)
-                continue;
+               return false;
             sc.nextLine();
             Discount discount = giveDiscountInfo();
             if(discount==null && discountExceptionsFlag==false)
             {
                 discountExceptionsFlag=true;
-                continue;
+                return false;
             }
             while (true) {
                 System.out.printf("enter ID: ");
@@ -228,16 +225,13 @@ abstract public class PublicPropertiesOfGoods
                     break;
             }
             if (categoryCommand.equals("digital")) {
-                DigitalCommodity.addDigitlaCommodityFunction(name, company, price, discount, ID, userName, passWord, commodityCommand);
-                return;
+              return   DigitalCommodity.addDigitlaCommodityFunction(name, company, price, discount, ID, userName, passWord, commodityCommand);
+
             } else if (categoryCommand.equals("garment")) {
-                Garment.addGarmentFunction(userName, passWord, commodityCommand, company, price, discount, ID, name);
-                return;
+               return Garment.addGarmentFunction(userName, passWord, commodityCommand, company, price, discount, ID, name);
             } else {
-                HomeAppliance.addHomeApplianceFunction(commodityCommand, name, company, ID, price, discount, userName, passWord);
-                return;
+              return HomeAppliance.addHomeApplianceFunction(commodityCommand, name, company, ID, price, discount, userName, passWord);
             }
-        }
     }
     static void showCommentCheck()
     {

@@ -139,6 +139,7 @@ public class MainClass {
                                         {
                                             String categoryCommand;
                                             String commodityCommand;
+                                            boolean bool=true;
                                             while (true)
                                             {
                                                 System.out.printf("enter category(digital or home appliance or garment or leave)");
@@ -151,12 +152,14 @@ public class MainClass {
                                                         commodityCommand=sc.nextLine();
                                                         if(commodityCommand.equals("laptop"))
                                                         {
-                                                            addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
+                                                           if(addCommodityFunction(userName,passWord,categoryCommand,commodityCommand)==false)
+                                                               bool=false;
                                                             break;
                                                         }
                                                         else if(commodityCommand.equals("mobile"))
                                                         {
-                                                            addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
+                                                            if(addCommodityFunction(userName,passWord,categoryCommand,commodityCommand)==false)
+                                                                bool=false;
                                                             break;
                                                         }
                                                         else if (commodityCommand.equals("leave"))
@@ -168,6 +171,8 @@ public class MainClass {
                                                             System.out.println("wrong command");
                                                         }
                                                     }
+                                                    if(bool==false)
+                                                        continue;
                                                 }
                                                 else if(categoryCommand.equals("garment"))
                                                 {
@@ -177,12 +182,14 @@ public class MainClass {
                                                         commodityCommand=sc.nextLine();
                                                         if(commodityCommand.equals("shoes"))
                                                         {
-                                                            addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
+                                                            if(addCommodityFunction(userName,passWord,categoryCommand,commodityCommand)==false)
+                                                                bool=false;
                                                             break;
                                                         }
                                                         else if(commodityCommand.equals("dress"))
                                                         {
-                                                            addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
+                                                            if(addCommodityFunction(userName,passWord,categoryCommand,commodityCommand)==false)
+                                                                bool=false;
                                                             break;
                                                         }
                                                         else if (commodityCommand.equals("leave"))
@@ -194,6 +201,8 @@ public class MainClass {
                                                             System.out.println("wrong command");
                                                         }
                                                     }
+                                                    if(bool==false)
+                                                        continue;
                                                 }
                                                 else if(categoryCommand.equals("home appliance"))
                                                 {
@@ -203,17 +212,20 @@ public class MainClass {
                                                         commodityCommand=sc.nextLine();
                                                         if(commodityCommand.equals("stove"))
                                                         {
-                                                            addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
+                                                            if(addCommodityFunction(userName,passWord,categoryCommand,commodityCommand)==false)
+                                                                bool=false;
                                                             break;
                                                         }
                                                         else if(commodityCommand.equals("television"))
                                                         {
-                                                            addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
+                                                            if(addCommodityFunction(userName,passWord,categoryCommand,commodityCommand)==false)
+                                                                bool=false;
                                                             break;
                                                         }
                                                         else if(commodityCommand.equals("refrigerator"))
                                                         {
-                                                            addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
+                                                            if(addCommodityFunction(userName,passWord,categoryCommand,commodityCommand)==false)
+                                                                bool=false;
                                                             break;
                                                         }
                                                         else if (commodityCommand.equals("leave"))
@@ -225,6 +237,8 @@ public class MainClass {
                                                             System.out.println("wrong command");
                                                         }
                                                     }
+                                                    if(bool==false)
+                                                        continue;
                                                 }
                                                 else if(categoryCommand.equals("leave"))
                                                 {
@@ -363,9 +377,9 @@ public class MainClass {
     {
        Person.findPerson(userName,passWord).changeInformation();
     }
-    static void addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)
+    static boolean addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)
     {
-        PublicPropertiesOfGoods.addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
+      return   PublicPropertiesOfGoods.addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
     }
     static void giveMark()
     {

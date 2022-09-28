@@ -141,7 +141,7 @@ public abstract class Garment extends PublicPropertiesOfGoods implements Compara
         }
         Collections.sort(Garment.getListOfAllGarmentsAl());
     }
-    static void addGarmentFunction(String userName,String passWord,String commodityCommand,String company,double price,Discount discount,String ID,String name )
+    static boolean addGarmentFunction(String userName,String passWord,String commodityCommand,String company,double price,Discount discount,String ID,String name )
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter country: ");
@@ -150,11 +150,11 @@ public abstract class Garment extends PublicPropertiesOfGoods implements Compara
         String genus=sc.nextLine();
         if(commodityCommand.equals("dress"))
         {
-            Dress.addDressFunction(name,country,genus,company,price,discount,ID,userName,passWord);
+           return Dress.addDressFunction(name,country,genus,company,price,discount,ID,userName,passWord);
         }
         else
         {
-            Shoes.addShooesFunction(name,country,genus,company,price,discount,ID,userName,passWord);
+            return   Shoes.addShooesFunction(name,country,genus,company,price,discount,ID,userName,passWord);
         }
     }
 

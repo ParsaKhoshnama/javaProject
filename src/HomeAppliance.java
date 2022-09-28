@@ -227,7 +227,7 @@ abstract public class HomeAppliance extends PublicPropertiesOfGoods implements C
         }
         Collections.sort(HomeAppliance.getListOfHomeAppliancesAl());
     }
-    static void addHomeApplianceFunction(String commodityCommand,String name,String company,String ID,double price,Discount discount,String userName,String passWord)
+    static boolean addHomeApplianceFunction(String commodityCommand,String name,String company,String ID,double price,Discount discount,String userName,String passWord)
     {
         Scanner sc=new Scanner(System.in);
         String gurantee;
@@ -262,15 +262,15 @@ abstract public class HomeAppliance extends PublicPropertiesOfGoods implements C
         }
         if(commodityCommand.equals("stove"))
         {
-            Stove.addStoveFunction(name,degreeOfconsumption,gurant,company,ID,price,discount,userName,passWord);
+           return Stove.addStoveFunction(name,degreeOfconsumption,gurant,company,ID,price,discount,userName,passWord);
         }
         else if(commodityCommand.equals("television"))
         {
-            Television.addTelevisionFunction(name,degreeOfconsumption,gurant,company,price,discount,ID,userName,passWord);
+           return Television.addTelevisionFunction(name,degreeOfconsumption,gurant,company,price,discount,ID,userName,passWord);
         }
         else
         {
-            Refrigerator.addRefrigeratorFunction(name,degreeOfconsumption,gurant,company,price,discount,ID,userName,passWord);
+          return   Refrigerator.addRefrigeratorFunction(name,degreeOfconsumption,gurant,company,price,discount,ID,userName,passWord);
         }
     }
 }

@@ -1,3 +1,5 @@
+import exceptions.CheckDefaultExceptions;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -156,25 +158,29 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods implement
         }
         Collections.sort(DigitalCommodity.getDigiritlaCommodityAL());
     }
-   static void addDigitlaCommodityFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,String commodityCommand)
+   static boolean addDigitlaCommodityFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,String commodityCommand)
     {
+        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
-        System.out.printf("enter ram: ");
-        int ram=sc.nextInt();
-        System.out.printf("enter valency of memory: ");
-        int valencyOfMemory=sc.nextInt();
-        System.out.printf("enter weight: ");
-        int weight=sc.nextInt();
+        int ram=checkDefaultExceptions.checkInt("enter ram");
+        if(ram<0)
+            return false;
+        int valencyOfMemory=checkDefaultExceptions.checkInt("enter valency of memory");
+        if(valencyOfMemory<0)
+            return false;
+        int weight=checkDefaultExceptions.checkInt("enter weight");
+        if(weight<0)
+            return false;
         sc.nextLine();
         System.out.printf("enter operating system: ");
         String operatingSystem=sc.nextLine();
         if(commodityCommand.equals("laptop"))
         {
-            LapTop.addLapTopFunction(name,company,price,discount,ID,userName,passWord,ram,valencyOfMemory,weight,operatingSystem);
+          return   LapTop.addLapTopFunction(name,company,price,discount,ID,userName,passWord,ram,valencyOfMemory,weight,operatingSystem);
         }
         else
         {
-            Mobile.addMobileFunction(name,ram,valencyOfMemory,weight,operatingSystem,company,price,discount,ID,userName,passWord);
+           return Mobile.addMobileFunction(name,ram,valencyOfMemory,weight,operatingSystem,company,price,discount,ID,userName,passWord);
         }
     }
 }
