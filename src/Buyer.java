@@ -1,5 +1,6 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -250,7 +251,7 @@ public class Buyer extends Person
         }
     }
 
-    static void buyerRegisteration(String firstName,String lastName,String phoneNumber,String passWord,String userName,String eMail)
+    static void buyerRegisteration(String firstName,String lastName,String phoneNumber,String passWord,String userName,String eMail)throws IOException
     {
         Scanner sc=new Scanner(System.in);
         if(Person.checkPersonsInformation(firstName,lastName,phoneNumber,eMail,passWord,userName))

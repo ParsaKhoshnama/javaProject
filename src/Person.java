@@ -1,6 +1,8 @@
 import exceptions.CheckDefaultExceptions;
 import exceptions.CheckMyExceptions;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 public abstract class Person
@@ -69,9 +71,7 @@ public abstract class Person
     {
         return this.passWord;
     }
-
-
- static boolean  checkPersonsInformation(String firstName,String lastName, String phoneNumber,String eMail,String passWord,String userName)
+ static boolean  checkPersonsInformation(String firstName,String lastName, String phoneNumber,String eMail,String passWord,String userName)throws IOException
  {
      for(int i=0;i<Admin.creatAdminObject().getPersonsListAL().size();i++)
      {
@@ -111,12 +111,12 @@ public abstract class Person
       return true;
   }
 
-  static boolean checkPasswordAndUsername(String passWord, String userName)
+  static boolean checkPasswordAndUsername(String passWord, String userName)throws IOException
   {
       for(int i=0;i<Admin.creatAdminObject().getPersonsListAL().size();i++)
       {
           if(Admin.creatAdminObject().getPersonsListAL().get(i).getUserName().equals(userName) && Admin.creatAdminObject().getPersonsListAL().get(i).getPassWord().equals(passWord))
-          return true;
+             return true;
       }
       return false;
   }
@@ -239,7 +239,7 @@ public abstract class Person
         System.out.println();
         System.out.println("------------------");
     }
-    static void getRegisterationInformations()
+    static void getRegisterationInformations()throws IOException
     {
         CheckMyExceptions checkMyExceptions=new CheckMyExceptions();
         Scanner sc = new Scanner(System.in);

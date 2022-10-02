@@ -1,8 +1,10 @@
+import java.io.IOException;
+
 public class ChangeInformationOfCommodityRequest extends Request
 {
     private PublicPropertiesOfGoods currentCommodity;
     private PublicPropertiesOfGoods reformedCommodity;
-    ChangeInformationOfCommodityRequest(Clerk clerk,String context,PublicPropertiesOfGoods currentCommodity,PublicPropertiesOfGoods reformedCommodity)
+    ChangeInformationOfCommodityRequest(Clerk clerk,String context,PublicPropertiesOfGoods currentCommodity,PublicPropertiesOfGoods reformedCommodity)throws IOException
     {
         super(clerk,context);
         this.currentCommodity=currentCommodity;

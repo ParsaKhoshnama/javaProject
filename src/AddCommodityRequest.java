@@ -1,8 +1,10 @@
+import java.io.IOException;
+
 public class AddCommodityRequest extends Request
 {
    private PublicPropertiesOfGoods commodity;
    private Clerk clerk;
-   AddCommodityRequest(Clerk clerk,String context,PublicPropertiesOfGoods commodity)
+   AddCommodityRequest(Clerk clerk,String context,PublicPropertiesOfGoods commodity)throws IOException
    {
       super(clerk,context);
       this.clerk=clerk;

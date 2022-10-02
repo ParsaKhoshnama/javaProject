@@ -1,5 +1,6 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Scanner;
@@ -88,7 +89,7 @@ public class Mobile extends  DigitalCommodity
         System.out.println("average of scores: "+this.getAverageMark());
     }
 
-    static boolean addMobileFunction(String name,int ram,int valencyOfMemory,int weight,String operatingSystem ,String company,double price,Discount discount,String ID,String userName,String passWord)
+    static boolean addMobileFunction(String name,int ram,int valencyOfMemory,int weight,String operatingSystem ,String company,double price,Discount discount,String ID,String userName,String passWord)throws IOException
     {
         CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
@@ -105,7 +106,7 @@ public class Mobile extends  DigitalCommodity
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",mobile);
         return true;
     }
-    void changeInformationOfMobile(Clerk clerk)
+    void changeInformationOfMobile(Clerk clerk)throws IOException
     {
         Mobile mobile=new Mobile(this.getName(),this.getRam(),this.getValencyOfMemory(),
                 this.getOperatingSystem(),this.getWeight(),this.getCompany(),this.getPrice(),

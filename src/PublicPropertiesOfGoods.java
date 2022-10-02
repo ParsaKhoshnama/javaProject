@@ -1,5 +1,6 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -196,7 +197,7 @@ abstract public class PublicPropertiesOfGoods
         System.out.println("your number is mor than commodity count");
         return false;
     }
-  static  boolean addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)
+  static  boolean addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)throws IOException
     {
         Scanner sc=new Scanner(System.in);
         CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
@@ -342,7 +343,7 @@ abstract public class PublicPropertiesOfGoods
         }
         Commodity.findCommodity(ID).showScores();
     }
-    void changeInformation()
+    void changeInformation()throws IOException
     {
         if(this instanceof LapTop)
             ((LapTop)this).changeInformationOfLapTop(this.getClerk());

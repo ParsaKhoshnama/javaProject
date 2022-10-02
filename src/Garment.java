@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -141,7 +142,7 @@ public abstract class Garment extends PublicPropertiesOfGoods implements Compara
         }
         Collections.sort(Garment.getListOfAllGarmentsAl());
     }
-    static boolean addGarmentFunction(String userName,String passWord,String commodityCommand,String company,double price,Discount discount,String ID,String name )
+    static boolean addGarmentFunction(String userName,String passWord,String commodityCommand,String company,double price,Discount discount,String ID,String name )throws IOException
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter country: ");

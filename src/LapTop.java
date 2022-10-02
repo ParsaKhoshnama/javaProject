@@ -1,5 +1,6 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -81,7 +82,7 @@ public class LapTop extends DigitalCommodity
        System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
        System.out.println("average of scores: "+this.getAverageMark());
    }
-   static boolean addLapTopFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,int ram,int valencyOfMemory,int weight,String operatingSystem)
+   static boolean addLapTopFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,int ram,int valencyOfMemory,int weight,String operatingSystem)throws IOException
    {
        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
        Scanner sc=new Scanner(System.in);
@@ -109,7 +110,7 @@ public class LapTop extends DigitalCommodity
        }
        return true;
    }
-   void changeInformationOfLapTop(Clerk clerk)
+   void changeInformationOfLapTop(Clerk clerk)throws IOException
    {
        LapTop lapTop=new LapTop(this.getName(),this.getRam(),
                this.getValencyOfMemory(),this.getOperatingSystem(),this.getWeight(),this.getCompany(),

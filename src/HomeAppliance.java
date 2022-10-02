@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -227,7 +228,7 @@ abstract public class HomeAppliance extends PublicPropertiesOfGoods implements C
         }
         Collections.sort(HomeAppliance.getListOfHomeAppliancesAl());
     }
-    static boolean addHomeApplianceFunction(String commodityCommand,String name,String company,String ID,double price,Discount discount,String userName,String passWord)
+    static boolean addHomeApplianceFunction(String commodityCommand,String name,String company,String ID,double price,Discount discount,String userName,String passWord)throws IOException
     {
         Scanner sc=new Scanner(System.in);
         String gurantee;

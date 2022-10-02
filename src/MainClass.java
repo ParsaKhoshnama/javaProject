@@ -1,6 +1,8 @@
 
 import exceptions.CheckDefaultExceptions;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -11,12 +13,12 @@ import java.time.*;
 public class MainClass {
     static Scanner sc=new Scanner(System.in);
     static String userName,passWord;
-    public static void main(String[] args)
+    public static void main(String[] args)throws IOException
     {
-
         Admin admin=Admin.creatAdminObject();
         String loginOrRegisterationcommand;
-
+        File adminProperties=new File("properties.txt");
+        System.out.println(adminProperties.isFile());
         while(true)
         {
             System.out.printf("if you have registrated before enter (log in) else enter(registeration): ");
@@ -361,23 +363,23 @@ public class MainClass {
         passWord=sc.nextLine();
         System.out.println();
     }
-    static void getRegisterationInformations()
+    static void getRegisterationInformations()throws IOException
     {
        Person.getRegisterationInformations();
     }
-    static void registerationFunction()
+    static void registerationFunction()throws IOException
     {
        Person.getRegisterationInformations();
     }
-    static void adminCheckRequests()
+    static void adminCheckRequests()throws IOException
     {
        Admin.creatAdminObject().adminCheckRequests();
     }
-   static void changeInformationFunction(String userName,String passWord)
+   static void changeInformationFunction(String userName,String passWord)throws IOException
     {
        Person.findPerson(userName,passWord).changeInformation();
     }
-    static boolean addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)
+    static boolean addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)throws IOException
     {
       return   PublicPropertiesOfGoods.addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
     }

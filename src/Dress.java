@@ -1,5 +1,6 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -122,7 +123,7 @@ public class Dress extends Garment
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static boolean addDressFunction(String name,String country,String genus,String company,double price,Discount discount,String ID,String userName,String passWord)
+    static boolean addDressFunction(String name,String country,String genus,String company,double price,Discount discount,String ID,String userName,String passWord)throws IOException
     {
         CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
@@ -148,7 +149,7 @@ public class Dress extends Garment
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",dress);
         return true;
     }
-    void changeDressInformation(Clerk clerk)
+    void changeDressInformation(Clerk clerk)throws IOException
     {
         Dress dress=new Dress(this.getName(),this.getNameOfKind(),this.getSize(),
                 this.getCountry(),this.getGenus(),this.getCompany(),this.getPrice(),

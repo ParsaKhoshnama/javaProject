@@ -1,6 +1,9 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.Scanner;
+import workWithFiles.MakeFiles;
 public class Admin {
 
     private static Admin admin=null;
@@ -14,11 +17,16 @@ public class Admin {
         this.userName=userName;
         this.passWord=passWord;
     }
-    public static Admin creatAdminObject()
+    public static Admin creatAdminObject()throws IOException
     {
+        File adminProperties=new File("properties.txt");
+        String userName;
+        String passWord;
         if(admin==null)
         {
             admin=new Admin("admin","admin");
+            MakeFiles makeFiles=new MakeFiles();
+            makeFiles.createFirstDirectories();
             return admin;
         }
         else
@@ -171,7 +179,7 @@ public class Admin {
             }
         }
     }
-    void adminCheckRequests()
+    void adminCheckRequests()throws IOException
     {
         Scanner sc=new Scanner(System.in);
         String requestCommand;

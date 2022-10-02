@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -171,7 +172,7 @@ public class Clerk extends Person
             System.out.println("__________________________________________________");
         }
     }
-    static void clerkRegisteration(String firstName,String lastName,String phoneNumber,String eMail,String userName,String passWord )
+    static void clerkRegisteration(String firstName,String lastName,String phoneNumber,String eMail,String userName,String passWord )throws IOException
     {
         if(Person.checkPersonsInformation(firstName,lastName,phoneNumber,eMail,passWord,userName))
         {

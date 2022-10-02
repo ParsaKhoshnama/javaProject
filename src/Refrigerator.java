@@ -1,5 +1,6 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -118,7 +119,7 @@ public class Refrigerator extends HomeAppliance
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static boolean addRefrigeratorFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,Discount discount,String ID,String userName,String passWord)
+    static boolean addRefrigeratorFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,Discount discount,String ID,String userName,String passWord)throws IOException
     {
         CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
@@ -166,7 +167,7 @@ public class Refrigerator extends HomeAppliance
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",refrigerator);
         return true;
     }
-   void changeInformationOfRefrigerator(Clerk clerk)
+   void changeInformationOfRefrigerator(Clerk clerk)throws IOException
     {
         Refrigerator refrigerator=new Refrigerator(this.getName(),this.getDegreeName(),
                 this.isGuearantee(),this.getContent(),this.getNameOfKindOfFridge(),

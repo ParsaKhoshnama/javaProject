@@ -1,7 +1,9 @@
+import java.io.IOException;
+
 public class RemoveCommodityRequest extends Request
 {
     private PublicPropertiesOfGoods commodity;
-    RemoveCommodityRequest(Clerk clerk,PublicPropertiesOfGoods commodity,String context)
+    RemoveCommodityRequest(Clerk clerk,PublicPropertiesOfGoods commodity,String context)throws IOException
     {
         super(clerk,context);
         this.commodity=commodity;

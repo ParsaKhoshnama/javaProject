@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public abstract class Request
 {
    private String context;
@@ -28,7 +30,7 @@ public abstract class Request
    {
        return this.context;
    }
-    void addRequest()
+    void addRequest()throws IOException
     {
         if(this.statusOfAddingRequestToREquestListOfAdmin==false)
         {
@@ -39,7 +41,7 @@ public abstract class Request
         else
             System.out.println("your request has been sended before");
     }
-    void setStatusOfRequestforAdmin(String statusOfRequestforAdmin)
+    void setStatusOfRequestforAdmin(String statusOfRequestforAdmin)throws IOException
     {
         this.statusOfRequestforAdmin=statusOfRequestforAdmin;
         if(statusOfRequestforAdmin.equals("accept"))
