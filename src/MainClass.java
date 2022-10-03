@@ -13,12 +13,12 @@ import java.time.*;
 public class MainClass {
     static Scanner sc=new Scanner(System.in);
     static String userName,passWord;
-    public static void main(String[] args)throws IOException
+    public static void main(String[] args)throws IOException,ClassNotFoundException
     {
         Admin admin=Admin.creatAdminObject();
         String loginOrRegisterationcommand;
-        File adminProperties=new File("properties.txt");
-        System.out.println(adminProperties.isFile());
+      //  File adminProperties=new File("properties.txt");
+      //  System.out.println(adminProperties.isFile());
         while(true)
         {
             System.out.printf("if you have registrated before enter (log in) else enter(registeration): ");
@@ -363,15 +363,15 @@ public class MainClass {
         passWord=sc.nextLine();
         System.out.println();
     }
-    static void getRegisterationInformations()throws IOException
+    static void getRegisterationInformations()throws IOException,ClassNotFoundException
     {
        Person.getRegisterationInformations();
     }
-    static void registerationFunction()throws IOException
+    static void registerationFunction()throws IOException,ClassNotFoundException
     {
        Person.getRegisterationInformations();
     }
-    static void adminCheckRequests()throws IOException
+    static void adminCheckRequests()throws IOException,ClassNotFoundException
     {
        Admin.creatAdminObject().adminCheckRequests();
     }
@@ -379,7 +379,7 @@ public class MainClass {
     {
        Person.findPerson(userName,passWord).changeInformation();
     }
-    static boolean addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)throws IOException
+    static boolean addCommodityFunction(String userName,String passWord,String categoryCommand,String commodityCommand)throws IOException,ClassNotFoundException
     {
       return   PublicPropertiesOfGoods.addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
     }

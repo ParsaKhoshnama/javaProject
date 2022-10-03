@@ -117,7 +117,7 @@ public class Shoes extends Garment
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-   static boolean addShooesFunction(String name,String country,String genus,String company,double price,Discount discount,String ID,String userName,String passWord)throws IOException
+   static boolean addShooesFunction(String name,String country,String genus,String company,double price,Discount discount,String ID,String userName,String passWord)throws IOException,ClassNotFoundException
     {
         CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
@@ -145,7 +145,7 @@ public class Shoes extends Garment
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",shoes);
         return true;
     }
-    void changeShoesInformation(Clerk clerk)throws IOException
+    void changeShoesInformation(Clerk clerk)throws IOException,ClassNotFoundException
     {
        Shoes shoes=new Shoes(this.getName(),this.getNameOfKind(),this.getSize(),
                this.getCountry(),this.getGenus(),this.getCompany(),this.getPrice(),

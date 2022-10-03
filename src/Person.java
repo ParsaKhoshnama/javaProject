@@ -71,7 +71,7 @@ public abstract class Person
     {
         return this.passWord;
     }
- static boolean  checkPersonsInformation(String firstName,String lastName, String phoneNumber,String eMail,String passWord,String userName)throws IOException
+ static boolean  checkPersonsInformation(String firstName,String lastName, String phoneNumber,String eMail,String passWord,String userName)throws IOException,ClassNotFoundException
  {
      for(int i=0;i<Admin.creatAdminObject().getPersonsListAL().size();i++)
      {
@@ -111,7 +111,7 @@ public abstract class Person
       return true;
   }
 
-  static boolean checkPasswordAndUsername(String passWord, String userName)throws IOException
+  static boolean checkPasswordAndUsername(String passWord, String userName)throws IOException,ClassNotFoundException
   {
       for(int i=0;i<Admin.creatAdminObject().getPersonsListAL().size();i++)
       {
@@ -239,7 +239,7 @@ public abstract class Person
         System.out.println();
         System.out.println("------------------");
     }
-    static void getRegisterationInformations()throws IOException
+    static void getRegisterationInformations()throws IOException,ClassNotFoundException
     {
         CheckMyExceptions checkMyExceptions=new CheckMyExceptions();
         Scanner sc = new Scanner(System.in);

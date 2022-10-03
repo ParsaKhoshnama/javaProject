@@ -83,7 +83,7 @@ public class Television extends HomeAppliance
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static boolean addTelevisionFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,Discount discount,String ID,String userName,String passWord)throws IOException
+    static boolean addTelevisionFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,Discount discount,String ID,String userName,String passWord)throws IOException,ClassNotFoundException
     {
         CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
@@ -101,7 +101,7 @@ public class Television extends HomeAppliance
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",television);
         return true;
     }
-    void changeTelevisionInformation(Clerk clerk)throws IOException
+    void changeTelevisionInformation(Clerk clerk)throws IOException,ClassNotFoundException
     {
         Television television=new Television(this.getName(),this.getDegreeName(),
                 this.isGuearantee(),this.getSizeOfScreen(),this.getGardeOfScreen(),

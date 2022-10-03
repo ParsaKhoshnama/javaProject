@@ -3,7 +3,7 @@ import java.io.IOException;
 public class RemoveCommodityRequest extends Request
 {
     private PublicPropertiesOfGoods commodity;
-    RemoveCommodityRequest(Clerk clerk,PublicPropertiesOfGoods commodity,String context)throws IOException
+    RemoveCommodityRequest(Clerk clerk,PublicPropertiesOfGoods commodity,String context)throws IOException,ClassNotFoundException
     {
         super(clerk,context);
         this.commodity=commodity;

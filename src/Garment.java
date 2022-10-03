@@ -142,7 +142,7 @@ public abstract class Garment extends PublicPropertiesOfGoods implements Compara
         }
         Collections.sort(Garment.getListOfAllGarmentsAl());
     }
-    static boolean addGarmentFunction(String userName,String passWord,String commodityCommand,String company,double price,Discount discount,String ID,String name )throws IOException
+    static boolean addGarmentFunction(String userName,String passWord,String commodityCommand,String company,double price,Discount discount,String ID,String name )throws IOException,ClassNotFoundException
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter country: ");

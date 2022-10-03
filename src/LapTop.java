@@ -82,7 +82,7 @@ public class LapTop extends DigitalCommodity
        System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
        System.out.println("average of scores: "+this.getAverageMark());
    }
-   static boolean addLapTopFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,int ram,int valencyOfMemory,int weight,String operatingSystem)throws IOException
+   static boolean addLapTopFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,int ram,int valencyOfMemory,int weight,String operatingSystem)throws IOException,ClassNotFoundException
    {
        CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
        Scanner sc=new Scanner(System.in);
@@ -110,7 +110,7 @@ public class LapTop extends DigitalCommodity
        }
        return true;
    }
-   void changeInformationOfLapTop(Clerk clerk)throws IOException
+   void changeInformationOfLapTop(Clerk clerk)throws IOException,ClassNotFoundException
    {
        LapTop lapTop=new LapTop(this.getName(),this.getRam(),
                this.getValencyOfMemory(),this.getOperatingSystem(),this.getWeight(),this.getCompany(),

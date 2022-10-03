@@ -172,7 +172,7 @@ public class Clerk extends Person
             System.out.println("__________________________________________________");
         }
     }
-    static void clerkRegisteration(String firstName,String lastName,String phoneNumber,String eMail,String userName,String passWord )throws IOException
+    static void clerkRegisteration(String firstName,String lastName,String phoneNumber,String eMail,String userName,String passWord )throws IOException,ClassNotFoundException
     {
         if(Person.checkPersonsInformation(firstName,lastName,phoneNumber,eMail,passWord,userName))
         {

@@ -95,7 +95,7 @@ public class Stove extends HomeAppliance
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static boolean addStoveFunction(String name,String degreeOfconsumption,boolean gurant,String company,String ID,double price,Discount discount,String userName,String passWord)throws IOException
+    static boolean addStoveFunction(String name,String degreeOfconsumption,boolean gurant,String company,String ID,double price,Discount discount,String userName,String passWord)throws IOException,ClassNotFoundException
     {
         CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
@@ -128,7 +128,7 @@ public class Stove extends HomeAppliance
         }
         return true;
     }
-    void changeInformationOfStove(Clerk clerk)throws IOException
+    void changeInformationOfStove(Clerk clerk)throws IOException,ClassNotFoundException
     {
         Stove stove=new Stove(this.getName(),this.getDegreeName(),this.isGuearantee(),
                 this.getGenus(),this.getCountOfFlames(),this.isGasOven(),this.getCount(),

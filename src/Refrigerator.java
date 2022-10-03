@@ -119,7 +119,7 @@ public class Refrigerator extends HomeAppliance
         System.out.println("price after discount: "+this.getPriceAfterDiscount()+" T");
         System.out.println("average of scores: "+this.getAverageMark());
     }
-    static boolean addRefrigeratorFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,Discount discount,String ID,String userName,String passWord)throws IOException
+    static boolean addRefrigeratorFunction(String name,String degreeOfconsumption,boolean gurant,String company,double price,Discount discount,String ID,String userName,String passWord)throws IOException,ClassNotFoundException
     {
         CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
@@ -167,7 +167,7 @@ public class Refrigerator extends HomeAppliance
         AddCommodityRequest request=new AddCommodityRequest(Clerk.findingClerk(userName,passWord),"add commodity request",refrigerator);
         return true;
     }
-   void changeInformationOfRefrigerator(Clerk clerk)throws IOException
+   void changeInformationOfRefrigerator(Clerk clerk)throws IOException,ClassNotFoundException
     {
         Refrigerator refrigerator=new Refrigerator(this.getName(),this.getDegreeName(),
                 this.isGuearantee(),this.getContent(),this.getNameOfKindOfFridge(),

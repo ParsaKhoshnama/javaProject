@@ -228,7 +228,7 @@ abstract public class HomeAppliance extends PublicPropertiesOfGoods implements C
         }
         Collections.sort(HomeAppliance.getListOfHomeAppliancesAl());
     }
-    static boolean addHomeApplianceFunction(String commodityCommand,String name,String company,String ID,double price,Discount discount,String userName,String passWord)throws IOException
+    static boolean addHomeApplianceFunction(String commodityCommand,String name,String company,String ID,double price,Discount discount,String userName,String passWord)throws IOException,ClassNotFoundException
     {
         Scanner sc=new Scanner(System.in);
         String gurantee;

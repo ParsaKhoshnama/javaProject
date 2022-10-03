@@ -30,7 +30,7 @@ public abstract class Request
    {
        return this.context;
    }
-    void addRequest()throws IOException
+    void addRequest()throws IOException,ClassNotFoundException
     {
         if(this.statusOfAddingRequestToREquestListOfAdmin==false)
         {
@@ -41,7 +41,7 @@ public abstract class Request
         else
             System.out.println("your request has been sended before");
     }
-    void setStatusOfRequestforAdmin(String statusOfRequestforAdmin)throws IOException
+    void setStatusOfRequestforAdmin(String statusOfRequestforAdmin)throws IOException,ClassNotFoundException
     {
         this.statusOfRequestforAdmin=statusOfRequestforAdmin;
         if(statusOfRequestforAdmin.equals("accept"))

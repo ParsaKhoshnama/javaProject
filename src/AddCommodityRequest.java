@@ -4,7 +4,7 @@ public class AddCommodityRequest extends Request
 {
    private PublicPropertiesOfGoods commodity;
    private Clerk clerk;
-   AddCommodityRequest(Clerk clerk,String context,PublicPropertiesOfGoods commodity)throws IOException
+   AddCommodityRequest(Clerk clerk,String context,PublicPropertiesOfGoods commodity)throws IOException,ClassNotFoundException
    {
       super(clerk,context);
       this.clerk=clerk;

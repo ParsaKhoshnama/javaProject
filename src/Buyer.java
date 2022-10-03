@@ -251,7 +251,7 @@ public class Buyer extends Person
         }
     }
 
-    static void buyerRegisteration(String firstName,String lastName,String phoneNumber,String passWord,String userName,String eMail)throws IOException
+    static void buyerRegisteration(String firstName,String lastName,String phoneNumber,String passWord,String userName,String eMail)throws IOException,ClassNotFoundException
     {
         Scanner sc=new Scanner(System.in);
         if(Person.checkPersonsInformation(firstName,lastName,phoneNumber,eMail,passWord,userName))

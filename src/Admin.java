@@ -1,36 +1,49 @@
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 import java.util.Scanner;
 import workWithFiles.MakeFiles;
-public class Admin {
+import workWithFiles.MyObjectOutPutStream;
 
-    private static Admin admin=null;
+public class Admin implements Serializable {
+
     private String passWord;
     private String userName;
     private ArrayList<Person> personsListAL=new ArrayList<Person>();
     private ArrayList<Request> requestsOfclerks=new ArrayList<Request>();
     private ArrayList<Request> igonredRequestsOfclerks=new ArrayList<Request>();
-    private Admin(String userName,String passWord)
+    private Admin(String userName,String passWord)throws IOException
     {
         this.userName=userName;
         this.passWord=passWord;
     }
-    public static Admin creatAdminObject()throws IOException
+    public static Admin creatAdminObject()throws IOException,ClassNotFoundException
     {
-        File adminProperties=new File("properties.txt");
-        String userName;
-        String passWord;
-        if(admin==null)
+        File savedDataDirectory=new File("saved data");
+        if(!savedDataDirectory.isDirectory())
         {
-            admin=new Admin("admin","admin");
             MakeFiles makeFiles=new MakeFiles();
-            makeFiles.createFirstDirectories();
+            makeFiles.createFirstDirectoriesAndFiles();
+            Admin admin=new Admin("admin","admin");
+            File adminObject=new File("saved data//admin","admin object");
+            adminObject.createNewFile();
+            MyObjectOutPutStream.setFile(adminObject);
+            MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(adminObject);
+            myObjectOutPutStream.writeObject(admin);
+            myObjectOutPutStream.close();
             return admin;
         }
-        else
+        Admin admin=null;
+        File file=new File("saved data//admin//admin object");
+        try(ObjectInputStream objectInputStream=new ObjectInputStream(new FileInputStream(file)))
+        {
+             admin=(Admin)objectInputStream.readObject();
+             return admin;
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
             return admin;
+        }
     }
     ArrayList<Person> getPersonsListAL()
     {
@@ -179,7 +192,7 @@ public class Admin {
             }
         }
     }
-    void adminCheckRequests()throws IOException
+    void adminCheckRequests()throws IOException,ClassNotFoundException
     {
         Scanner sc=new Scanner(System.in);
         String requestCommand;

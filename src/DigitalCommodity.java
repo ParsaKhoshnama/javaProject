@@ -159,7 +159,7 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods implement
         }
         Collections.sort(DigitalCommodity.getDigiritlaCommodityAL());
     }
-   static boolean addDigitlaCommodityFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,String commodityCommand)throws IOException
+   static boolean addDigitlaCommodityFunction(String name,String company,double price,Discount discount,String ID,String userName,String passWord,String commodityCommand)throws IOException,ClassNotFoundException
     {
         CheckDefaultExceptions checkDefaultExceptions=new CheckDefaultExceptions();
         Scanner sc=new Scanner(System.in);
