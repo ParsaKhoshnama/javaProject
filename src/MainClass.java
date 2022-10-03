@@ -17,8 +17,6 @@ public class MainClass {
     {
         Admin admin=Admin.creatAdminObject();
         String loginOrRegisterationcommand;
-      //  File adminProperties=new File("properties.txt");
-      //  System.out.println(adminProperties.isFile());
         while(true)
         {
             System.out.printf("if you have registrated before enter (log in) else enter(registeration): ");
