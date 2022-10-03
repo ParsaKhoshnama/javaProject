@@ -35,13 +35,13 @@ public class MakeFiles
     {
         File categories=new File(file,"categories");
         categories.mkdir();
-        File garments=new File(file,"garments");
+        File garments=new File(categories,"garments");
         garments.mkdir();
         this.createGarmentFolders(garments);
-        File homeAppliances=new File(file,"home appliances");
+        File homeAppliances=new File(categories,"home appliances");
         homeAppliances.mkdir();
         this.createHomeAppliancesFolders(homeAppliances);
-        File Digitals=new File(file,"Digitals");
+        File Digitals=new File(categories,"Digitals");
         Digitals.mkdir();
         this.createDigitalFolders(Digitals);
     }
