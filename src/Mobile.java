@@ -1,10 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Scanner;
-public class Mobile extends  DigitalCommodity
+public class Mobile extends  DigitalCommodity implements Serializable
 {
     private int countOfSimcards;
     private String gradeOfCamera;

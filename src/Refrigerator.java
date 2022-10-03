@@ -1,10 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class Refrigerator extends HomeAppliance
+public class Refrigerator extends HomeAppliance implements Serializable
 {
     private int content;
     private   KindOfFridge kind;

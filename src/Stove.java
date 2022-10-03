@@ -1,11 +1,12 @@
 import exceptions.CheckDefaultExceptions;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
-public class Stove extends HomeAppliance
+public class Stove extends HomeAppliance implements Serializable
 {
     private String genus;
     private int countOfFlames;

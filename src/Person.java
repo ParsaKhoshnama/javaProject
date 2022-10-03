@@ -3,9 +3,10 @@ import exceptions.CheckMyExceptions;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
-public abstract class Person
+public abstract class Person implements Serializable
 {
     private String userName;
     private String passWord;

@@ -1,10 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-abstract public class DigitalCommodity extends PublicPropertiesOfGoods implements Comparable
+abstract public class DigitalCommodity extends PublicPropertiesOfGoods implements Comparable, Serializable
 {
     private static ArrayList<DigitalCommodity> DigiritlaCommodityAL=new ArrayList<DigitalCommodity>();
     private int ram;

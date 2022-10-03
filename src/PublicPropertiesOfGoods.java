@@ -1,10 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
-abstract public class PublicPropertiesOfGoods
+abstract public class PublicPropertiesOfGoods implements Serializable
 {
     private static boolean discountExceptionsFlag=true;
     private String company;

@@ -1,9 +1,10 @@
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Clerk extends Person
+public class Clerk extends Person implements Serializable
 {
 
 

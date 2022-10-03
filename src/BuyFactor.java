@@ -1,10 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
 import java.time.*;
 
-public class BuyFactor
+public class BuyFactor implements Serializable
 {
     private String dateString;
     private double price;

@@ -1,11 +1,12 @@
 import exceptions.CheckDefaultExceptions;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class Buyer extends Person
+public class Buyer extends Person implements Serializable
 {
 
     private double fund=0;

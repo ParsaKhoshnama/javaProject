@@ -1,9 +1,10 @@
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-public abstract class Garment extends PublicPropertiesOfGoods implements Comparable
+public abstract class Garment extends PublicPropertiesOfGoods implements Comparable, Serializable
 {
     private String country;
     private String genus;

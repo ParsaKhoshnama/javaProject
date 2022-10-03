@@ -1,6 +1,7 @@
 import java.io.IOException;
+import java.io.Serializable;
 
-public abstract class Request
+public abstract class Request implements Serializable
 {
    private String context;
    private Clerk clerk;

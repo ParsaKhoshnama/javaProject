@@ -2,13 +2,14 @@ import exceptions.CheckDefaultExceptions;
 import exceptions.CheckMyExceptions;
 import exceptions.InoperativeBuyException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
-public class Basket {
+public class Basket implements Serializable {
     private Buyer buyer;
     private BuyFactor factor;
     private double priceOfBasket = 0;

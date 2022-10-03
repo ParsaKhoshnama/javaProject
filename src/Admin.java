@@ -24,7 +24,7 @@ public class Admin implements Serializable {
             MakeFiles makeFiles=new MakeFiles();
             makeFiles.createFirstDirectoriesAndFiles();
             Admin admin=new Admin("admin","admin");
-            File adminObject=new File("saved data//admin","admin object");
+            File adminObject=new File("saved data//users//admin","admin object");
             adminObject.createNewFile();
             MyObjectOutPutStream.setFile(adminObject);
             MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(adminObject);

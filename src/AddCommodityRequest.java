@@ -1,6 +1,7 @@
 import java.io.IOException;
+import java.io.Serializable;
 
-public class AddCommodityRequest extends Request
+public class AddCommodityRequest extends Request implements Serializable
 {
    private PublicPropertiesOfGoods commodity;
    private Clerk clerk;

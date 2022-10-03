@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Score
+public class Score implements Serializable
 {
     private double mark;
     private Buyer buyer;

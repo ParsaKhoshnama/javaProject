@@ -1,6 +1,7 @@
 import java.io.IOException;
+import java.io.Serializable;
 
-public class ChangeInformationOfCommodityRequest extends Request
+public class ChangeInformationOfCommodityRequest extends Request implements Serializable
 {
     private PublicPropertiesOfGoods currentCommodity;
     private PublicPropertiesOfGoods reformedCommodity;

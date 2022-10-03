@@ -1,10 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class Television extends HomeAppliance
+public class Television extends HomeAppliance implements Serializable
 {
     private  int sizeOfScreen;
    private String gardeOfScreen;

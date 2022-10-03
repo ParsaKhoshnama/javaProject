@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Comment
+public class Comment implements Serializable
 {
    private PublicPropertiesOfGoods good;
    private Person person;

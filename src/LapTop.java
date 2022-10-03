@@ -1,10 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-public class LapTop extends DigitalCommodity
+public class LapTop extends DigitalCommodity implements Serializable
 {
     private boolean gamingCPU;
 

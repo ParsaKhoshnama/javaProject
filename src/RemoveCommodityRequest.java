@@ -1,6 +1,7 @@
 import java.io.IOException;
+import java.io.Serializable;
 
-public class RemoveCommodityRequest extends Request
+public class RemoveCommodityRequest extends Request implements Serializable
 {
     private PublicPropertiesOfGoods commodity;
     RemoveCommodityRequest(Clerk clerk,PublicPropertiesOfGoods commodity,String context)throws IOException,ClassNotFoundException

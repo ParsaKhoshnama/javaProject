@@ -1,7 +1,9 @@
+import java.awt.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
-public class SellFactor
+public class SellFactor implements Serializable
 {
     private Buyer buyer;
     private String dateString;

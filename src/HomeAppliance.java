@@ -1,9 +1,10 @@
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
-abstract public class HomeAppliance extends PublicPropertiesOfGoods implements Comparable
+abstract public class HomeAppliance extends PublicPropertiesOfGoods implements Comparable, Serializable
 {
     private boolean guearantee;
     private DegreeOfenergyConsumption degree;

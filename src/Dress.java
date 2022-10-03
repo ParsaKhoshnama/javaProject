@@ -1,10 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class Dress extends Garment
+public class Dress extends Garment implements Serializable
 {
 
     private KindOfDress kind;
