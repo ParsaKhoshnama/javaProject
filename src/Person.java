@@ -257,7 +257,6 @@ public abstract class Person implements Serializable
             System.out.println();
             System.out.printf("Enter passWord: ");
             passWord = sc.nextLine();
-
             System.out.println();
             if (buyerOrClerkCommand.equals("buyer"))
             {

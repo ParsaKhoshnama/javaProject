@@ -16,7 +16,6 @@ public class MainClass {
     public static void main(String[] args)throws IOException,ClassNotFoundException
     {
         Admin admin=Admin.creatAdminObject();
-        Admin admin1=Admin.creatAdminObject();
         String loginOrRegisterationcommand;
         while(true)
         {
