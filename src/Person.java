@@ -1,11 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 import exceptions.CheckMyExceptions;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.Callable;
+
 public abstract class Person implements Serializable
 {
     private String userName;
@@ -284,5 +284,45 @@ public abstract class Person implements Serializable
                 System.out.println("wrong command");
         }
 
+    }
+    private static void writeClerksInArrayLists()throws IOException,ClassNotFoundException
+    {
+        Clerk.getClerkListAl().clear();
+        Buyer.getBuyersListAl().clear();
+        File buyersList=new File("saved data\\users\\buyers\\list of buyers.txt");
+        FileInputStream fileInputStreamForBuyersLists=new FileInputStream(buyersList);
+        Buyer buyer;
+        while (true)
+        {
+            try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStreamForBuyersLists))
+            {
+                buyer=(Buyer)objectInputStream.readObject();
+                if(buyer!=null)
+                    Buyer.getBuyersListAl().add(buyer);
+
+            }
+            catch (Exception exception)
+            {
+                fileInputStreamForBuyersLists.close();
+                break;
+            }
+        }
+        File clerksList=new File("saved data\\users\\clerks\\list of clerks.txt");
+        FileInputStream fileInputStreamForClerksList=new FileInputStream(clerksList);
+        Clerk clerk;
+        while (true)
+        {
+            try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStreamForClerksList))
+            {
+                clerk=(Clerk)objectInputStream.readObject();
+                if(clerk!=null)
+                    Clerk.getClerkListAl().add(clerk);
+            }
+            catch (Exception exception)
+            {
+                fileInputStreamForClerksList.close();
+                break;
+            }
+        }
     }
 }

@@ -21,6 +21,12 @@ public class MakeFiles
         ckerks.mkdir();
         File buyers=new File(users,"buyers");
         buyers.mkdir();
+        File listOfPersons=new File(admin,"users.txt");
+        listOfPersons.createNewFile();
+        File listOfBuyers=new File(buyers,"list of buyers.txt");
+        listOfBuyers.createNewFile();
+        File listOfClerks=new File(ckerks,"list of clerks.txt");
+        listOfClerks.createNewFile();
         File listOfRequests =new File(admin,"list of requests.txt");
         listOfRequests.createNewFile();
         File adminProperties=new File(admin,"properties.txt");

@@ -24,19 +24,21 @@ public class Admin implements Serializable {
             MakeFiles makeFiles=new MakeFiles();
             makeFiles.createFirstDirectoriesAndFiles();
             Admin admin=new Admin("admin","admin");
-            File adminObject=new File("saved data\\users\\admin","admin object");
+            File adminObject=new File("saved data\\users\\admin","admin object.txt");
             adminObject.createNewFile();
             MyObjectOutPutStream.setFile(adminObject);
             MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(adminObject);
             myObjectOutPutStream.writeObject(admin);
             myObjectOutPutStream.close();
+            admin.writePersonsToArrayList();
             return admin;
         }
         Admin admin=null;
-        File file=new File("saved data\\users\\admin\\admin object");
+        File file=new File("saved data\\users\\admin\\admin object.txt");
         try(ObjectInputStream objectInputStream=new ObjectInputStream(new FileInputStream(file)))
         {
              admin=(Admin)objectInputStream.readObject();
+             admin.writePersonsToArrayList();
              return admin;
         }
         catch (Exception exception)
@@ -282,6 +284,27 @@ public class Admin implements Serializable {
             if(userName.equals("leave"))
                 return;
             System.out.println("wrong command.try again or type leave");
+        }
+    }
+    void writePersonsToArrayList()throws IOException,ClassNotFoundException
+    {
+        this.personsListAL.clear();
+        File file=new File("saved data\\users\\admin\\users.txt");
+        FileInputStream fileInputStream=new FileInputStream(file);
+        Person person;
+        while(true)
+        {
+            try (ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream))
+            {
+                person=(Person)objectInputStream.readObject();
+                if(person!=null)
+                    this.personsListAL.add(person);
+            }
+            catch (Exception exception)
+            {
+                fileInputStream.close();
+                break;
+            }
         }
     }
 }
