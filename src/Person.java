@@ -74,6 +74,7 @@ public abstract class Person implements Serializable
     }
  static boolean  checkPersonsInformation(String firstName,String lastName, String phoneNumber,String eMail,String passWord,String userName)throws IOException,ClassNotFoundException
  {
+     writeClerksAndBuyersInArrayLists();
      for(int i=0;i<Admin.creatAdminObject().getPersonsListAL().size();i++)
      {
          if(Admin.creatAdminObject().getPersonsListAL().get(i).getPassWord().equals(passWord) || Admin.creatAdminObject().getPersonsListAL().get(i).getUserName().equals(userName))
@@ -99,21 +100,9 @@ public abstract class Person implements Serializable
      }
      return true;
  }
-  static boolean checkPhoneNumber(String phoneNumber)
-  {
-      for(int i=0;i<phoneNumber.length();i++)
-      {
-          if(phoneNumber.charAt(i)<48 || phoneNumber.charAt(i)>57)
-          {
-              System.out.println("charector "+phoneNumber.charAt(i)+" for phoneNumber is wrong .try again");
-              return false;
-          }
-      }
-      return true;
-  }
-
   static boolean checkPasswordAndUsername(String passWord, String userName)throws IOException,ClassNotFoundException
   {
+      writeClerksAndBuyersInArrayLists();
       for(int i=0;i<Admin.creatAdminObject().getPersonsListAL().size();i++)
       {
           if(Admin.creatAdminObject().getPersonsListAL().get(i).getUserName().equals(userName) && Admin.creatAdminObject().getPersonsListAL().get(i).getPassWord().equals(passWord))
@@ -285,7 +274,7 @@ public abstract class Person implements Serializable
         }
 
     }
-    private static void writeClerksInArrayLists()throws IOException,ClassNotFoundException
+    private static void writeClerksAndBuyersInArrayLists()throws IOException,ClassNotFoundException
     {
         Clerk.getClerkListAl().clear();
         Buyer.getBuyersListAl().clear();
