@@ -33,7 +33,7 @@ public class Admin implements Serializable {
             return admin;
         }
         Admin admin=null;
-        File file=new File("saved data//admin//admin object");
+        File file=new File("saved data//users//admin//admin object");
         try(ObjectInputStream objectInputStream=new ObjectInputStream(new FileInputStream(file)))
         {
              admin=(Admin)objectInputStream.readObject();
