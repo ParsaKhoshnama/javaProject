@@ -307,7 +307,7 @@ public class Buyer extends Person implements Serializable
     private  void writePropertiesOfBuyerOnFile()throws IOException
     {
         StringBuilder buyerFolderPath=new StringBuilder("saved data\\users\\buyers\\");
-        buyerFolderPath.append("buyer "+this.getUserName()+"\\properties");
+        buyerFolderPath.append("buyer "+this.getUserName()+"\\properties.txt");
         File buyerProperties=new File(buyerFolderPath.toString());
         buyerProperties.delete();
         buyerProperties.createNewFile();
