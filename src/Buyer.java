@@ -1,9 +1,12 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class Buyer extends Person implements Serializable
@@ -260,6 +263,7 @@ public class Buyer extends Person implements Serializable
             Buyer buyer=new Buyer(userName,passWord,firstName,lastName,phoneNumber,eMail);
             Admin.creatAdminObject().addPersonToPersonsListAL(buyer);
             Buyer.addBuyerToBuyerListAl(buyer);
+            buyer.createBuyerDirectoryAndFiles();
         }
     }
     void changeCommodityFunction(Basket basket)
@@ -289,5 +293,32 @@ public class Buyer extends Person implements Serializable
             }
 
         }
+    }
+    private void createBuyerDirectoryAndFiles()throws IOException
+    {
+        StringBuilder buyerFolderName=new StringBuilder("buyer ");
+        buyerFolderName.append(this.getUserName());
+        StringBuilder buyerFolderPath=new StringBuilder("saved data\\users\\buyers\\");
+        buyerFolderPath.append(buyerFolderName.toString());
+        File buyerFolder=new File(buyerFolderPath.toString());
+        buyerFolder.mkdir();
+        this.writePropertiesOfBuyerOnFile();
+    }
+    private  void writePropertiesOfBuyerOnFile()throws IOException
+    {
+        StringBuilder buyerFolderPath=new StringBuilder("saved data\\users\\buyers\\");
+        buyerFolderPath.append("buyer "+this.getUserName()+"\\properties");
+        File buyerProperties=new File(buyerFolderPath.toString());
+        buyerProperties.delete();
+        buyerProperties.createNewFile();
+        FileOutputStream fileOutputStream=new FileOutputStream(buyerProperties);
+        Formatter formatter=new Formatter(fileOutputStream);
+        formatter.format("first name: %s\n",this.getName());
+        formatter.format("last name: %s\n",this.getLastName());
+        formatter.format("username: %s\n",this.getUserName());
+        formatter.format("email: %s\n",this.geteMail());
+        formatter.format("phone number: %s",this.getPhoneNumber());
+        formatter.close();
+        fileOutputStream.close();
     }
 }
