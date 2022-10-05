@@ -185,6 +185,7 @@ public abstract class Person implements Serializable
               System.out.println("wrong command");
           }
       }
+
   }
   void sendComment()
   {

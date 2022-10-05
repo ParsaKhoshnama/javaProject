@@ -180,6 +180,7 @@ public class Clerk extends Person implements Serializable
             Clerk clerk=new Clerk(userName,passWord,firstName,lastName,phoneNumber,eMail);
             BeClerkRequest BCrequest=new BeClerkRequest(clerk,"request for being clerk");
             BCrequest.addRequest();
+
         }
     }
     boolean checkCommodityID(String ID)

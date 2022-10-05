@@ -16,7 +16,7 @@ public class MainClass {
     static String userName,passWord;
     public static void main(String[] args)throws IOException,ClassNotFoundException
     {
-        Admin admin=Admin.creatAdminObject();
+        Admin.creatAdminObject();
         String loginOrRegisterationcommand;
         while(true)
         {
@@ -304,6 +304,7 @@ public class MainClass {
                         adminCommand = sc.nextLine();
                         if (adminCommand.equals("requests"))
                         {
+                            Request.writeRequestsInArrayListForAdmin();
                             if(Admin.creatAdminObject().getRequestsOfclerks().size()==0)
                             {
                                 System.out.println("there isn't any request");

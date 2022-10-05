@@ -1,5 +1,6 @@
-import java.io.IOException;
-import java.io.Serializable;
+import workWithFiles.MyObjectOutPutStream;
+
+import java.io.*;
 
 public abstract class Request implements Serializable
 {
@@ -38,6 +39,11 @@ public abstract class Request implements Serializable
             this.statusOfAddingRequestToREquestListOfAdmin=true;
             Admin.creatAdminObject().getRequestsOfclerks().add(this);
             Admin.creatAdminObject().getIgonredRequestsOfclerks().add(this);
+            File listOfRequestsForAdmin=new File("saved data\\users\\admin\\list of requests.txt");
+            MyObjectOutPutStream.setFile(listOfRequestsForAdmin);
+            MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfRequestsForAdmin);
+            myObjectOutPutStream.writeObject(this);
+            myObjectOutPutStream.close();
         }
         else
             System.out.println("your request has been sended before");
@@ -144,6 +150,27 @@ public abstract class Request implements Serializable
             {
                 Garment.getListOfAllGarmentsAl().remove(i);
                 return;
+            }
+        }
+    }
+    static void writeRequestsInArrayListForAdmin()throws IOException,ClassNotFoundException
+    {
+        Admin.creatAdminObject().getRequestsOfclerks().clear();
+        File listOfRequestsForAdmin=new File("saved data\\users\\admin\\list of requests.txt");
+        FileInputStream fileInputStream=new FileInputStream(listOfRequestsForAdmin);
+        Request request;
+        while (true)
+        {
+            try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream))
+            {
+                request=(Request)objectInputStream.readObject();
+                if(request!=null)
+                    Admin.creatAdminObject().getRequestsOfclerks().add(request);
+            }
+            catch (Exception exception)
+            {
+                fileInputStream.close();
+                break;
             }
         }
     }

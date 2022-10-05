@@ -289,10 +289,7 @@ public class Buyer extends Person implements Serializable
             else if(changeCommodityCommand.equals("leave"))
                 return;
             else
-            {
                 System.out.println("wrong command");
-            }
-
         }
     }
     private void createBuyerDirectoryAndFiles()throws IOException
