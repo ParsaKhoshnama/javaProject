@@ -312,10 +312,9 @@ public class Buyer extends Person implements Serializable
         objectOutPutStream.writeObject(this);
         objectOutPutStream.close();
     }
-    private  void writePropertiesOfBuyerOnFile(File file)throws IOException
+      void writePropertiesOfBuyerOnFile(File file)throws IOException
     {
         File buyerProperties=new File(file,"properties.txt");
-        buyerProperties.delete();
         buyerProperties.createNewFile();
         FileOutputStream fileOutputStream=new FileOutputStream(buyerProperties);
         Formatter formatter=new Formatter(fileOutputStream);

@@ -1,8 +1,12 @@
 
-import java.io.IOException;
-import java.io.Serializable;
+import workWithFiles.MyObjectOutPutStream;
+
+import javax.transaction.xa.XAException;
+import java.io.*;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Formatter;
 
 public class Clerk extends Person implements Serializable
 {
@@ -25,13 +29,23 @@ public class Clerk extends Person implements Serializable
         }
         return false;
     }
-    static void addToClerkListAl(Clerk clerk)
+    static void addToClerkListAl(Clerk clerk)throws IOException,ClassNotFoundException
     {
         clerkListAl.add(clerk);
+        File listOfClerks=new File("saved data\\users\\clerks\\list of clerks.txt");
+        MyObjectOutPutStream.setFile(listOfClerks);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfClerks);
+        myObjectOutPutStream.writeObject(clerk);
+        myObjectOutPutStream.close();
     }
-    void addToListOfCertainClerkRequests(Request request)
+    void addToListOfCertainClerkRequests(Request request)throws IOException,ClassNotFoundException
     {
         this.listOfCertainClerkRequests.add(request);
+        StringBuilder clerkFolderName=new StringBuilder("clerk ");
+        clerkFolderName.append(request.getClerk().getUserName());
+        File clerkFolder=new File("save data\\users\\clerks",clerkFolderName.toString());
+        clerkFolder.mkdir();
+        request.getClerk().createFiles(clerkFolder,request);
     }
    static Clerk findingClerk(String userName,String passWord)
     {
@@ -206,5 +220,33 @@ public class Clerk extends Person implements Serializable
                 return true;
         }
         return true;
+    }
+   private void createFiles(File file,Request request)throws IOException,ClassNotFoundException
+    {
+        File listOfCommodities=new File(file,"goods.txt");
+        listOfCommodities.createNewFile();
+        File listOfRequests=new File(file,"requests.txt");
+        listOfRequests.createNewFile();
+        File listOfSellFactors=new File(file,"sell factors.txt");
+        listOfSellFactors.createNewFile();
+        MyObjectOutPutStream.setFile(listOfRequests);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfRequests);
+        myObjectOutPutStream.writeObject(request);
+        myObjectOutPutStream.close();
+        this.writePropertiesOfClerks(file);
+    }
+    void writePropertiesOfClerks(File file)throws IOException,ClassNotFoundException
+    {
+        File properties=new File(file,"properties.txt");
+        properties.createNewFile();
+        FileOutputStream fileOutputStream=new FileOutputStream(properties);
+        Formatter formatter=new Formatter(fileOutputStream);
+        formatter.format("first name: %s\n",this.getName());
+        formatter.format("last name: %s\n",this.getLastName());
+        formatter.format("username: %s\n",this.getUserName());
+        formatter.format("phone number: %s\n",this.getPhoneNumber());
+        formatter.format("e mail: %s",this.geteMail());
+        formatter.close();
+        fileOutputStream.close();
     }
 }

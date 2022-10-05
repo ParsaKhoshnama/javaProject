@@ -1,5 +1,6 @@
 import exceptions.CheckDefaultExceptions;
 import exceptions.CheckMyExceptions;
+import workWithFiles.MyObjectOutPutStream;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -40,33 +41,45 @@ public abstract class Person implements Serializable
     {
         return this.lastName;
     }
-    void seteMail(String eMail)
+    void seteMail(String eMail)throws IOException,ClassNotFoundException
     {
-        this.eMail=eMail;
+        if(this.checkEmail(eMail)==true)
+            this.eMail=eMail;
+        else
+            System.out.println("this eMail has been used before");
     }
     String geteMail()
     {
         return this.eMail;
     }
-    void setPhoneNumber(String phoneNumber)
+    void setPhoneNumber(String phoneNumber)throws IOException,ClassNotFoundException
     {
-        this.phoneNumber=phoneNumber;
+        if(this.checkPhoneNumber(phoneNumber)==true)
+            this.phoneNumber=phoneNumber;
+        else
+            System.out.println("this phone number has been used before");
     }
     String getPhoneNumber()
     {
         return this.phoneNumber;
     }
-    void setUserName(String userName)
+    void setUserName(String userName)throws IOException,ClassNotFoundException
     {
-        this.userName=userName;
+        if(this.checkUsername(userName)==true)
+            this.userName=userName;
+        else
+            System.out.println("this username has been used before");
     }
     String getUserName()
     {
         return this.userName;
     }
-    void setPassWord(String passWord)
+    void setPassWord(String passWord)throws IOException,ClassNotFoundException
     {
-        this.passWord=passWord;
+        if(this.checkPassword(passWord)==true)
+            this.passWord=passWord;
+        else
+            System.out.println("this password has been used before");
     }
     String getPassWord()
     {
@@ -110,6 +123,62 @@ public abstract class Person implements Serializable
       }
       return false;
   }
+  private  boolean checkPhoneNumber(String phoneNumber)throws IOException,ClassNotFoundException
+  {
+      if(this.getPhoneNumber().equals(phoneNumber))
+          return true;
+      else
+      {
+          for(int i=0;i<Admin.creatAdminObject().getPersonsListAL().size();i++)
+          {
+              if(Admin.creatAdminObject().getPersonsListAL().get(i).getPhoneNumber().equals(phoneNumber) && Admin.creatAdminObject().getPersonsListAL().get(i).getPhoneNumber().compareTo(this.getPhoneNumber())!=0)
+                  return false;
+          }
+          return true;
+      }
+  }
+  private boolean checkEmail(String eMail)throws IOException,ClassNotFoundException
+  {
+      if(this.geteMail().equals(eMail))
+          return true;
+      else
+      {
+          for(int i=0;i<Admin.creatAdminObject().getPersonsListAL().size();i++)
+          {
+              if(Admin.creatAdminObject().getPersonsListAL().get(i).geteMail().equals(eMail) && Admin.creatAdminObject().getPersonsListAL().get(i).geteMail().compareTo(this.geteMail())!=0)
+                  return false;
+          }
+          return true;
+      }
+  }
+  private boolean checkUsername(String userName)throws IOException,ClassNotFoundException
+  {
+      if(this.getUserName().equals(userName))
+          return true;
+      else
+      {
+          for(int i=0;i<Admin.creatAdminObject().getPersonsListAL().size();i++)
+          {
+              if(Admin.creatAdminObject().getPersonsListAL().get(i).getUserName().equals(userName) && Admin.creatAdminObject().getPersonsListAL().get(i).getUserName().compareTo(this.getUserName())!=0)
+                  return false;
+          }
+          return true;
+      }
+  }
+  private boolean checkPassword(String passWord)throws IOException,ClassNotFoundException
+  {
+      if(this.getPassWord().equals(passWord))
+          return true;
+      else
+      {
+          for(int i=0;i<Admin.creatAdminObject().getRequestsOfclerks().size();i++)
+          {
+              if(Admin.creatAdminObject().getPersonsListAL().get(i).getPassWord().equals(passWord) && Admin.creatAdminObject().getPersonsListAL().get(i).getPassWord().compareTo(this.getPassWord())!=0)
+                  return false;
+          }
+          return true;
+      }
+  }
   static Person findPerson(String userName,String passWord)
   {
       for(int i=0;i<Clerk.getClerkListAl().size();i++)
@@ -134,18 +203,22 @@ public abstract class Person implements Serializable
       }
       return null;
   }
-  void changeInformation()
+  void changeInformation()throws IOException,ClassNotFoundException
   {
       CheckMyExceptions checkMyExceptions=new CheckMyExceptions();
       Scanner sc=new Scanner(System.in);
       String changeInformationCommand;
+      String uerName=this.userName;
       Person person=Person.findPerson(userName,passWord);
       while (true)
       {
           System.out.printf("enter (name)or(last name)or(username)or(password)or(email)or(phone number)or(leave): ");
           changeInformationCommand=sc.nextLine();
           if(changeInformationCommand.equals("leave"))
+          {
+              this.editPropertiesFile(uerName);
               break;
+          }
           else if(changeInformationCommand.equals("name"))
           {
               String rename=sc.nextLine();
@@ -313,5 +386,76 @@ public abstract class Person implements Serializable
                 break;
             }
         }
+    }
+    private void editPropertiesFile(String userName)throws IOException,ClassNotFoundException
+    {
+        StringBuilder exPersonFolderName;
+        StringBuilder personFolderPath;
+        if(this instanceof Clerk)
+        {
+            exPersonFolderName=new StringBuilder("clerk ");
+            exPersonFolderName.append(userName);
+            File exPersonFolder=new File("saved data\\users\\clerks",exPersonFolderName.toString());
+            File exProperties=new File(exPersonFolder,"properties.txt");
+            exProperties.delete();
+            personFolderPath=new StringBuilder("clerk ");
+            personFolderPath.append(this.getUserName());
+            File personFolder=new File("saved data\\users\\clerks",personFolderPath.toString());
+            exPersonFolder.renameTo(personFolder);
+            ((Clerk)this).writePropertiesOfClerks(exPersonFolder);
+        }
+        else
+        {
+            exPersonFolderName=new StringBuilder("buyer ");
+            exPersonFolderName.append(userName);
+            File exPersonFolder=new File("saved data\\users\\buyers",exPersonFolderName.toString());
+            File exProperties=new File(exPersonFolder,"properties.txt");
+            exProperties.delete();
+            personFolderPath=new StringBuilder("buyer ");
+            personFolderPath.append(this.getUserName());
+            File personFolder=new File("saved data\\users\\buyers",personFolderPath.toString());
+            exPersonFolder.renameTo(personFolder);
+            ((Buyer)this).writePropertiesOfBuyerOnFile(exProperties);
+        }
+        this.editClerksAndBuyersFile();
+    }
+   private void editClerksAndBuyersFile()throws IOException,ClassNotFoundException
+    {
+        if(this instanceof Clerk)
+        {
+            File listOfClerks = new File("saved data\\users\\clerks\\list of clerks.txt");
+            listOfClerks.delete();
+            listOfClerks.createNewFile();
+            MyObjectOutPutStream.setFile(listOfClerks);
+            MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfClerks);
+            for(int i=0;i<Clerk.getClerkListAl().size();i++)
+                myObjectOutPutStream.writeObject(Clerk.getClerkListAl().get(i));
+            myObjectOutPutStream.close();
+        }
+        else
+        {
+            File listOfBuyers = new File("saved data\\users\\clerks\\list of buyers.txt");
+            listOfBuyers.delete();
+            listOfBuyers.createNewFile();
+            MyObjectOutPutStream.setFile(listOfBuyers);
+            MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfBuyers);
+            for(int i=0;i<Clerk.getClerkListAl().size();i++)
+                myObjectOutPutStream.writeObject(Clerk.getClerkListAl().get(i));
+            myObjectOutPutStream.close();
+        }
+        this.editUsersFileForAdmin();
+    }
+    private void editUsersFileForAdmin()throws IOException,ClassNotFoundException
+    {
+        File listOfPersonsForAdmin=new File("saved data\\users\\admin\\users.txt");
+        listOfPersonsForAdmin.delete();
+        listOfPersonsForAdmin.createNewFile();
+        MyObjectOutPutStream.setFile(listOfPersonsForAdmin);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfPersonsForAdmin);
+        for(int i=0;i<Buyer.getBuyersListAl().size();i++)
+            myObjectOutPutStream.writeObject(Buyer.getBuyersListAl().get(i));
+        for (int i=0;i<Clerk.getClerkListAl().size();i++)
+            myObjectOutPutStream.writeObject(Clerk.getClerkListAl().get(i));
+        myObjectOutPutStream.close();
     }
 }

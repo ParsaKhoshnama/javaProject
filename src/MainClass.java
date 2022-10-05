@@ -375,7 +375,7 @@ public class MainClass {
     {
        Admin.creatAdminObject().adminCheckRequests();
     }
-   static void changeInformationFunction(String userName,String passWord)throws IOException
+   static void changeInformationFunction(String userName,String passWord)throws IOException,ClassNotFoundException
     {
        Person.findPerson(userName,passWord).changeInformation();
     }
