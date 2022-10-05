@@ -1,4 +1,5 @@
 import exceptions.CheckDefaultExceptions;
+import workWithFiles.MyObjectOutPutStream;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -302,13 +303,21 @@ public class Buyer extends Person implements Serializable
         buyerFolderPath.append(buyerFolderName.toString());
         File buyerFolder=new File(buyerFolderPath.toString());
         buyerFolder.mkdir();
-        this.writePropertiesOfBuyerOnFile();
+        this.writePropertiesOfBuyerOnFile(buyerFolder);
+        File listOfPersonsForAdmin=new File("saved data\\users\\admin\\users.txt");
+        MyObjectOutPutStream.setFile(listOfPersonsForAdmin);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfPersonsForAdmin);
+        myObjectOutPutStream.writeObject(this);
+        myObjectOutPutStream.close();
+        File buyersList=new File("saved data\\users\\buyers\\list of buyers.txt");
+        MyObjectOutPutStream.setFile(buyersList);
+        MyObjectOutPutStream objectOutPutStream=new MyObjectOutPutStream(buyersList);
+        objectOutPutStream.writeObject(this);
+        objectOutPutStream.close();
     }
-    private  void writePropertiesOfBuyerOnFile()throws IOException
+    private  void writePropertiesOfBuyerOnFile(File file)throws IOException
     {
-        StringBuilder buyerPropertiesFilePath=new StringBuilder("saved data\\users\\buyers\\");
-        buyerPropertiesFilePath.append("buyer "+this.getUserName()+"\\properties.txt");
-        File buyerProperties=new File(buyerPropertiesFilePath.toString());
+        File buyerProperties=new File(file,"properties.txt");
         buyerProperties.delete();
         buyerProperties.createNewFile();
         FileOutputStream fileOutputStream=new FileOutputStream(buyerProperties);
