@@ -105,8 +105,6 @@ public class Admin implements Serializable {
     }
     void removeFromTempListRequest(Request request)
     {
-        if(request instanceof BeClerkRequest)
-        {
             for (int i = 0; i < this.igonredRequestsOfclerks.size(); i++)
             {
                 if (this.igonredRequestsOfclerks.get(i).getClerk().getPassWord().equals(request.getClerk().getPassWord()))
@@ -117,21 +115,6 @@ public class Admin implements Serializable {
                     }
                 }
             }
-        }
-        else
-        {
-            for(int i=0;i<this.igonredRequestsOfclerks.size();i++)
-            {
-                if(this.igonredRequestsOfclerks.get(i).getClerk().getPassWord().equals(request.getClerk().getPassWord()))
-                {
-                    if(this.igonredRequestsOfclerks.get(i).getContext().equals(request.getContext()))
-                    {
-                        this.igonredRequestsOfclerks.remove(i);
-                        return;
-                    }
-                }
-            }
-        }
     }
     void setRequestsOfclerks()throws IOException,ClassNotFoundException
     {
