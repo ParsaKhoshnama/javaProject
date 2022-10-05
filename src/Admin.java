@@ -31,6 +31,7 @@ public class Admin implements Serializable {
             myObjectOutPutStream.writeObject(admin);
             myObjectOutPutStream.close();
             admin.writePersonsToArrayList();
+            admin.writeRequestToArrayList();
             return admin;
         }
         Admin admin=null;
@@ -38,6 +39,7 @@ public class Admin implements Serializable {
         try(ObjectInputStream objectInputStream=new ObjectInputStream(new FileInputStream(file)))
         {
              admin=(Admin)objectInputStream.readObject();
+             admin.writePersonsToArrayList();
              admin.writePersonsToArrayList();
              return admin;
         }
@@ -131,19 +133,14 @@ public class Admin implements Serializable {
             }
         }
     }
-    void setRequestsOfclerks()
+    void setRequestsOfclerks()throws IOException,ClassNotFoundException
     {
         this.requestsOfclerks.clear();
-        /*
-       for(int i=0;i<this.requestsOfclerks.size();i++)
-       {
-           this.requestsOfclerks.remove(i);
-       }
-       */
        for(int i=0;i<this.igonredRequestsOfclerks.size();i++)
        {
            this.requestsOfclerks.add(this.igonredRequestsOfclerks.get(i));
        }
+       this.editRequestFileForAdmin();
     }
     void showAllPerson()
     {
@@ -198,23 +195,23 @@ public class Admin implements Serializable {
     {
         Scanner sc=new Scanner(System.in);
         String requestCommand;
-        for (int i = 0; i < Admin.creatAdminObject().getRequestsOfclerks().size(); i++)
+        for (int i = 0; i < this.getRequestsOfclerks().size(); i++)
         {
             while (true)
             {
-                Admin.creatAdminObject().showRequests(i);
+                this.showRequests(i);
                 System.out.printf("if you want to accept request enter(accept)or enter(reject) or (next): ");
                 requestCommand = sc.nextLine();
                 if (requestCommand.equals("accept"))
                 {
-                    Admin.creatAdminObject().getRequestsOfclerks().get(i).setStatusOfRequestforAdmin(requestCommand);
-                    Admin.creatAdminObject().removeFromTempListRequest(Admin.creatAdminObject().getRequestsOfclerks().get(i));
+                    this.getRequestsOfclerks().get(i).setStatusOfRequestforAdmin(requestCommand);
+                    this.removeFromTempListRequest(this.getRequestsOfclerks().get(i));
                     break;
                 }
                 if (requestCommand.equals("reject"))
                 {
-                    Admin.creatAdminObject().getRequestsOfclerks().get(i).setStatusOfRequestforAdmin(requestCommand);
-                    Admin.creatAdminObject().removeFromTempListRequest(Admin.creatAdminObject().getRequestsOfclerks().get(i));
+                    this.getRequestsOfclerks().get(i).setStatusOfRequestforAdmin(requestCommand);
+                    this.removeFromTempListRequest(this.getRequestsOfclerks().get(i));
                     break;
                 }
                 if(requestCommand.equals("next"))
@@ -306,6 +303,38 @@ public class Admin implements Serializable {
                 break;
             }
         }
+    }
+    private void writeRequestToArrayList()throws IOException,ClassNotFoundException
+    {
+        this.requestsOfclerks.clear();
+        File file=new File("saved data\\users\\admin\\list of requests.txt");
+        FileInputStream fileInputStream=new FileInputStream(file);
+        Request request;
+        while (true)
+        {
+            try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream))
+            {
+                request=(Request)objectInputStream.readObject();
+                if(request!=null)
+                    this.getRequestsOfclerks().add(request);
+            }
+            catch (Exception exception)
+            {
+                fileInputStream.close();
+                break;
+            }
+        }
+    }
+    private void editRequestFileForAdmin()throws IOException,ClassNotFoundException
+    {
+        File listOfRequestsForAdmin=new File("saved data\\users\\admin\\list of requests.txt");
+        listOfRequestsForAdmin.delete();
+        listOfRequestsForAdmin.createNewFile();
+        MyObjectOutPutStream.setFile(listOfRequestsForAdmin);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfRequestsForAdmin);
+        for(int i=0;i<this.requestsOfclerks.size();i++)
+            myObjectOutPutStream.writeObject(this.requestsOfclerks.get(i));
+        myObjectOutPutStream.close();
     }
 }
 
