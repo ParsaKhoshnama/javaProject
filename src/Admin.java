@@ -41,6 +41,9 @@ public class Admin implements Serializable {
              admin=(Admin)objectInputStream.readObject();
              admin.writePersonsToArrayList();
              admin.writePersonsToArrayList();
+             HomeAppliance.fillArrayListOfHomeAppliances();
+             DigitalCommodity.fillArraylistOfDigitalCommodities();
+             Garment.fillArrayListOfGarments();
              return admin;
         }
         catch (Exception exception)

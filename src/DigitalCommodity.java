@@ -1,7 +1,6 @@
 import exceptions.CheckDefaultExceptions;
 
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -183,6 +182,27 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods implement
         else
         {
            return Mobile.addMobileFunction(name,ram,valencyOfMemory,weight,operatingSystem,company,price,discount,ID,userName,passWord);
+        }
+    }
+    static void fillArraylistOfDigitalCommodities()throws IOException,ClassNotFoundException
+    {
+        DigitalCommodity.getDigiritlaCommodityAL().clear();
+        File listOfDigitalCommodities=new File("saved data\\categories\\Digitals\\list of digitals.txt");
+        FileInputStream fileInputStream=new FileInputStream(listOfDigitalCommodities);
+        DigitalCommodity digitalCommodity;
+        while (true)
+        {
+            try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream))
+            {
+                digitalCommodity=(DigitalCommodity)objectInputStream.readObject();
+                if(digitalCommodity!=null)
+                    DigitalCommodity.getDigiritlaCommodityAL().add(digitalCommodity);
+            }
+            catch (Exception exception)
+            {
+                fileInputStream.close();
+                break;
+            }
         }
     }
 }

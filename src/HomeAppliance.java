@@ -1,5 +1,4 @@
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -273,6 +272,27 @@ abstract public class HomeAppliance extends PublicPropertiesOfGoods implements C
         else
         {
           return   Refrigerator.addRefrigeratorFunction(name,degreeOfconsumption,gurant,company,price,discount,ID,userName,passWord);
+        }
+    }
+    static void fillArrayListOfHomeAppliances()throws IOException,ClassNotFoundException
+    {
+        HomeAppliance.getListOfHomeAppliancesAl().clear();
+        File listOfHomeAppliances=new File("saved data\\categories\\home appliances\\list of home appliances.txt");
+        FileInputStream fileInputStream=new FileInputStream(listOfHomeAppliances);
+        HomeAppliance homeAppliance;
+        while (true)
+        {
+            try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream))
+            {
+                homeAppliance=(HomeAppliance)objectInputStream.readObject();
+                if(homeAppliance!=null)
+                    HomeAppliance.getListOfHomeAppliancesAl().add(homeAppliance);
+            }
+            catch (Exception exception)
+            {
+                fileInputStream.close();
+                break;
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -159,5 +158,25 @@ public abstract class Garment extends PublicPropertiesOfGoods implements Compara
             return   Shoes.addShooesFunction(name,country,genus,company,price,discount,ID,userName,passWord);
         }
     }
-
+   static void fillArrayListOfGarments()throws IOException,ClassNotFoundException
+   {
+       Garment.getListOfAllGarmentsAl().clear();
+       File listOfGarments=new File("saved data\\categories\\garments\\list of garments.txt");
+       Garment garment;
+       FileInputStream fileInputStream=new FileInputStream(listOfGarments);
+       while (true)
+       {
+           try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream))
+           {
+               garment=(Garment)objectInputStream.readObject();
+               if(garment!=null)
+                   Garment.getListOfAllGarmentsAl().add(garment);
+           }
+           catch (Exception exception)
+           {
+               fileInputStream.close();
+               break;
+           }
+       }
+   }
 }
