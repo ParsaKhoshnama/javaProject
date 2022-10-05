@@ -8,7 +8,7 @@ import java.util.Formatter;
 
 public class MakeFiles
 {
-    public void createFirstDirectoriesAndFiles()throws IOException
+    public void createFirstDirectoriesAndFiles()throws IOException,ClassNotFoundException
     {
         File savedDataFolder=new File("saved data");
         savedDataFolder.mkdir();
@@ -37,35 +37,41 @@ public class MakeFiles
         formatter.close();
         fileOutputStream.close();
     }
-    private void creatFolders(File file)
+    private void creatFolders(File file)throws IOException,ClassNotFoundException
     {
         File categories=new File(file,"categories");
         categories.mkdir();
         File garments=new File(categories,"garments");
         garments.mkdir();
+        File listOfGarments=new File(categories,"list of garments.txt");
+        listOfGarments.createNewFile();
         this.createGarmentFolders(garments);
         File homeAppliances=new File(categories,"home appliances");
         homeAppliances.mkdir();
+        File listOfHomeAppliances=new File(categories,"list of home appliances.txt");
+        listOfHomeAppliances.createNewFile();
         this.createHomeAppliancesFolders(homeAppliances);
         File Digitals=new File(categories,"Digitals");
+        File listOfDigitals=new File(categories,"list of digitals.txt");
+       listOfDigitals.createNewFile();
         Digitals.mkdir();
         this.createDigitalFolders(Digitals);
     }
-    private void createDigitalFolders(File file)
+    private void createDigitalFolders(File file)throws IOException,ClassNotFoundException
     {
         File laptops=new File(file,"lap tops");
         laptops.mkdir();
         File mobiles=new File(file,"mobiles");
         mobiles.mkdir();
     }
-    private void createGarmentFolders(File file)
+    private void createGarmentFolders(File file)throws IOException,ClassNotFoundException
     {
         File dresses=new File(file,"dresses");
         dresses.mkdir();
         File shoes=new File(file,"shoes");
         shoes.mkdir();
     }
-    private void createHomeAppliancesFolders(File file)
+    private void createHomeAppliancesFolders(File file)throws IOException,ClassNotFoundException
     {
         File televisions=new File(file,"televisions");
         televisions.mkdir();
