@@ -30,8 +30,6 @@ public class Admin implements Serializable {
             MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(adminObject);
             myObjectOutPutStream.writeObject(admin);
             myObjectOutPutStream.close();
-            admin.writePersonsToArrayList();
-            admin.writeRequestToArrayList();
             return admin;
         }
         Admin admin=null;
@@ -40,7 +38,8 @@ public class Admin implements Serializable {
         {
              admin=(Admin)objectInputStream.readObject();
              admin.writePersonsToArrayList();
-             admin.writeRequestToArrayList();
+             admin.writeRequestToArrayList(admin.requestsOfclerks);
+             admin.writeRequestToArrayList(admin.igonredRequestsOfclerks);
              HomeAppliance.fillArrayListOfHomeAppliances();
              DigitalCommodity.fillArraylistOfDigitalCommodities();
              Garment.fillArrayListOfGarments();
@@ -290,9 +289,9 @@ public class Admin implements Serializable {
             }
         }
     }
-    private void writeRequestToArrayList()throws IOException,ClassNotFoundException
+    private void writeRequestToArrayList(ArrayList<Request> arrayList)throws IOException,ClassNotFoundException
     {
-        this.requestsOfclerks.clear();
+        arrayList.clear();
         File file=new File("saved data\\users\\admin\\list of requests.txt");
         FileInputStream fileInputStream=new FileInputStream(file);
         Request request;
@@ -302,7 +301,7 @@ public class Admin implements Serializable {
             {
                 request=(Request)objectInputStream.readObject();
                 if(request!=null)
-                    this.getRequestsOfclerks().add(request);
+                    arrayList.add(request);
             }
             catch (Exception exception)
             {
