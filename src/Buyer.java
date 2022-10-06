@@ -311,6 +311,8 @@ public class Buyer extends Person implements Serializable
         MyObjectOutPutStream objectOutPutStream=new MyObjectOutPutStream(buyersList);
         objectOutPutStream.writeObject(this);
         objectOutPutStream.close();
+        File listOfBuyFactors=new File(buyerFolder,"buy factors.txt");
+        listOfBuyFactors.createNewFile();
     }
       void writePropertiesOfBuyerOnFile(File file)throws IOException
     {
