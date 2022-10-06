@@ -52,9 +52,9 @@ public class MakeFiles
         listOfHomeAppliances.createNewFile();
         this.createHomeAppliancesFolders(homeAppliances);
         File Digitals=new File(categories,"Digitals");
+        Digitals.mkdir();
         File listOfDigitals=new File(Digitals,"list of digitals.txt");
        listOfDigitals.createNewFile();
-        Digitals.mkdir();
         this.createDigitalFolders(Digitals);
     }
     private void createDigitalFolders(File file)throws IOException,ClassNotFoundException
