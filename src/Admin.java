@@ -40,7 +40,7 @@ public class Admin implements Serializable {
         {
              admin=(Admin)objectInputStream.readObject();
              admin.writePersonsToArrayList();
-             admin.writePersonsToArrayList();
+             admin.writeRequestToArrayList();
              HomeAppliance.fillArrayListOfHomeAppliances();
              DigitalCommodity.fillArraylistOfDigitalCommodities();
              Garment.fillArrayListOfGarments();

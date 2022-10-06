@@ -249,4 +249,15 @@ public class Clerk extends Person implements Serializable
         formatter.close();
         fileOutputStream.close();
     }
+    void addRequestInFileForClerk(Request request)throws IOException,ClassNotFoundException
+    {
+        StringBuilder pathOfFolder=new StringBuilder("saved data\\users\\clerks\\");
+        pathOfFolder.append("clerk "+this.getUserName());
+        File clerkFolder=new File(pathOfFolder.toString());
+        File listOfRequestsForClerk=new File(clerkFolder,"requests.txt");
+        MyObjectOutPutStream.setFile(listOfRequestsForClerk);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfRequestsForClerk);
+        myObjectOutPutStream.writeObject(request);
+        myObjectOutPutStream.close();
+    }
 }

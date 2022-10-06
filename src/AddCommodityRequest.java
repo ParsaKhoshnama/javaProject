@@ -11,7 +11,8 @@ public class AddCommodityRequest extends Request implements Serializable
       this.clerk=clerk;
       this.commodity=commodity;
       this.getClerk().getListOfCertainClerkRequests().add(this);
-      Admin.creatAdminObject().getRequestsOfclerks().add(this);
+      this.addRequest();
+      this.getClerk().addRequestInFileForClerk(this);
    }
    PublicPropertiesOfGoods getCommodity()
    {
@@ -47,4 +48,5 @@ public class AddCommodityRequest extends Request implements Serializable
       }
       return true;
    }
+
 }

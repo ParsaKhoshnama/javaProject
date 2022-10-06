@@ -11,7 +11,8 @@ public class ChangeInformationOfCommodityRequest extends Request implements Seri
         this.currentCommodity=currentCommodity;
         this.reformedCommodity=reformedCommodity;
         this.getClerk().getListOfCertainClerkRequests().add(this);
-        Admin.creatAdminObject().getRequestsOfclerks().add(this);
+        this.addRequest();
+        this.getClerk().addRequestInFileForClerk(this);
     }
     PublicPropertiesOfGoods getCurrentCommodity()
     {
