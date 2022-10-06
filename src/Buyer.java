@@ -313,8 +313,6 @@ public class Buyer extends Person implements Serializable
         objectOutPutStream.close();
         File listOfBuyFactors=new File(buyerFolder,"buy factors.txt");
         listOfBuyFactors.createNewFile();
-        File listOfGoods=new File(buyerFolder,"goods.txt");
-        listOfGoods.createNewFile();
     }
       void writePropertiesOfBuyerOnFile(File file)throws IOException
     {
