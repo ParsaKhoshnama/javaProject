@@ -9,7 +9,6 @@ public class RemoveCommodityRequest extends Request implements Serializable
         super(clerk,context);
         this.commodity=commodity;
         this.getClerk().getListOfCertainClerkRequests().add(this);
-    //   Admin.creatAdminObject().getRequestsOfclerks().add(this);
         this.addRequest();
         this.getClerk().addRequestInFileForClerk(this);
     }
