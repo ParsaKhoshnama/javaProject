@@ -80,7 +80,7 @@ public abstract class Request implements Serializable
     {
         return this.statusOfRequestforAdmin;
     }
-    void AddcommodityRequestFunction()
+    void AddcommodityRequestFunction()throws IOException,ClassNotFoundException
     {
         if(((AddCommodityRequest)this).getCommodity() instanceof LapTop)
         {

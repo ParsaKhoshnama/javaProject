@@ -16,6 +16,8 @@ public class MainClass {
     static String userName,passWord;
     public static void main(String[] args)throws IOException,ClassNotFoundException
     {
+        File test=new File("saved data\\"+"test.txt");
+        test.createNewFile();
         Admin.creatAdminObject();
         Admin.creatAdminObject();
         String loginOrRegisterationcommand;

@@ -1,15 +1,16 @@
 import exceptions.CheckDefaultExceptions;
 
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Formatter;
 import java.util.Scanner;
 public class LapTop extends DigitalCommodity implements Serializable
 {
     private boolean gamingCPU;
 
-   LapTop(String name,int ram,int valencyOfMemory,String operatingSystem,int weight,String company,double price,String ID,String userName,String passWord,boolean gamingCPU,int count,Discount discount,String statusForAdmin)
+   LapTop(String name,int ram,int valencyOfMemory,String operatingSystem,int weight,String company,double price,String ID,String userName,String passWord,boolean gamingCPU,int count,Discount discount,String statusForAdmin)throws IOException,ClassNotFoundException
    {
        super(name,ram,valencyOfMemory,operatingSystem,weight,company,price,ID,userName,passWord,discount,count);
        this.gamingCPU=gamingCPU;
@@ -21,8 +22,25 @@ public class LapTop extends DigitalCommodity implements Serializable
                this.clearDigitalCommodityLapTopAl(name);
                DigitalCommodity.getDigiritlaCommodityAL().add(this);
                Collections.sort(DigitalCommodity.getDigiritlaCommodityAL());
+               File laptopFolder=new File("saved data\\categories\\Digitals\\lap tops\\"+"lap top "+this.getID());
+               if(laptopFolder.isDirectory())
+               {
+                   this.editCommodityInFile();
+                   this.editProperties(laptopFolder);
+               }
+               else
+               {
+                   laptopFolder.mkdir();
+                   this.writeInDigitalCommodityFile(laptopFolder);
+               }
            } else
                this.setCount(count);
+       }
+       else if(statusForAdmin.equals("Change information of commodity request"))
+       {
+           File laptopFolder=new File("saved data\\categories\\Digitals\\lap tops\\"+"lap top "+this.getID());
+           this.editCommodityInFile();
+           this.editProperties(laptopFolder);
        }
    }
    public boolean equals(LapTop lapTop1,LapTop lapTop2)
@@ -55,7 +73,7 @@ public class LapTop extends DigitalCommodity implements Serializable
            }
        }
    }
-   void creatLaptopAfterGettingAccept()
+   void creatLaptopAfterGettingAccept()throws IOException,ClassNotFoundException
    {
        LapTop lapTop=new LapTop(this.getName(),this.getRam(),
                this.getValencyOfMemory(),this.getOperatingSystem(),this.getWeight(),this.getCompany(),
@@ -64,6 +82,16 @@ public class LapTop extends DigitalCommodity implements Serializable
                isGamingCPU(),this.getCount(),this.getDiscount(),"accept");
        DigitalCommodity.getDigiritlaCommodityAL().add(lapTop);
        this.getClerk().getCommodityListOfCertainClerk().add(lapTop);
+     File laptopFolder=new File("saved data\\categories\\Digitals\\lap tops\\"+"lap top "+lapTop.getID());
+     if(laptopFolder.isDirectory())
+     {
+
+     }
+     else
+     {
+         laptopFolder.mkdir();
+         lapTop.writeInDigitalCommodityFile(laptopFolder);
+     }
    }
    void showLapTopInformation()
    {
@@ -182,5 +210,43 @@ public class LapTop extends DigitalCommodity implements Serializable
            else
                System.out.println("Wrong command");
        }
+   }
+   void createFolderOfGoodForClerk()throws IOException,ClassNotFoundException
+   {
+     File  goodFolderForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"lap top "+this.getID());
+     goodFolderForClerk.mkdir();
+     File  propertiesOfGoodForClerk=new File(goodFolderForClerk,"properties.txt");
+     propertiesOfGoodForClerk.createNewFile();
+     File commentsOfGoodForClerk=new File(goodFolderForClerk,"comments.txt");
+     commentsOfGoodForClerk.createNewFile();
+     File averageOfScores=new File(goodFolderForClerk,"average of scores.txt");
+     averageOfScores.createNewFile();
+     this.writeInDigitalCommodityFile(propertiesOfGoodForClerk);
+   }
+   void writePropertiesOfLapTop(File file)throws IOException,ClassNotFoundException
+   {
+       FileOutputStream fileOutputStream=new FileOutputStream(file);
+       Formatter formatter=new Formatter(fileOutputStream);
+       formatter.format("name: %s\n",this.getName());
+       formatter.format("ram: %d\n",this.getRam());
+       formatter.format("valency of memory: %d\n"+this.getValencyOfMemory());
+       formatter.format("operating system: %s\n",this.getOperatingSystem());
+       formatter.format("gaming cpu %b\n",this.isGamingCPU());
+       formatter.format("company: %s\n",this.getCompany());
+       formatter.format("price: %d\n",this.getPrice());
+       formatter.format("percent of discount: %d",this.getDiscount().getPercentOfDiscount());
+       formatter.close();
+       fileOutputStream.close();
+   }
+   void editProperties(File file)throws IOException,ClassNotFoundException
+   {
+       File properties=new File(file,"properties.txt");
+       properties.delete();
+       properties.createNewFile();
+       this.writePropertiesOfLapTop(properties);
+       File propertiesForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"lap top "+this.getID()+"\\properties.txt");
+       propertiesForClerk.delete();
+       properties.createNewFile();
+       this.editProperties(propertiesForClerk);
    }
 }

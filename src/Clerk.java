@@ -41,9 +41,7 @@ public class Clerk extends Person implements Serializable
     void addToListOfCertainClerkRequests(Request request)throws IOException,ClassNotFoundException
     {
         this.listOfCertainClerkRequests.add(request);
-        StringBuilder clerkFolderName=new StringBuilder("clerk ");
-        clerkFolderName.append(request.getClerk().getUserName());
-        File clerkFolder=new File("save data\\users\\clerks",clerkFolderName.toString());
+        File clerkFolder=new File("save data\\users\\clerks","clerk "+request.getClerk().getUserName());
         clerkFolder.mkdir();
         request.getClerk().createFiles(clerkFolder,request);
     }
@@ -225,6 +223,8 @@ public class Clerk extends Person implements Serializable
     {
         File listOfCommodities=new File(file,"goods.txt");
         listOfCommodities.createNewFile();
+        File goodsFolder=new File(file,"goods");
+        goodsFolder.mkdir();
         File listOfRequests=new File(file,"requests.txt");
         listOfRequests.createNewFile();
         File listOfSellFactors=new File(file,"sell factors.txt");
@@ -234,6 +234,8 @@ public class Clerk extends Person implements Serializable
         myObjectOutPutStream.writeObject(request);
         myObjectOutPutStream.close();
         this.writePropertiesOfClerks(file);
+        File listOfGoodsForClerk=new File(goodsFolder,"list of goods.txt");
+        listOfGoodsForClerk.createNewFile();
     }
     void writePropertiesOfClerks(File file)throws IOException,ClassNotFoundException
     {
@@ -259,5 +261,12 @@ public class Clerk extends Person implements Serializable
         MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfRequestsForClerk);
         myObjectOutPutStream.writeObject(request);
         myObjectOutPutStream.close();
+    }
+    void addGoodInClerkListFile(PublicPropertiesOfGoods good)throws IOException,ClassNotFoundException
+    {
+        File listOfGoodsForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getUserName()+"\\goods\\list of goods.txt");
+        MyObjectOutPutStream.setFile(listOfGoodsForClerk);
+        MyObjectOutPutStream myObjectOutPutStream1=new MyObjectOutPutStream(listOfGoodsForClerk);
+        myObjectOutPutStream1.writeObject(good);
     }
 }
