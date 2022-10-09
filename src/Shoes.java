@@ -1,8 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class Shoes extends Garment implements Serializable
@@ -10,7 +13,7 @@ public class Shoes extends Garment implements Serializable
     private KindOfShoes kind;
     private int size;
     private String nameOfKind;
-    Shoes(String name,String nameOfkind,int size,String country,String genus,String company,double price,String ID,String username,String password,int count,Discount discount,String statusForAdmin)
+    Shoes(String name,String nameOfkind,int size,String country,String genus,String company,double price,String ID,String username,String password,int count,Discount discount,String statusForAdmin)throws IOException,ClassNotFoundException
     {
         super(name,country,genus,company,price,ID,username,password,discount,count);
         KindOfShoes[]kinds=KindOfShoes.values();
@@ -29,6 +32,14 @@ public class Shoes extends Garment implements Serializable
                 this.clearGarmentlistShoes();
                 Garment.getListOfAllGarmentsAl().add(this);
                 Collections.sort(Garment.getListOfAllGarmentsAl());
+                File shoesFolder=new File("saved data\\categories\\garments\\shoes\\"+"shoes "+this.getID());
+                if(shoesFolder.isDirectory())
+                    this.editCommodityInFile();
+                else
+                {
+                    shoesFolder.mkdir();
+                    this.writeInDigitalCommodityFile(shoesFolder);
+                }
             } else
                 this.setCount(count);
         }
@@ -93,7 +104,7 @@ public class Shoes extends Garment implements Serializable
             }
         }
     }
-    void createShoesAfterGettingAccept()
+    void createShoesAfterGettingAccept()throws IOException,ClassNotFoundException
     {
         Shoes shoes=new Shoes(this.getName(),this.getNameOfKind(),this.getSize(),
                 this.getCountry(),this.getGenus(),this.getCompany(),this.getPrice(),
@@ -226,5 +237,41 @@ public class Shoes extends Garment implements Serializable
                 System.out.println("Wrong command");
         }
     }
-
+    void createFolderOfGoodForClerk()throws IOException,ClassNotFoundException
+    {
+        File goodFolderForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"shoes "+this.getID());
+        goodFolderForClerk.mkdir();
+        File  propertiesOfGoodForClerk=new File(goodFolderForClerk,"properties.txt");
+        propertiesOfGoodForClerk.createNewFile();
+        File commentsOfGoodForClerk=new File(goodFolderForClerk,"comments.txt");
+        commentsOfGoodForClerk.createNewFile();
+        File averageOfScores=new File(goodFolderForClerk,"average of scores.txt");
+        averageOfScores.createNewFile();
+        this.writePropertiesOfShoes(propertiesOfGoodForClerk);
+    }
+    void writePropertiesOfShoes(File file)throws IOException,ClassNotFoundException
+    {
+        FileOutputStream fileOutputStream=new FileOutputStream(file);
+        Formatter formatter=new Formatter(fileOutputStream);
+        formatter.format("name: %s\n",this.getName());
+        formatter.format("genus: %s\n",this.getGenus());
+        formatter.format("size: %d\n",this.getSize());
+        formatter.format("company: %s\n",this.getCompany());
+        formatter.format("country: %s\n",this.getCountry());
+        formatter.format("price: %f\n",this.getPrice());
+        formatter.format("percent of discount: %f\n",this.getDiscount().getPercentOfDiscount());
+        formatter.close();
+        fileOutputStream.close();
+    }
+    void editProperties(File file)throws IOException,ClassNotFoundException
+    {
+        File properties=new File(file,"properties.txt");
+        properties.delete();
+        properties.createNewFile();
+        this.writePropertiesOfShoes(properties);
+        File propertiesForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"shoes "+this.getID()+"\\properties.txt");
+        propertiesForClerk.delete();
+        properties.createNewFile();
+        this.writePropertiesOfShoes(propertiesForClerk);
+    }
 }

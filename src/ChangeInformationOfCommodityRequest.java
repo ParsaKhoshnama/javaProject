@@ -71,5 +71,17 @@ public class ChangeInformationOfCommodityRequest extends Request implements Seri
             ((Mobile)this.getCurrentCommodity()).editCommodityInFile();
             ((Mobile)this.getReformedCommodity()).editProperties(mobileFolder);
         }
+        else if(this.getCurrentCommodity() instanceof Dress)
+        {
+            File dressFolder=new File("saved data\\categories\\garments\\dresses"+"dress "+this.getCurrentCommodity().getID());
+            ((Dress)this.getCurrentCommodity()).editCommodityInFile();
+            ((Dress)this.getReformedCommodity()).editProperties(dressFolder);
+        }
+        else if(this.getCurrentCommodity() instanceof Shoes)
+        {
+            File shoesFolder=new File("saved data\\categories\\garments\\shoes"+"shoes "+this.getCurrentCommodity().getID());
+            ((Shoes)this.getCurrentCommodity()).editCommodityInFile();
+            ((Shoes)this.getReformedCommodity()).editProperties(shoesFolder);
+        }
     }
 }

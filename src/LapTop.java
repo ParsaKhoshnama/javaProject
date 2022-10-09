@@ -24,10 +24,7 @@ public class LapTop extends DigitalCommodity implements Serializable
                Collections.sort(DigitalCommodity.getDigiritlaCommodityAL());
                File laptopFolder=new File("saved data\\categories\\Digitals\\lap tops\\"+"lap top "+this.getID());
                if(laptopFolder.isDirectory())
-               {
                    this.editCommodityInFile();
-                   this.editProperties(laptopFolder);
-               }
                else
                {
                    laptopFolder.mkdir();
@@ -76,16 +73,6 @@ public class LapTop extends DigitalCommodity implements Serializable
                isGamingCPU(),this.getCount(),this.getDiscount(),"accept");
        DigitalCommodity.getDigiritlaCommodityAL().add(lapTop);
        this.getClerk().getCommodityListOfCertainClerk().add(lapTop);
-     File laptopFolder=new File("saved data\\categories\\Digitals\\lap tops\\"+"lap top "+lapTop.getID());
-     if(laptopFolder.isDirectory())
-     {
-
-     }
-     else
-     {
-         laptopFolder.mkdir();
-         lapTop.writeInDigitalCommodityFile(laptopFolder);
-     }
    }
    void showLapTopInformation()
    {

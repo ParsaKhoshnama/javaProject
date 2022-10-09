@@ -234,7 +234,7 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods implement
     }
     void editCommodityInFile()throws IOException,ClassNotFoundException
     {
-        File file=new File("saved data\\categories\\Digitala\\list of digitals.txt");
+        File file=new File("saved data\\categories\\Digitals\\list of digitals.txt");
         file.delete();
         file.createNewFile();
         MyObjectOutPutStream.setFile(file);

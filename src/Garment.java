@@ -1,3 +1,5 @@
+import workWithFiles.MyObjectOutPutStream;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -179,4 +181,49 @@ public abstract class Garment extends PublicPropertiesOfGoods implements Compara
            }
        }
    }
+    void writeInDigitalCommodityFile(File FILE)throws IOException,ClassNotFoundException
+    {
+        File file=new File("saved data\\categories\\garments\\list of garments.txt");
+        MyObjectOutPutStream.setFile(file);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+        myObjectOutPutStream.writeObject(this);
+        myObjectOutPutStream.close();
+        File propertyFile=new File(FILE,"properties.txt");
+        propertyFile.createNewFile();
+        File comments=new File(FILE,"comments.txt");
+        comments.createNewFile();
+        File averageOfScores=new File(FILE,"average of scores.txt");
+        averageOfScores.createNewFile();
+        if(this instanceof Dress)
+        {
+            ((Dress) this).writePropertiesOfDress(propertyFile);
+            ((Dress)this).createFolderOfGoodForClerk();
+            this.getClerk().addGoodInClerkListFile((Dress)this);
+        }
+        else
+        {
+            ((Shoes)this).writePropertiesOfShoes(propertyFile);
+            ((Shoes)this).createFolderOfGoodForClerk();
+            this.getClerk().addGoodInClerkListFile((Shoes)this);
+        }
+    }
+    void editCommodityInFile()throws IOException,ClassNotFoundException
+    {
+        File file=new File("saved data\\categories\\garments\\list of garments.txt");
+        file.delete();
+        file.createNewFile();
+        MyObjectOutPutStream.setFile(file);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+        for(int i=0;i<Garment.getListOfAllGarmentsAl().size();i++)
+            myObjectOutPutStream.writeObject(Garment.getListOfAllGarmentsAl().get(i));
+        myObjectOutPutStream.close();
+        File listOfGoodsForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\list of goods.txt");
+        listOfGoodsForClerk.delete();
+        listOfGoodsForClerk.createNewFile();
+        MyObjectOutPutStream.setFile(listOfGoodsForClerk);
+        MyObjectOutPutStream objectOutPutStream=new MyObjectOutPutStream(listOfGoodsForClerk);
+        for(int i=0;i<this.getClerk().getCommodityListOfCertainClerk().size();i++)
+            myObjectOutPutStream.writeObject(this.getClerk().getCommodityListOfCertainClerk().get(i));
+        objectOutPutStream.close();
+    }
 }

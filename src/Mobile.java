@@ -25,10 +25,7 @@ public class Mobile extends  DigitalCommodity implements Serializable
                 Collections.sort(DigitalCommodity.getDigiritlaCommodityAL());
                 File mobileFolder=new File("saved data\\categories\\Digitals\\mobiles\\mobile "+this.getID());
                 if(mobileFolder.isDirectory())
-                {
                     this.editCommodityInFile();
-                    this.editProperties(mobileFolder);
-                }
                 else
                 {
                     mobileFolder.mkdir();
