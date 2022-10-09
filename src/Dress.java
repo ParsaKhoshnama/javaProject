@@ -19,7 +19,6 @@ public class Dress extends Garment implements Serializable
     Dress(String name,String nameOfKind,int size,String country,String genus,String company,double price,String ID,String username,String password,int count,Discount discount,String statusForAdmin)throws IOException,ClassNotFoundException
     {
         super(name,country,genus,company,price,ID,username,password,discount,count);
-      //  this.name=name;
         KindOfDress[]kinds=KindOfDress.values();
         for(int i=0;i<kinds.length;i++)
         {

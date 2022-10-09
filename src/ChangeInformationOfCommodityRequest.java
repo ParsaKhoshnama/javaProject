@@ -59,6 +59,16 @@ public class ChangeInformationOfCommodityRequest extends Request implements Seri
     }
     void changeCommodityObjectInFiles()throws IOException,ClassNotFoundException
     {
+        if(this.getCurrentCommodity() instanceof DigitalCommodity)
+            this.changeDigitalCommodityObjectInFiles();
+        else if(this.getCurrentCommodity() instanceof Garment)
+            this.changeGarmentCommodityObjectInFiles();
+        else if(this.getCurrentCommodity() instanceof HomeAppliance )
+            this.changeHomeApplianceCommodityObjectInFiles();
+
+    }
+    private void changeDigitalCommodityObjectInFiles()throws IOException,ClassNotFoundException
+    {
         if(this.getCurrentCommodity() instanceof LapTop)
         {
             File laptopFolder=new File("saved data\\categories\\Digitals\\lap tops\\"+"lap top "+this.getReformedCommodity().getID());
@@ -71,17 +81,24 @@ public class ChangeInformationOfCommodityRequest extends Request implements Seri
             ((Mobile)this.getCurrentCommodity()).editCommodityInFile();
             ((Mobile)this.getReformedCommodity()).editProperties(mobileFolder);
         }
-        else if(this.getCurrentCommodity() instanceof Dress)
+    }
+    private void changeGarmentCommodityObjectInFiles()throws IOException,ClassNotFoundException
+    {
+        if (this.getCurrentCommodity() instanceof Dress)
         {
-            File dressFolder=new File("saved data\\categories\\garments\\dresses"+"dress "+this.getCurrentCommodity().getID());
-            ((Dress)this.getCurrentCommodity()).editCommodityInFile();
-            ((Dress)this.getReformedCommodity()).editProperties(dressFolder);
+            File dressFolder = new File("saved data\\categories\\garments\\dresses" + "dress " + this.getCurrentCommodity().getID());
+            ((Dress) this.getCurrentCommodity()).editCommodityInFile();
+            ((Dress) this.getReformedCommodity()).editProperties(dressFolder);
         }
-        else if(this.getCurrentCommodity() instanceof Shoes)
+        else if (this.getCurrentCommodity() instanceof Shoes)
         {
-            File shoesFolder=new File("saved data\\categories\\garments\\shoes"+"shoes "+this.getCurrentCommodity().getID());
-            ((Shoes)this.getCurrentCommodity()).editCommodityInFile();
-            ((Shoes)this.getReformedCommodity()).editProperties(shoesFolder);
+            File shoesFolder = new File("saved data\\categories\\garments\\shoes" + "shoes " + this.getCurrentCommodity().getID());
+            ((Shoes) this.getCurrentCommodity()).editCommodityInFile();
+            ((Shoes) this.getReformedCommodity()).editProperties(shoesFolder);
         }
+    }
+    private void changeHomeApplianceCommodityObjectInFiles()
+    {
+
     }
 }
