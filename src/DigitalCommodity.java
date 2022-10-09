@@ -208,7 +208,7 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods implement
     }
     void writeInDigitalCommodityFile(File FILE)throws IOException,ClassNotFoundException
     {
-        File file=new File("saved data\\categories\\Digitala\\list of digitals.txt");
+        File file=new File("saved data\\categories\\Digitals\\list of digitals.txt");
         MyObjectOutPutStream.setFile(file);
         MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
         myObjectOutPutStream.writeObject(this);
@@ -227,7 +227,7 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods implement
         }
         else
         {
-            ((Mobile)this).writePropertiesOfLapTop(propertyFile);
+            ((Mobile)this).writePropertiesOfMobile(propertyFile);
             ((Mobile)this).createFolderOfGoodForClerk();
             this.getClerk().addGoodInClerkListFile((Mobile)this);
         }

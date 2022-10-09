@@ -97,8 +97,19 @@ public class ChangeInformationOfCommodityRequest extends Request implements Seri
             ((Shoes) this.getReformedCommodity()).editProperties(shoesFolder);
         }
     }
-    private void changeHomeApplianceCommodityObjectInFiles()
+    private void changeHomeApplianceCommodityObjectInFiles()throws IOException,ClassNotFoundException
     {
-
+        if(this.getCurrentCommodity() instanceof Television)
+        {
+            File televisionFolder = new File("saved data\\categories\\home appliances\\televisions" + "television " + this.getCurrentCommodity().getID());
+            ((Television) this.getCurrentCommodity()).editCommodityInFile();
+            ((Television) this.getReformedCommodity()).editProperties(televisionFolder);
+        }
+        else if(this.getCurrentCommodity() instanceof Stove)
+        {
+            File stoveFolder = new File("saved data\\categories\\home appliances\\stoves" + "stove " + this.getCurrentCommodity().getID());
+            ((Stove) this.getCurrentCommodity()).editCommodityInFile();
+            ((Stove) this.getReformedCommodity()).editProperties(stoveFolder);
+        }
     }
 }

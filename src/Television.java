@@ -1,15 +1,18 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class Television extends HomeAppliance implements Serializable
 {
     private  int sizeOfScreen;
    private String gardeOfScreen;
-    Television(String name,String degreeName,boolean gaurantee,int sizeOfScreen,String gardeOfScreen,int count,String company,double price,String ID,String userName,String passWord,Discount discount,String statusForAdmin)
+    Television(String name,String degreeName,boolean gaurantee,int sizeOfScreen,String gardeOfScreen,int count,String company,double price,String ID,String userName,String passWord,Discount discount,String statusForAdmin)throws IOException,ClassNotFoundException
     {
         super(name,degreeName,gaurantee,company,price,ID,userName,passWord,discount,count);
         this.sizeOfScreen=sizeOfScreen;
@@ -20,6 +23,14 @@ public class Television extends HomeAppliance implements Serializable
                 this.clearHomeApplianceTelevision();
                 HomeAppliance.getListOfHomeAppliancesAl().add(this);
                 Collections.sort(HomeAppliance.getListOfHomeAppliancesAl());
+                File televisionFolder=new File("saved data\\categories\\home appliances\\televisions\\television "+" "+this.getID());
+                if(televisionFolder.isDirectory())
+                    this.editCommodityInFile();
+                else
+                {
+                    televisionFolder.mkdir();
+                    this.writeInHomeApplianceFile(televisionFolder);
+                }
             } else
                 this.setCount(count);
         }
@@ -57,7 +68,7 @@ public class Television extends HomeAppliance implements Serializable
             }
         }
     }
-    void creatTelevisionAterGettingAccept()
+    void creatTelevisionAterGettingAccept()throws IOException,ClassNotFoundException
     {
 
         Television television=new Television(this.getName(),this.getDegreeName(),
@@ -199,5 +210,41 @@ public class Television extends HomeAppliance implements Serializable
             else
                 System.out.println("Wrong command");
         }
+    }
+    void createFolderOfGoodForClerk()throws IOException,ClassNotFoundException
+    {
+        File goodFolderForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"television "+this.getID());
+        goodFolderForClerk.mkdir();
+        File  propertiesOfGoodForClerk=new File(goodFolderForClerk,"properties.txt");
+        propertiesOfGoodForClerk.createNewFile();
+        File commentsOfGoodForClerk=new File(goodFolderForClerk,"comments.txt");
+        commentsOfGoodForClerk.createNewFile();
+        File averageOfScores=new File(goodFolderForClerk,"average of scores.txt");
+        averageOfScores.createNewFile();
+        this.writePropertiesOfTelevision(propertiesOfGoodForClerk);
+    }
+    void writePropertiesOfTelevision(File file)throws IOException,ClassNotFoundException
+    {
+        FileOutputStream fileOutputStream=new FileOutputStream(file);
+        Formatter formatter=new Formatter(fileOutputStream);
+        formatter.format("name: %s\n",this.getName());
+        formatter.format("size of screen: %d\n",this.getSizeOfScreen());
+        formatter.format("guarantee: %b\n",this.isGuearantee());
+        formatter.format("company: %s\n",this.getCompany());
+        formatter.format("price: %f\n",this.getPrice());
+        formatter.format("percent of discount: %f",this.getDiscount().getPercentOfDiscount());
+        formatter.close();
+        fileOutputStream.close();
+    }
+    void editProperties(File file)throws IOException,ClassNotFoundException
+    {
+        File properties=new File(file,"properties.txt");
+        properties.delete();
+        properties.createNewFile();
+        this.writePropertiesOfTelevision(properties);
+        File propertiesForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"television "+this.getID()+"\\properties.txt");
+        propertiesForClerk.delete();
+        properties.createNewFile();
+        this.writePropertiesOfTelevision(propertiesForClerk);
     }
 }

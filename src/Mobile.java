@@ -194,7 +194,7 @@ public class Mobile extends  DigitalCommodity implements Serializable
                 System.out.println("Wrong command");
         }
     }
-    void writePropertiesOfLapTop(File file)throws IOException,ClassNotFoundException
+    void writePropertiesOfMobile(File file)throws IOException,ClassNotFoundException
     {
         FileOutputStream fileOutputStream=new FileOutputStream(file);
         Formatter formatter=new Formatter(fileOutputStream);
@@ -219,17 +219,17 @@ public class Mobile extends  DigitalCommodity implements Serializable
         commentsOfGoodForClerk.createNewFile();
         File averageOfScores=new File(goodFolderForClerk,"average of scores.txt");
         averageOfScores.createNewFile();
-        this.writePropertiesOfLapTop(propertiesOfGoodForClerk);
+        this.writePropertiesOfMobile(propertiesOfGoodForClerk);
     }
     void editProperties(File file)throws IOException,ClassNotFoundException
     {
         File properties=new File(file,"properties.txt");
         properties.delete();
         properties.createNewFile();
-        this.writePropertiesOfLapTop(properties);
+        this.writePropertiesOfMobile(properties);
         File propertiesForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"mobile "+this.getID()+"\\properties.txt");
         propertiesForClerk.delete();
         properties.createNewFile();
-        this.writePropertiesOfLapTop(propertiesForClerk);
+        this.writePropertiesOfMobile(propertiesForClerk);
     }
 }

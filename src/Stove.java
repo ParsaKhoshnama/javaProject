@@ -1,8 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Formatter;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
@@ -12,7 +15,7 @@ public class Stove extends HomeAppliance implements Serializable
     private int countOfFlames;
     private boolean gasOven;
 
-    Stove(String name,String degreeName,boolean guarantee,String genus,int countOfFlames,boolean gasOven,int count,String company,double price,String ID,String userName,String passWord,Discount discount,String statusForAdmin)
+    Stove(String name,String degreeName,boolean guarantee,String genus,int countOfFlames,boolean gasOven,int count,String company,double price,String ID,String userName,String passWord,Discount discount,String statusForAdmin)throws IOException,ClassNotFoundException
     {
         super(name,degreeName,guarantee,company,price,ID,userName,passWord,discount,count);
         this.genus=genus;
@@ -24,6 +27,14 @@ public class Stove extends HomeAppliance implements Serializable
                 this.clearListofHomeApplianceStove();
                 HomeAppliance.getListOfHomeAppliancesAl().add(this);
                 Collections.sort(HomeAppliance.getListOfHomeAppliancesAl());
+                File stoveFolder=new File("saved data\\categories\\home appliances\\stoves\\stove "+" "+this.getID());
+                if(stoveFolder.isDirectory())
+                    this.editCommodityInFile();
+                else
+                {
+                    stoveFolder.mkdir();
+                    this.writeInHomeApplianceFile(stoveFolder);
+                }
             } else
                 this.setCount(count);
         }
@@ -68,7 +79,7 @@ public class Stove extends HomeAppliance implements Serializable
             }
         }
     }
-    void createStoveAfterGettingAccept()
+    void createStoveAfterGettingAccept()throws IOException,ClassNotFoundException
     {
 
         Stove stove=new Stove(this.getName(),this.getDegreeName(),this.isGuearantee(),
@@ -251,5 +262,41 @@ public class Stove extends HomeAppliance implements Serializable
                 System.out.println("Wrong command");
         }
     }
-
+    void createFolderOfGoodForClerk()throws IOException,ClassNotFoundException
+    {
+        File goodFolderForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"stove "+this.getID());
+        goodFolderForClerk.mkdir();
+        File  propertiesOfGoodForClerk=new File(goodFolderForClerk,"properties.txt");
+        propertiesOfGoodForClerk.createNewFile();
+        File commentsOfGoodForClerk=new File(goodFolderForClerk,"comments.txt");
+        commentsOfGoodForClerk.createNewFile();
+        File averageOfScores=new File(goodFolderForClerk,"average of scores.txt");
+        averageOfScores.createNewFile();
+        this.writePropertiesOfStove(propertiesOfGoodForClerk);
+    }
+    void writePropertiesOfStove(File file)throws IOException,ClassNotFoundException
+    {
+        FileOutputStream fileOutputStream=new FileOutputStream(file);
+        Formatter formatter=new Formatter(fileOutputStream);
+        formatter.format("name: %s\n",this.getName());
+        formatter.format("count of flames: %d\n",this.getCountOfFlames());
+        formatter.format("gas oven: %b\n",this.gasOven);
+        formatter.format("guarantee: %b\n",this.isGuearantee());
+        formatter.format("company: %s\n",this.getCompany());
+        formatter.format("price: %f\n",this.getPrice());
+        formatter.format("percent of discount: %f",this.getDiscount().getPercentOfDiscount());
+        formatter.close();
+        fileOutputStream.close();
+    }
+    void editProperties(File file)throws IOException,ClassNotFoundException
+    {
+        File properties=new File(file,"properties.txt");
+        properties.delete();
+        properties.createNewFile();
+        this.writePropertiesOfStove(properties);
+        File propertiesForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"stove "+this.getID()+"\\properties.txt");
+        propertiesForClerk.delete();
+        properties.createNewFile();
+        this.writePropertiesOfStove(propertiesForClerk);
+    }
 }
