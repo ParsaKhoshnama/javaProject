@@ -266,7 +266,8 @@ public class Clerk extends Person implements Serializable
     {
         File listOfGoodsForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getUserName()+"\\goods\\list of goods.txt");
         MyObjectOutPutStream.setFile(listOfGoodsForClerk);
-        MyObjectOutPutStream myObjectOutPutStream1=new MyObjectOutPutStream(listOfGoodsForClerk);
-        myObjectOutPutStream1.writeObject(good);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfGoodsForClerk);
+        myObjectOutPutStream.writeObject(good);
+        myObjectOutPutStream.close();
     }
 }

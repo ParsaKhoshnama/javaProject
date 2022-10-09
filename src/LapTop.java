@@ -36,12 +36,6 @@ public class LapTop extends DigitalCommodity implements Serializable
            } else
                this.setCount(count);
        }
-       else if(statusForAdmin.equals("Change information of commodity request"))
-       {
-           File laptopFolder=new File("saved data\\categories\\Digitals\\lap tops\\"+"lap top "+this.getID());
-           this.editCommodityInFile();
-           this.editProperties(laptopFolder);
-       }
    }
    public boolean equals(LapTop lapTop1,LapTop lapTop2)
    {
@@ -148,7 +142,6 @@ public class LapTop extends DigitalCommodity implements Serializable
                isGamingCPU(),this.getCount(),this.getDiscount(),"for change Information request");
        lapTop.changeFiledOfLapTop();
        ChangeInformationOfCommodityRequest request=new ChangeInformationOfCommodityRequest(clerk,"Change information of commodity request",this,lapTop);
-
    }
    private void changeFiledOfLapTop()
    {
@@ -221,7 +214,7 @@ public class LapTop extends DigitalCommodity implements Serializable
      commentsOfGoodForClerk.createNewFile();
      File averageOfScores=new File(goodFolderForClerk,"average of scores.txt");
      averageOfScores.createNewFile();
-     this.writeInDigitalCommodityFile(propertiesOfGoodForClerk);
+     this.writePropertiesOfLapTop(propertiesOfGoodForClerk);
    }
    void writePropertiesOfLapTop(File file)throws IOException,ClassNotFoundException
    {
@@ -233,8 +226,8 @@ public class LapTop extends DigitalCommodity implements Serializable
        formatter.format("operating system: %s\n",this.getOperatingSystem());
        formatter.format("gaming cpu %b\n",this.isGamingCPU());
        formatter.format("company: %s\n",this.getCompany());
-       formatter.format("price: %d\n",this.getPrice());
-       formatter.format("percent of discount: %d",this.getDiscount().getPercentOfDiscount());
+       formatter.format("price: %f\n",this.getPrice());
+       formatter.format("percent of discount: %f",this.getDiscount().getPercentOfDiscount());
        formatter.close();
        fileOutputStream.close();
    }
@@ -247,6 +240,6 @@ public class LapTop extends DigitalCommodity implements Serializable
        File propertiesForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"lap top "+this.getID()+"\\properties.txt");
        propertiesForClerk.delete();
        properties.createNewFile();
-       this.editProperties(propertiesForClerk);
+       this.writePropertiesOfLapTop(propertiesForClerk);
    }
 }

@@ -223,8 +223,14 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods implement
         {
             ((LapTop) this).writePropertiesOfLapTop(propertyFile);
             ((LapTop)this).createFolderOfGoodForClerk();
+            this.getClerk().addGoodInClerkListFile((LapTop)this);
         }
-        this.getClerk().addGoodInClerkListFile((LapTop)this);
+        else
+        {
+            ((Mobile)this).writePropertiesOfLapTop(propertyFile);
+            ((Mobile)this).createFolderOfGoodForClerk();
+            this.getClerk().addGoodInClerkListFile((Mobile)this);
+        }
     }
     void editCommodityInFile()throws IOException,ClassNotFoundException
     {

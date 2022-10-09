@@ -73,6 +73,7 @@ public abstract class Request implements Serializable
             {
                 this.changeCommodityInformationRequestFunction();
                 this.getClerk().changeCommodityInformationOfCertainClerk(((ChangeInformationOfCommodityRequest)this).getCurrentCommodity(),((ChangeInformationOfCommodityRequest)this).getReformedCommodity());
+                ((ChangeInformationOfCommodityRequest)this).changeCommodityObjectInFiles();
             }
         }
     }

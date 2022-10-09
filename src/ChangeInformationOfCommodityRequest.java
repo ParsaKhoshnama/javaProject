@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -55,5 +56,20 @@ public class ChangeInformationOfCommodityRequest extends Request implements Seri
                 }
         }
         return false;
+    }
+    void changeCommodityObjectInFiles()throws IOException,ClassNotFoundException
+    {
+        if(this.getCurrentCommodity() instanceof LapTop)
+        {
+            File laptopFolder=new File("saved data\\categories\\Digitals\\lap tops\\"+"lap top "+this.getReformedCommodity().getID());
+            ((LapTop) this.getReformedCommodity()).editCommodityInFile();
+            ((LapTop)this.getReformedCommodity()).editProperties(laptopFolder);
+        }
+        else if(this.getCurrentCommodity() instanceof Mobile)
+        {
+            File mobileFolder=new File("saved data\\categories\\Digitals\\lap tops\\"+"mobile "+this.getCurrentCommodity().getID());
+            ((Mobile)this.getCurrentCommodity()).editCommodityInFile();
+            ((Mobile)this.getReformedCommodity()).editProperties(mobileFolder);
+        }
     }
 }
