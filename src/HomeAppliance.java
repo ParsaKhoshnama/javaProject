@@ -11,7 +11,7 @@ abstract public class HomeAppliance extends PublicPropertiesOfGoods implements C
     private DegreeOfenergyConsumption degree;
     private String degreeName;
     private static ArrayList<HomeAppliance> listOfHomeAppliancesAl=new ArrayList<HomeAppliance>();
-    HomeAppliance(String name,String degreeName,boolean guearantee,String company,double price,String ID,String userName,String password,Discount discount,int count)
+    HomeAppliance(String name,String degreeName,boolean guearantee,String company,double price,String ID,String userName,String password,Discount discount,int count)throws IOException,ClassNotFoundException
     {
         super(name,company,price,ID,userName,password,discount,count);
         this.guearantee=guearantee;

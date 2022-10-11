@@ -10,7 +10,7 @@ public abstract class Garment extends PublicPropertiesOfGoods implements Compara
     private String country;
     private String genus;
     private static ArrayList<Garment> listOfAllGarmentsAl=new ArrayList<Garment>();
-    Garment(String name,String country, String genus,String company,double price,String ID,String username,String password,Discount discount,int count)
+    Garment(String name,String country, String genus,String company,double price,String ID,String username,String password,Discount discount,int count)throws IOException,ClassNotFoundException
     {
         super(name,company,price,ID,username,password,discount,count);
         this.country=country;

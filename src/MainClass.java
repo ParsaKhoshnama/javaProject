@@ -385,7 +385,7 @@ public class MainClass {
     {
       return   PublicPropertiesOfGoods.addCommodityFunction(userName,passWord,categoryCommand,commodityCommand);
     }
-    static void giveMark()
+    static void giveMark()throws IOException,ClassNotFoundException
     {
         Buyer.findBuyer(userName,passWord).giveMark();
     }

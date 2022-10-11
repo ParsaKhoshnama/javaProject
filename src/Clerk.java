@@ -45,12 +45,15 @@ public class Clerk extends Person implements Serializable
         clerkFolder.mkdir();
         request.getClerk().createFiles(clerkFolder,request);
     }
-   static Clerk findingClerk(String userName,String passWord)
+   static Clerk findingClerk(String userName,String passWord)throws IOException,ClassNotFoundException
     {
         for(int i=0;i<clerkListAl.size();i++)
         {
             if(clerkListAl.get(i).getPassWord().equals(passWord) && clerkListAl.get(i).getUserName().equals(userName))
             {
+                clerkListAl.get(i).fillArrayListOfSellFactorsForClerk();
+                clerkListAl.get(i).fillArrayListOfGoodsForClerk();
+                clerkListAl.get(i).fillArrayListOfRequestsForClerk();
                 return clerkListAl.get(i);
             }
         }
@@ -269,5 +272,68 @@ public class Clerk extends Person implements Serializable
         MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfGoodsForClerk);
         myObjectOutPutStream.writeObject(good);
         myObjectOutPutStream.close();
+    }
+    private void fillArrayListOfSellFactorsForClerk()throws IOException,ClassNotFoundException
+    {
+        File file=new File("saved data\\users\\clerks\\clerk "+this.getUserName()+"\\sell factors.txt");
+        FileInputStream fileInputStream=new FileInputStream(file);
+        this.sellFactors.clear();
+        SellFactor sellFactor;
+        while (true)
+        {
+            try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream))
+            {
+                sellFactor=(SellFactor)objectInputStream.readObject();
+                if(sellFactor!=null)
+                    this.sellFactors.add(sellFactor);
+            }
+            catch (Exception exception)
+            {
+                fileInputStream.close();
+                break;
+            }
+        }
+    }
+    private void fillArrayListOfGoodsForClerk()throws IOException,ClassNotFoundException
+    {
+        File file=new File("saved data\\users\\clerks\\clerk "+this.getUserName()+"\\list of goods.txt");
+        this.commodityListOfCertainClerk.clear();
+        FileInputStream fileInputStream=new FileInputStream(file);
+        PublicPropertiesOfGoods publicPropertiesOfGoods;
+        while (true)
+        {
+            try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream))
+            {
+                publicPropertiesOfGoods=(PublicPropertiesOfGoods)objectInputStream.readObject();
+                if(publicPropertiesOfGoods!=null)
+                    this.commodityListOfCertainClerk.add(publicPropertiesOfGoods);
+            }
+            catch (Exception exception)
+            {
+                fileInputStream.close();
+                break;
+            }
+        }
+    }
+    private void fillArrayListOfRequestsForClerk()throws IOException,ClassNotFoundException
+    {
+        File file=new File("saved data\\users\\clerks\\clerk "+this.getUserName()+"\\requests.txt");
+        this.listOfCertainClerkRequests.clear();
+        FileInputStream fileInputStream=new FileInputStream(file);
+        Request request;
+        while (true)
+        {
+            try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream))
+            {
+                request=(Request)objectInputStream.readObject();
+                if(request!=null)
+                    this.listOfCertainClerkRequests.add(request);
+            }
+            catch (Exception exception)
+            {
+                fileInputStream.close();
+                break;
+            }
+        }
     }
 }

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -7,7 +8,7 @@ public class Score implements Serializable
     private Buyer buyer;
     private PublicPropertiesOfGoods good;
     private static ArrayList<Score> listOfScores=new ArrayList<Score>();
-    Score(String userName,String password,String ID,double mark)
+    Score(String userName,String password,String ID,double mark)throws IOException,ClassNotFoundException
     {
         this.buyer=Buyer.findBuyer(userName,password);
         for(int i=0;i<buyer.getBoughtCommoditiesList().size();i++)
@@ -22,7 +23,7 @@ public class Score implements Serializable
         this.mark=mark;
         this.calculateAverage();
     }
-    static boolean checkAbilityForgivingScore(String userName,String pasword,String ID)
+    static boolean checkAbilityForgivingScore(String userName,String pasword,String ID)throws IOException,ClassNotFoundException
     {
         Buyer buyer=Buyer.findBuyer(userName,pasword);
         for(int i=0;i<buyer.getBoughtCommoditiesList().size();i++)
@@ -35,7 +36,7 @@ public class Score implements Serializable
         System.out.println("you didn't buy this commodity");
         return false;
     }
-    static Score checkScoreList(String userName,String pasword,String ID)
+    static Score checkScoreList(String userName,String pasword,String ID)throws IOException,ClassNotFoundException
     {
         Buyer buyer=Buyer.findBuyer(userName,pasword);
         for(int i=0;i<listOfScores.size();i++)

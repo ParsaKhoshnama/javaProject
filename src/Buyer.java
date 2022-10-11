@@ -1,10 +1,7 @@
 import exceptions.CheckDefaultExceptions;
 import workWithFiles.MyObjectOutPutStream;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Formatter;
@@ -64,7 +61,7 @@ public class Buyer extends Person implements Serializable
   {
       return this.boughtCommodities;
   }
-  static Buyer findBuyer(String userName,String passWord)
+  static Buyer findBuyer(String userName,String passWord)throws IOException,ClassNotFoundException
   {
       for (int i=0;i<buyersListAl.size();i++)
       {
@@ -72,7 +69,7 @@ public class Buyer extends Person implements Serializable
           {
               if(buyersListAl.get(i).getPassWord().equals(passWord))
               {
-
+                  buyersListAl.get(i).fillArrayListOfBUyFactorsForBuyer();
                   return buyersListAl.get(i);
               }
           }
@@ -192,7 +189,7 @@ public class Buyer extends Person implements Serializable
                 Garment.getListOfAllGarmentsAl().get(i).showCommodity();
         }
     }
-    void giveMark()
+    void giveMark()throws IOException,ClassNotFoundException
     {
         Scanner sc=new Scanner(System.in);
         String ID;
@@ -214,7 +211,7 @@ public class Buyer extends Person implements Serializable
         sc.nextLine();
         Score score=new Score(this.getUserName(),this.getPassWord(),ID,mark);
     }
-    void buy()
+    void buy()throws IOException,ClassNotFoundException
     {
         Scanner sc=new Scanner(System.in);
         Basket basket=new Basket(this.getUserName(),this.getPassWord());
@@ -329,8 +326,25 @@ public class Buyer extends Person implements Serializable
         formatter.close();
         fileOutputStream.close();
     }
-    void fillArrayListOfBUyFactorsForBuyer()
+   private void fillArrayListOfBUyFactorsForBuyer()throws IOException,ClassNotFoundException
     {
-
+        File file=new File("saved data\\users\\buyers\\buyer "+this.getUserName()+"\\buy factors.txt");
+        this.factors.clear();
+        FileInputStream fileInputStream=new FileInputStream(file);
+        BuyFactor buyFactor;
+        while (true)
+        {
+            try(ObjectInputStream objectInputStream=new ObjectInputStream(fileInputStream))
+            {
+                buyFactor=(BuyFactor)objectInputStream.readObject();
+                if(buyFactor!=null)
+                    this.factors.add(buyFactor);
+            }
+            catch (Exception exception)
+            {
+                fileInputStream.close();
+                break;
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ abstract public class PublicPropertiesOfGoods implements Serializable
     private double averageMark=0;
     private ArrayList<Score>listOfScores=new ArrayList<Score>();
     private ArrayList<Comment>listOfComments=new ArrayList<Comment>();
-    PublicPropertiesOfGoods(String name,String company,double price,String ID,String username,String passWord,Discount discount,int count)
+    PublicPropertiesOfGoods(String name,String company,double price,String ID,String username,String passWord,Discount discount,int count)throws IOException,ClassNotFoundException
     {
         this.clerk=Clerk.findingClerk(username,passWord);
         this.count=count;

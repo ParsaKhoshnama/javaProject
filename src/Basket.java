@@ -2,6 +2,7 @@ import exceptions.CheckDefaultExceptions;
 import exceptions.CheckMyExceptions;
 import exceptions.InoperativeBuyException;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -16,7 +17,8 @@ public class Basket implements Serializable {
     private double priceWithoutDiscount = 0;
     private ArrayList<Commodity> commodityListBasket = new ArrayList<Commodity>();
 
-    Basket(String userName, String passWord) {
+    Basket(String userName, String passWord) throws IOException,ClassNotFoundException
+    {
         this.buyer = Buyer.findBuyer(userName, passWord);
         this.factor = null;
     }

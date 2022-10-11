@@ -13,7 +13,7 @@ abstract public class DigitalCommodity extends PublicPropertiesOfGoods implement
     private String operatingSystem;
     private int weight;
 
-    DigitalCommodity(String name,int ram,int valencyOfMemory,String operatingSystem,int weight,String company,double price,String ID,String userName,String passWord,Discount discount,int count)
+    DigitalCommodity(String name,int ram,int valencyOfMemory,String operatingSystem,int weight,String company,double price,String ID,String userName,String passWord,Discount discount,int count)throws IOException,ClassNotFoundException
     {
         super(name,company,price,ID,userName,passWord,discount,count);
         this.ram=ram;
