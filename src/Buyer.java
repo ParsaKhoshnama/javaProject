@@ -72,6 +72,7 @@ public class Buyer extends Person implements Serializable
           {
               if(buyersListAl.get(i).getPassWord().equals(passWord))
               {
+
                   return buyersListAl.get(i);
               }
           }
@@ -327,5 +328,9 @@ public class Buyer extends Person implements Serializable
         formatter.format("phone number: %s",this.getPhoneNumber());
         formatter.close();
         fileOutputStream.close();
+    }
+    void fillArrayListOfBUyFactorsForBuyer()
+    {
+
     }
 }

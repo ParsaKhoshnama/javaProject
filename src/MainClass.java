@@ -18,6 +18,7 @@ public class MainClass {
     {
         Admin.creatAdminObject();
         Admin.creatAdminObject();
+        Person.writeClerksAndBuyersInArrayLists();
         String loginOrRegisterationcommand;
         while(true)
         {

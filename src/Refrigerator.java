@@ -1,8 +1,11 @@
 import exceptions.CheckDefaultExceptions;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class Refrigerator extends HomeAppliance implements Serializable
@@ -11,7 +14,7 @@ public class Refrigerator extends HomeAppliance implements Serializable
     private   KindOfFridge kind;
    private String nameOfKindOfFridge;
     private boolean freezer;
-    Refrigerator(String name,String degreeName,boolean guarantee,int content,String nameOfKindOfFridge,boolean freezer,int count,String company,double price,String ID,String userName,String passWord,Discount discount,String statusForAdmin)
+    Refrigerator(String name,String degreeName,boolean guarantee,int content,String nameOfKindOfFridge,boolean freezer,int count,String company,double price,String ID,String userName,String passWord,Discount discount,String statusForAdmin)throws IOException,ClassNotFoundException
     {
         super(name,degreeName,guarantee,company,price,ID,userName,passWord,discount,count);
         this.content=content;
@@ -32,6 +35,14 @@ public class Refrigerator extends HomeAppliance implements Serializable
                 this.clearHomeApplianceListRefrigerator();
                 HomeAppliance.getListOfHomeAppliancesAl().add(this);
                 Collections.sort(HomeAppliance.getListOfHomeAppliancesAl());
+                File refrigeratorFolder=new File("saved data\\categories\\home appliances\\refrigerators\\refrigerator "+" "+this.getID());
+                if(refrigeratorFolder.isDirectory())
+                    this.editCommodityInFile();
+                else
+                {
+                    refrigeratorFolder.mkdir();
+                    this.writeInHomeApplianceFile(refrigeratorFolder);
+                }
             } else
                 this.setCount(count);
         }
@@ -92,7 +103,7 @@ public class Refrigerator extends HomeAppliance implements Serializable
             }
         }
     }
-    void createRefirgeratorAfterGettingAccept()
+    void createRefirgeratorAfterGettingAccept()throws IOException,ClassNotFoundException
     {
         Refrigerator refrigerator=new Refrigerator(this.getName(),this.getDegreeName(),
                 this.isGuearantee(),this.getContent(),this.getNameOfKindOfFridge(),
@@ -302,5 +313,42 @@ public class Refrigerator extends HomeAppliance implements Serializable
                 System.out.println("Wrong command");
         }
     }
-
+    void createFolderOfGoodForClerk()throws IOException,ClassNotFoundException
+    {
+        File goodFolderForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"refrigerator "+this.getID());
+        goodFolderForClerk.mkdir();
+        File  propertiesOfGoodForClerk=new File(goodFolderForClerk,"properties.txt");
+        propertiesOfGoodForClerk.createNewFile();
+        File commentsOfGoodForClerk=new File(goodFolderForClerk,"comments.txt");
+        commentsOfGoodForClerk.createNewFile();
+        File averageOfScores=new File(goodFolderForClerk,"average of scores.txt");
+        averageOfScores.createNewFile();
+        this.writePropertiesOfRefrigerator(propertiesOfGoodForClerk);
+    }
+    void writePropertiesOfRefrigerator(File file)throws IOException,ClassNotFoundException
+    {
+        FileOutputStream fileOutputStream=new FileOutputStream(file);
+        Formatter formatter=new Formatter(fileOutputStream);
+        formatter.format("name: %s\n",this.getName());
+        formatter.format("content: %d\n",this.getContent());
+        formatter.format("degree: %s\n",this.getDegreeName());
+        formatter.format("kind: %s\n",this.getNameOfKindOfFridge());
+        formatter.format("guarantee: %b\n",this.isGuearantee());
+        formatter.format("company: %s\n",this.getCompany());
+        formatter.format("price: %f\n",this.getPrice());
+        formatter.format("percent of discount: %f",this.getDiscount().getPercentOfDiscount());
+        formatter.close();
+        fileOutputStream.close();
+    }
+    void editProperties(File file)throws IOException,ClassNotFoundException
+    {
+        File properties=new File(file,"properties.txt");
+        properties.delete();
+        properties.createNewFile();
+        this.writePropertiesOfRefrigerator(properties);
+        File propertiesForClerk=new File("saved data\\users\\clerks\\"+"clerk "+this.getClerk().getUserName()+"\\goods\\"+"refrigerator "+this.getID()+"\\properties.txt");
+        propertiesForClerk.delete();
+        properties.createNewFile();
+        this.writePropertiesOfRefrigerator(propertiesForClerk);
+    }
 }

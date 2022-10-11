@@ -318,13 +318,15 @@ abstract public class HomeAppliance extends PublicPropertiesOfGoods implements C
         }
         else if(this instanceof Stove)
         {
-            ((Stove) this).writePropertiesOfTelevision(propertyFile);
+            ((Stove) this).writePropertiesOfStove(propertyFile);
             ((Stove)this).createFolderOfGoodForClerk();
             this.getClerk().addGoodInClerkListFile((Stove)this);
         }
         else
         {
-
+            ((Refrigerator) this).writePropertiesOfRefrigerator(propertyFile);
+            ((Refrigerator)this).createFolderOfGoodForClerk();
+            this.getClerk().addGoodInClerkListFile((Refrigerator)this);
         }
     }
     void editCommodityInFile()throws IOException,ClassNotFoundException

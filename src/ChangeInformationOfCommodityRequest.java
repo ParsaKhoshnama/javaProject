@@ -111,5 +111,11 @@ public class ChangeInformationOfCommodityRequest extends Request implements Seri
             ((Stove) this.getCurrentCommodity()).editCommodityInFile();
             ((Stove) this.getReformedCommodity()).editProperties(stoveFolder);
         }
+        else if(this.getCurrentCommodity() instanceof Refrigerator)
+        {
+            File refrigeratorFolder = new File("saved data\\categories\\home appliances\\refrigerators" + "refrigerator " + this.getCurrentCommodity().getID());
+            ((Refrigerator) this.getCurrentCommodity()).editCommodityInFile();
+            ((Refrigerator) this.getReformedCommodity()).editProperties(refrigeratorFolder);
+        }
     }
 }
