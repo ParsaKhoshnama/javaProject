@@ -213,6 +213,9 @@ public class Buyer extends Person implements Serializable
     }
     void buy()throws IOException,ClassNotFoundException
     {
+        File basketOfBuyerFile =new File("saved data\\users\\buyers\\buyer "+this.getUserName()+"\\basket");
+        basketOfBuyerFile.delete();
+        basketOfBuyerFile.createNewFile();
         Scanner sc=new Scanner(System.in);
         Basket basket=new Basket(this.getUserName(),this.getPassWord());
         String buyCommand;
@@ -226,23 +229,25 @@ public class Buyer extends Person implements Serializable
                 {
                     basket.returnCommodities(basket.getListOfCommodities().get(i));
                 }
+                basketOfBuyerFile.delete();
                 break;
             }
             else if(buyCommand.equals("add commodity"))
             {
-                basket.addCommodityForBuy();
+                basket.addCommodityForBuy(basketOfBuyerFile);
             }
             else if(buyCommand.equals("remove commodity"))
             {
-              basket.removeCommodityForBuy();
+              basket.removeCommodityForBuy(basketOfBuyerFile);
             }
             else if(buyCommand.equals("change commodity"))
             {
-                this.changeCommodityFunction(basket);
+                this.changeCommodityFunction(basket,basketOfBuyerFile);
             }
             else if(buyCommand.equals("buy basket"))
             {
                 basket.buyBasket();
+                basketOfBuyerFile.delete();
                 break;
             }
             else if(buyCommand.equals("show basket"))
@@ -265,7 +270,7 @@ public class Buyer extends Person implements Serializable
             buyer.createBuyerDirectoryAndFiles();
         }
     }
-    void changeCommodityFunction(Basket basket)
+    void changeCommodityFunction(Basket basket,File file)throws IOException,ClassNotFoundException
     {
         Scanner sc=new Scanner(System.in);
         System.out.printf("enter ID: ");
@@ -281,9 +286,9 @@ public class Buyer extends Person implements Serializable
             System.out.printf("enter command (change count of commodity) or (use discount) or (leave): ");
             changeCommodityCommand=sc.nextLine();
             if(changeCommodityCommand.equals("change count of commodity"))
-                basket.changeCountofGoodForBuy(basket.findIDinBasket(ID));
+                basket.changeCountofGoodForBuy(basket.findIDinBasket(ID),file);
             else if(changeCommodityCommand.equals("use discount"))
-                basket.useDiscountForChangeFunction(basket.findIDinBasket(ID));
+                basket.useDiscountForChangeFunction(basket.findIDinBasket(ID),file);
             else if(changeCommodityCommand.equals("leave"))
                 return;
             else

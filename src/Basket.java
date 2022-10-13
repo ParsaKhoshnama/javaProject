@@ -1,9 +1,9 @@
 import exceptions.CheckDefaultExceptions;
 import exceptions.CheckMyExceptions;
 import exceptions.InoperativeBuyException;
+import workWithFiles.MyObjectOutPutStream;
 
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
@@ -31,12 +31,16 @@ public class Basket implements Serializable {
         return this.commodityListBasket;
     }
 
-    void addCommodity(Commodity commodity) {
+    void addCommodity(Commodity commodity, File file) throws IOException,ClassNotFoundException
+    {
         this.commodityListBasket.add(commodity);
         this.priceOfBasket += commodity.getCountOfDiscounts() * commodity.getGood().getPriceAfterDiscount() + (commodity.getCount() - commodity.getCountOfDiscounts()) * commodity.getGood().getPrice();
         this.priceWithoutDiscount += commodity.getCount() * commodity.getGood().getPrice();
+        MyObjectOutPutStream.setFile(file);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+        myObjectOutPutStream.writeObject(this);
+        myObjectOutPutStream.close();
     }
-
     void setPriceOfBasket(double priceOfBasket) {
         this.priceOfBasket = priceOfBasket;
     }
@@ -74,19 +78,29 @@ public class Basket implements Serializable {
         commodity.getGood().setCount(commodity.getGood().getCount() + count);
         commodity.getGood().getDiscount().setCapacity(countOfDiscount + commodity.getGood().getDiscount().getCapacity());
     }
-    void removeCommodityForBuy() {
+    void removeCommodityForBuy(File file) throws IOException
+    {
         Scanner sc = new Scanner(System.in);
         System.out.printf("enter ID: ");
         String ID = sc.nextLine();
         this.removeCertainCommodity(this.findIDinBasket(ID));
+        file.delete();
+        file.createNewFile();
+        MyObjectOutPutStream.setFile(file);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+        myObjectOutPutStream.writeObject(this);
+        myObjectOutPutStream.close();
     }
-    void returnCommodities(Commodity commodity)
+    void returnCommodities(Commodity commodity)throws IOException,ClassNotFoundException
     {
         commodity.getGood().getDiscount().setCapacity(commodity.getGood().getDiscount().getCapacity()+commodity.getCountOfDiscounts());
         commodity.getGood().setCount(commodity.getCount()+commodity.getGood().getCount());
         this.getListOfCommodities().remove(commodity);
+        this.changeFileOfGoods(commodity);
+        this.changeFileOfGoodsForClerk(commodity);
     }
-    void addCommodityForBuy() {
+    void addCommodityForBuy(File file) throws IOException,ClassNotFoundException
+    {
         CheckMyExceptions checkMyExceptions=new CheckMyExceptions();
         Scanner sc = new Scanner(System.in);
         String ID;
@@ -127,7 +141,7 @@ public class Basket implements Serializable {
                                             commodity.setCountOfDiscounts(commodity.getGood().getDiscount().getCapacity());
                                             commodity.getGood().getDiscount().setCapacity(0);
                                         } else
-                                            System.out.println("the cpacity of discount is full");
+                                            System.out.println("the capacity of discount is full");
                                         break;
                                     }
                                 }
@@ -143,12 +157,12 @@ public class Basket implements Serializable {
                     else
                         System.out.println("wrong command. try again");
                 }
-                this.addCommodity(commodity);
+                this.addCommodity(commodity,file);
             } else
                 System.out.println("this number is mor than that there are in store");
         }
     }
-    void buyBasket()throws InoperativeBuyException
+    void buyBasket()throws InoperativeBuyException,IOException,ClassNotFoundException
     {
         if(this.commodityListBasket.size()==0)
             System.out.println("warning. basket is empty");
@@ -157,6 +171,11 @@ public class Basket implements Serializable {
             this.buyer.setFund(this.buyer.getFund()-this.priceOfBasket);
             this.factor=new BuyFactor(this.buyer,this.commodityListBasket,this.priceWithoutDiscount,this.priceOfBasket);
             this.buyer.getfactorsAl().add(this.factor);
+            File file=new File("saved data\\users\\buyers\\buyer "+this.getBuyer().getUserName()+"\\buy factors.txt");
+            MyObjectOutPutStream.setFile(file);
+            MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+            myObjectOutPutStream.writeObject(this.factor);
+            myObjectOutPutStream.close();
             for (int i=0;i<this.commodityListBasket.size();i++)
             {
                 SellFactor sellFactor=new SellFactor(this.buyer,this.commodityListBasket.get(i),
@@ -164,11 +183,18 @@ public class Basket implements Serializable {
                         this.commodityListBasket.get(i).getCount()*this.commodityListBasket.get(i).getGood().getPriceAfterDiscount());
 
                 this.commodityListBasket.get(i).getGood().getClerk().getSellFactors().add(sellFactor);
+                this.changeFileOfGoodsForClerk(this.commodityListBasket.get(i));
+                File sellFactorsOfClerk= new File("saved data\\users\\clerks\\clerk "+this.commodityListBasket.get(i).getGood().getClerk().getUserName()+"sell factors.txt");
+                MyObjectOutPutStream.setFile(sellFactorsOfClerk);
+                MyObjectOutPutStream outPutStream=new MyObjectOutPutStream(sellFactorsOfClerk);
+                outPutStream.writeObject(sellFactor);
+                outPutStream.close();
             }
             for(int i=0;i<this.commodityListBasket.size();i++)
-            {
                 this.buyer.getBoughtCommoditiesList().add(this.commodityListBasket.get(i));
-            }
+            this.changeFileOfGoodsForHomeAppliances();
+            this.changeFileOfGoodsForDigitalCommodities();
+            this.changeFileOfGoodsForGarments();
             System.out.println("your buying was successfully");
         }
         else
@@ -189,7 +215,7 @@ public class Basket implements Serializable {
        }
        return null;
    }
-     void changeCountofGoodForBuy(Commodity commodity)
+     void changeCountofGoodForBuy(Commodity commodity,File file)throws IOException,ClassNotFoundException
     {
         Scanner sc=new Scanner(System.in);
             System.out.printf("enter new number: ");
@@ -222,8 +248,16 @@ public class Basket implements Serializable {
                     commodity.getGood().getDiscount().setCapacity(0);
                 }
             }
+            else
+                this.priceOfBasket +=newCount*commodity.getGood().getPrice();
+            file.delete();
+            file.createNewFile();
+            MyObjectOutPutStream.setFile(file);
+            MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+            myObjectOutPutStream.writeObject(this);
+            myObjectOutPutStream.close();
     }
-    void useDiscountForChangeFunction(Commodity commodity)
+    void useDiscountForChangeFunction(Commodity commodity,File file)throws IOException,ClassNotFoundException
     {
         Date date= GregorianCalendar.getInstance().getTime();
         if(date.after(commodity.getGood().getDiscount().getDate()))
@@ -263,6 +297,12 @@ public class Basket implements Serializable {
                        }
                    }
                    this.priceOfBasket +=commodity.getCountOfDiscounts()*commodity.getGood().getPriceAfterDiscount()+(commodity.getCount()-commodity.getCountOfDiscounts())*commodity.getGood().getPrice();
+                   file.delete();
+                   file.createNewFile();
+                   MyObjectOutPutStream.setFile(file);
+                   MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+                   myObjectOutPutStream.writeObject(this);
+                   myObjectOutPutStream.close();
                    return;
                }
                else
@@ -330,5 +370,57 @@ public class Basket implements Serializable {
            System.out.println("______________________________________");
        }
    }
-
+   private void changeFileOfGoodsForClerk(Commodity commodity)throws IOException,ClassNotFoundException
+   {
+       File file=new File("saved data\\users\\clerks\\clerk "+commodity.getGood().getClerk().getUserName()+"\\goods\\list of goods.txt");
+       file.delete();
+       file.createNewFile();
+       MyObjectOutPutStream.setFile(file);
+       MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+       for (int i=0;i<commodity.getGood().getClerk().getCommodityListOfCertainClerk().size();i++)
+           myObjectOutPutStream.writeObject(commodity.getGood().getClerk().getCommodityListOfCertainClerk().get(i));
+       myObjectOutPutStream.close();
+   }
+   private void changeFileOfGoods(Commodity commodity)throws IOException,ClassNotFoundException
+   {
+        if(commodity.getGood() instanceof DigitalCommodity)
+            this.changeFileOfGoodsForDigitalCommodities();
+        else if(commodity.getGood() instanceof Garment)
+            this.changeFileOfGoodsForGarments();
+        else if(commodity.getGood() instanceof HomeAppliance)
+            this.changeFileOfGoodsForHomeAppliances();
+   }
+   private  void changeFileOfGoodsForDigitalCommodities()throws IOException,ClassNotFoundException
+   {
+       File file=new File("saved data\\categories\\Digitals\\list of digitals.txt");
+       file.delete();
+       file.createNewFile();
+       MyObjectOutPutStream.setFile(file);
+       MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+       for (int i=0;i<DigitalCommodity.getDigiritlaCommodityAL().size();i++)
+           myObjectOutPutStream.writeObject(DigitalCommodity.getDigiritlaCommodityAL().get(i));
+       myObjectOutPutStream.close();
+   }
+    private  void changeFileOfGoodsForGarments()throws IOException,ClassNotFoundException
+    {
+        File file=new File("saved data\\categories\\garments\\list of garments.txt");
+        file.delete();
+        file.createNewFile();
+        MyObjectOutPutStream.setFile(file);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+        for (int i=0;i<Garment.getListOfAllGarmentsAl().size();i++)
+            myObjectOutPutStream.writeObject(Garment.getListOfAllGarmentsAl().get(i));
+        myObjectOutPutStream.close();
+    }
+    private  void changeFileOfGoodsForHomeAppliances()throws IOException,ClassNotFoundException
+    {
+        File file=new File("saved data\\categories\\home appliances\\list of home appliances.txt");
+        file.delete();
+        file.createNewFile();
+        MyObjectOutPutStream.setFile(file);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+        for (int i=0;i<HomeAppliance.getListOfHomeAppliancesAl().size();i++)
+            myObjectOutPutStream.writeObject(HomeAppliance.getListOfHomeAppliancesAl().get(i));
+        myObjectOutPutStream.close();
+    }
 }
