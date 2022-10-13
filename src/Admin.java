@@ -143,39 +143,6 @@ public class Admin implements Serializable {
             }
         }
     }
-    void removePerson(String userName)
-    {
-        for(int i=0;i<this.personsListAL.size();i++)
-        {
-            if(this.personsListAL.get(i).getUserName().equals(userName))
-            {
-                if(this.personsListAL.get(i) instanceof Clerk)
-                {
-                    for(int j=0;i<Clerk.getClerkListAl().size();j++)
-                    {
-                       if(Clerk.getClerkListAl().get(j).getUserName().equals(userName))
-                       {
-                          Clerk.getClerkListAl().remove(j);
-                          break;
-                       }
-                    }
-                    break;
-                }
-                if(this.personsListAL.get(i) instanceof Buyer)
-                {
-                    for(int j=0;j<Buyer.getBuyersListAl().size();j++)
-                    {
-                        if(Buyer.getBuyersListAl().get(i).getUserName().equals(userName))
-                        {
-                            Buyer.getBuyersListAl().remove(j);
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-    }
     void adminCheckRequests()throws IOException,ClassNotFoundException
     {
         Scanner sc=new Scanner(System.in);
@@ -233,7 +200,7 @@ public class Admin implements Serializable {
         }
         System.out.println("_____________________________________________________________________________________");
     }
-    void removeUser()
+    void removeUser()throws IOException,ClassNotFoundException
     {
         Scanner sc=new Scanner(System.in);
         String userName;
@@ -241,6 +208,8 @@ public class Admin implements Serializable {
         {
             System.out.printf("enter user name: ");
             userName=sc.nextLine();
+            if(userName.equals("leave"))
+                return;
             for (int i=0;i<this.personsListAL.size();i++)
             {
                 if (this.personsListAL.get(i).getUserName().equals(userName)) {
@@ -249,6 +218,10 @@ public class Admin implements Serializable {
                         for (int j = 0; j < Clerk.getClerkListAl().size(); i++) {
                             if (Clerk.getClerkListAl().get(i).getUserName().equals(userName)) {
                                 Clerk.getClerkListAl().remove(i);
+                                File file=new File("saved data\\users\\clerks\\clerk "+Clerk.getClerkListAl().get(i).getUserName());
+                                file.delete();
+                                this.editUsersFile();
+                                Person.editBuyerAndClerkFiles();
                                 return;
                             }
                         }
@@ -257,14 +230,16 @@ public class Admin implements Serializable {
                         for (int j = 0; j < Buyer.getBuyersListAl().size(); i++) {
                             if (Buyer.getBuyersListAl().get(i).getUserName().equals(userName)) {
                                 Buyer.getBuyersListAl().remove(i);
+                                File file=new File("saved data\\users\\buyers\\buyer "+Buyer.getBuyersListAl().get(i).getUserName());
+                                file.delete();
+                                this.editUsersFile();
+                                Person.editBuyerAndClerkFiles();
                                 return;
                             }
                         }
                     }
                 }
             }
-            if(userName.equals("leave"))
-                return;
             System.out.println("wrong command.try again or type leave");
         }
     }
@@ -319,6 +294,17 @@ public class Admin implements Serializable {
         MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(listOfRequestsForAdmin);
         for(int i=0;i<this.requestsOfclerks.size();i++)
             myObjectOutPutStream.writeObject(this.requestsOfclerks.get(i));
+        myObjectOutPutStream.close();
+    }
+    private void editUsersFile()throws IOException,ClassNotFoundException
+    {
+        File file=new File("saved data\\users\\admin\\users.txt");
+        file.delete();
+        file.createNewFile();
+        MyObjectOutPutStream.setFile(file);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(file);
+        for (int i=0;i<this.getPersonsListAL().size();i++)
+            myObjectOutPutStream.writeObject(this.getPersonsListAL().get(i));
         myObjectOutPutStream.close();
     }
 }

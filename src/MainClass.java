@@ -389,7 +389,7 @@ public class MainClass {
     {
         Buyer.findBuyer(userName,passWord).giveMark();
     }
-    static void sendComment()
+    static void sendComment()throws IOException,ClassNotFoundException
     {
         Person.findPerson(userName,passWord).sendComment();
     }

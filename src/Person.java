@@ -457,4 +457,23 @@ public abstract class Person implements Serializable
             myObjectOutPutStream.writeObject(Clerk.getClerkListAl().get(i));
         myObjectOutPutStream.close();
     }
+    static void editBuyerAndClerkFiles()throws IOException,ClassNotFoundException
+    {
+        File buyersFile=new File("saved data\\users\\buyers\\list of buyers.txt");
+        buyersFile.delete();
+        buyersFile.createNewFile();
+        MyObjectOutPutStream.setFile(buyersFile);
+        MyObjectOutPutStream myObjectOutPutStream=new MyObjectOutPutStream(buyersFile);
+        for (int i=0;i<Buyer.getBuyersListAl().size();i++)
+            myObjectOutPutStream.writeObject(Buyer.getBuyersListAl().get(i));
+        myObjectOutPutStream.close();
+        File clerksFile=new File("saved data\\users\\clerks\\list of clerks.txt");
+        clerksFile.delete();
+        clerksFile.createNewFile();
+        MyObjectOutPutStream.setFile(clerksFile);
+        MyObjectOutPutStream objectOutPutStream=new MyObjectOutPutStream(clerksFile);
+        for (int i=0;i<Clerk.getClerkListAl().size();i++)
+            objectOutPutStream.writeObject(Clerk.getClerkListAl().get(i));
+        objectOutPutStream.close();
+    }
 }
