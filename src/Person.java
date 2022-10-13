@@ -258,7 +258,7 @@ public abstract class Person implements Serializable
       }
 
   }
-  void sendComment()
+  void sendComment()throws IOException,ClassNotFoundException
   {
       Scanner sc=new Scanner(System.in);
       String ID;
@@ -287,6 +287,7 @@ public abstract class Person implements Serializable
       System.out.printf("write your comment: ");
       String opinion=sc.nextLine();
       Comment  comment=new Comment(this,ID,opinion);
+      comment.addCommentToFiles();
   }
     static void getLOginInformation()
     {
